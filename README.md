@@ -33,6 +33,16 @@ Plataforma web para criação, gestão e execução de experimentos psicológico
 
 ---
 
+### 4. [AutoGroq - Sistema de Orquestração de Agentes IA](projects/04-autogroq.md)
+**Status:** Pré-planejamento
+**Tipo:** Orquestração de Agentes IA Multi-Framework
+**Repositório:** https://github.com/jgravelle/AutoGroq
+**Tecnologias:** Python, Multi-LLM (Groq, Anthropic, OpenAI, Ollama)
+
+Sistema de construção dinâmica de equipes de agentes IA baseado em necessidades, com suporte para múltiplos frameworks (AutoGen, CrewAI) e provedores de LLM.
+
+---
+
 ## 📁 Estrutura do Repositório
 
 ```
@@ -41,7 +51,8 @@ Project-planner/
 ├── projects/                          # Documentação detalhada dos projetos
 │   ├── 01-desktop-mcp.md
 │   ├── 02-pymts-plugins.md
-│   └── 03-plataforma-experimentos.md
+│   ├── 03-plataforma-experimentos.md
+│   └── 04-autogroq.md
 ```
 
 ## 🎯 Próximos Passos
