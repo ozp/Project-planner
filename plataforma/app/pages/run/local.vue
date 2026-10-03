@@ -24,6 +24,15 @@ onMounted(async () => {
       import('@core/adapters/jspsych/mts-session-plugin'),
     ])
 
+    // sessão real no banco + token de upload (AD-11)
+    const sessionRes = await fetch('/api/sessions', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ docVersion: pkg.document.docVersion, seed: 42 }),
+    })
+    if (!sessionRes.ok) throw new Error(`falha ao criar sessão (${sessionRes.status})`)
+    const session = await sessionRes.json() as { sessionId: string, uploadToken: string }
+
     const jsPsych = initJsPsych({
       display_element: 'jspsych-target',
       on_finish: () => {
@@ -31,7 +40,7 @@ onMounted(async () => {
       },
     })
 
-    const sessionId = `local-${crypto.randomUUID()}`
+    const sessionId = session.sessionId
     const engine = new MtsEngine(pkg.document, 42) // seed registrada na sessão (AD-2)
 
     jsPsych.run([
@@ -48,11 +57,11 @@ onMounted(async () => {
         assetBase: '/stimuli/',
         onFinish: async (batch: BatchBuilder, reason: string) => {
           summary.value = `Motivo: ${reason} · ${batch.size} tentativas registradas`
-          // único tráfego de dados da sessão: o batch final (AD-7)
+          // único tráfego de dados da sessão: o batch final, autenticado (AD-7/AD-11)
           const payload = batch.build()
-          const r = await fetch('/api/sessions/local/results', {
+          const r = await fetch(`/api/sessions/${sessionId}/results`, {
             method: 'POST',
-            headers: { 'content-type': 'application/json' },
+            headers: { 'content-type': 'application/json', authorization: `Bearer ${session.uploadToken}` },
             body: JSON.stringify(payload),
           })
           const body = await r.json().catch(() => ({}))

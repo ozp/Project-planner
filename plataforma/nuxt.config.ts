@@ -10,6 +10,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     databaseUrl: '', // postgres://... definido via env (AD-15)
+    uploadTokenSecret: '', // segredo HMAC do token de upload (AD-11); vazio = dev-only-secret
   },
   app: {
     head: {
