@@ -215,6 +215,15 @@ Assim a MESMA definição de experimento roda com humanos (plataforma) e com N m
 - **Métrica de benchmark** (o que é "acerto" num projetivo?) — questão científica em aberto;
   primeira abordagem: comparar distribuição de respostas do modelo vs. normas humanas.
 
+Referência metodológica (2026-10-03, trazida pelo ozp):
+[The Mask in the Inkblot](https://github.com/sdeture/mask-in-the-inkblot) (DeTure & Claude,
+set/2026) — inkblots ASCII com 124 LLMs; valida o desenho local (estímulos sha1+manifest =
+AD-9/AD-10; provenance = AD-3) e estabelece práticas F5: análise congelada reproduzível, QC
+com cold reads externos, leave-one-out (developer/model/stímulo), texto de resposta retido
+na publicação. Campo: silicon sampling (Argyle 2023), homo silicus, Dillion 2023 (ética),
+TAT multimodal. **Gate F5: sessão dedicada de pesquisa metodológica antes de especificar o
+adapter sintético** (notas completas no memlog do SPEC).
+
 ## 8. Decisões (estado em 2026-10-03, após rodada do ozp)
 
 | # | Decisão | Estado |
