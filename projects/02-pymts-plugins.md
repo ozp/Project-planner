@@ -183,16 +183,14 @@ pymts-jspsych-plugin/
 ## 🔧 Tecnologias Envolvidas
 
 ### PsychoPy Plugin
-- Python 3.7+
-- PsychoPy 2023+
-- OpenGL/Pyglet
-- NumPy, Pandas
+- Python 3.11+ (obrigatório desde PsychoPy 2026.2.0)
+- PsychoPy 2026.2+ (lib GPLv3; split library/Studio/App — ver mapeamento)
+- Plugin pip via `psychopy-plugin-template` (entry points `psychopy.experiment.*`)
 
 ### jsPsych Plugin
-- JavaScript ES6+
-- jsPsych 7.0+
-- Node.js/NPM
-- Webpack/Rollup
+- TypeScript
+- jsPsych **8.x** (atual: 8.3.0 — API muda da v7 assumida originalmente; `info.version`/`info.data` serão obrigatórios na v9)
+- Node.js/NPM; distribuição via jspsych-contrib ou pacote próprio
 
 ---
 
@@ -210,8 +208,17 @@ pymts-jspsych-plugin/
 - **2026-10-03** — Este repositório passa a ser a casa oficial do projeto (decisão do ozp).
   Projetos descomissionados (`01-desktop-mcp`, `04-autogroq`) movidos para `archive/`.
   Repriorização: o projeto sai da incubadora (Onda 5 do plano consolidado) e entra
-  na fila ativa de execução. Primeira etapa do roadmap (análise/prototipagem PsychoPy)
-  iniciada — ver `02a-mapeamento-psychopy-jspsych.md` quando existir.
+  na fila ativa de execução (Multica `OZP-395`).
+- **2026-10-03 (Etapa 1 executada)** — Mapeamento técnico completo em
+  [02a-mapeamento-psychopy-jspsych.md](02a-mapeamento-psychopy-jspsych.md). Achados que mudam a spec:
+  1. **LICENÇA: o PyMTS não tem licença** — derivação direta do código é bloqueada. Estratégia:
+     **reimplementação limpa do paradigma** (o valor está no modelo de configuração de 2 camadas
+     e na semântica procedimental, não nos 504 LOC). Contatar os autores (UFSCar) permanece opção.
+  2. **jsPsych está na 8.3** (não 7): plugin nasce na API 8.x.
+  3. **Motor do PyMTS é pygame** (Tkinter só na tela inicial) — correção da premissa original.
+  4. **Nicho aberto**: não existe plugin MTS/equivalência dedicado em nenhum dos dois ecossistemas.
+  5. Arquitetura alvo: schema JSON versionado (superset do formato PyMTS) como núcleo compartilhado;
+     PsychoPy = Standalone Routine "MTS Block" via plugin pip; jsPsych = plugin de tentativa + helper de bloco.
 
 ---
 
