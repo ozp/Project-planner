@@ -66,6 +66,13 @@ CREATE TABLE IF NOT EXISTS anonymized_ids (
 ALTER TABLE sessions
   ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES user_accounts(id),
   ADD COLUMN IF NOT EXISTS consent_term_id uuid REFERENCES consent_terms(id),
-  ADD COLUMN IF NOT EXISTS pseudonym text,
-  ADD CONSTRAINT sessions_human_requires_consent
+  ADD COLUMN IF NOT EXISTS pseudonym text;
+
+DO $$
+BEGIN
+  ALTER TABLE sessions
+    ADD CONSTRAINT sessions_human_requires_consent
     CHECK (respondent = 'synthetic' OR (user_id IS NOT NULL AND consent_term_id IS NOT NULL AND pseudonym IS NOT NULL));
+EXCEPTION
+  WHEN duplicate_object THEN NULL; -- já aplicada (re-entrância)
+END $$;

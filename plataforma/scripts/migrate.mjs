@@ -13,9 +13,15 @@ if (!url) {
 const sql = postgres(url, { max: 1 })
 const dir = new URL('../db/migrations', import.meta.url).pathname
 const files = readdirSync(dir).filter(f => f.endsWith('.sql')).sort()
+await sql.unsafe(`CREATE TABLE IF NOT EXISTS _migrations (name text PRIMARY KEY, applied_at timestamptz DEFAULT now())`)
+let applied = 0
 for (const f of files) {
+  const done = await sql`SELECT 1 FROM _migrations WHERE name = ${f}`
+  if (done.length > 0) continue
   console.log(`aplicando ${f}…`)
   await sql.unsafe(`BEGIN;\n${readFileSync(join(dir, f), 'utf8')}\nCOMMIT;`)
+  await sql`INSERT INTO _migrations (name) VALUES (${f})`
+  applied++
 }
-console.log(`ok — ${files.length} migração(ões)`)
+console.log(`ok — ${applied} migração(ões) aplicadas, ${files.length} no total`)
 await sql.end()

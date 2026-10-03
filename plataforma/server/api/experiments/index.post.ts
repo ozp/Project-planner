@@ -86,8 +86,8 @@ export default defineEventHandler(async (event) => {
     const [{ id: newVersion }] = await tx`SELECT uuidv7()::text AS id`
     const finalDoc = { ...doc, docVersion: newVersion as string }
     await tx`
-      INSERT INTO experiment_docs (doc_version, document, content_sha1)
-      VALUES (${newVersion}::uuid, ${sql.json(finalDoc)}, ${contentSha1})`
+      INSERT INTO experiment_docs (doc_version, document, content_sha1, owner_user_id)
+      VALUES (${newVersion}::uuid, ${sql.json(finalDoc)}, ${contentSha1}, ${user.id}::uuid)`
     for (const [ref, sha1] of refToSha1) {
       const ext = ref.split('.').pop()!.toLowerCase()
       const mime = EXT_MIME[ext]

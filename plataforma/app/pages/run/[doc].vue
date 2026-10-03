@@ -33,9 +33,9 @@ async function api(path: string, init?: RequestInit) {
 onMounted(async () => {
   try {
     const route = useRoute()
-    docVersion = String(route.query.doc ?? '')
+    docVersion = String(route.params.doc ?? '')
     if (!docVersion) {
-      message.value = 'Sem ?doc=<docVersion>. Rode "node scripts/seed-local.mjs" e abra a URL que ele imprime.'
+      message.value = 'Sem documento. Rode "node scripts/seed-local.mjs" e use a URL impressa.'
       phase.value = 'error'
       return
     }

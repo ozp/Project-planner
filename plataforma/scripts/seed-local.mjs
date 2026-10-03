@@ -45,9 +45,10 @@ const doc = {
 // 1) admin de dev direto no banco (bootstrap, senha conhecida de dev)
 const sql = postgres(dbUrl, { max: 1 })
 const adminHash = await hash(ADMIN_PASSWORD)
+// dev-only: reseta senha e remove MFA do admin local para o seed ser idempotente
 await sql`INSERT INTO user_accounts (email, password_hash, role, status)
   VALUES (${ADMIN_EMAIL}, ${adminHash}, 'admin', 'active')
-  ON CONFLICT (email) DO UPDATE SET role = 'admin', status = 'active'`
+  ON CONFLICT (email) DO UPDATE SET role = 'admin', status = 'active', password_hash = ${adminHash}, totp_secret_enc = NULL`
 await sql.end()
 console.log(`admin garantido: ${ADMIN_EMAIL}`)
 
@@ -85,5 +86,9 @@ async function seedRest(cookie) {
   if (!term.ok) throw new Error(`termo: ${term.status} ${termBody.statusMessage}`)
   console.log(`termo v${termBody.version} publicado`)
 
-  console.log(`\nURL do experimento: ${base}/run/local?doc=${subBody.docVersion}`)
+  const pub = await fetch(`${base}/api/experiments/${subBody.docVersion}/publish`, { method: 'POST', headers: { cookie } })
+  if (!pub.ok) throw new Error(`publicação: ${pub.status}`)
+  console.log('experimento publicado no catálogo')
+
+  console.log(`\nURL do experimento: ${base}/run/${subBody.docVersion}`)
 }
