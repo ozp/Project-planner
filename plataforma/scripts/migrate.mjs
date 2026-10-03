@@ -15,7 +15,7 @@ const dir = new URL('../db/migrations', import.meta.url).pathname
 const files = readdirSync(dir).filter(f => f.endsWith('.sql')).sort()
 for (const f of files) {
   console.log(`aplicando ${f}…`)
-  await sql.unsafe(readFileSync(join(dir, f), 'utf8'))
+  await sql.unsafe(`BEGIN;\n${readFileSync(join(dir, f), 'utf8')}\nCOMMIT;`)
 }
 console.log(`ok — ${files.length} migração(ões)`)
 await sql.end()

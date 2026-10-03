@@ -14,6 +14,13 @@ const EXT_MIME: Record<string, string> = {
 }
 
 export default defineEventHandler(async (event) => {
+  // AC 2.1/2.6: pesquisador pendente não publica experimento — exige
+  // researcher aprovado ou admin
+  const user = await requireUser(event)
+  if (!((user.role === 'researcher' && user.status === 'active') || user.role === 'admin')) {
+    throw createError({ statusCode: 403, statusMessage: 'requer pesquisador aprovado (ou admin)' })
+  }
+
   const form = await readMultipartFormData(event)
   if (!form) throw createError({ statusCode: 422, statusMessage: 'envie multipart/form-data com o campo `document` e os arquivos de estímulo' })
 

@@ -14,6 +14,8 @@ interface MtsSessionParams {
   document: ExperimentDocument
   sessionId: string
   assetBase: string
+  /** Resolução custom de ref→URL (docs submetidos: /api/assets/<ref>; default: assetBase+ref). */
+  resolveAsset?: (ref: StimulusRef) => string
   /** Coletor de checkpoints — recebe o builder a cada trial (AD-5 checkpoint explícito). */
   onTrial?: (result: TrialResult, batch: BatchBuilder) => void
   /** Fim da sessão — a página envia o batch. */
@@ -29,6 +31,7 @@ export class MtsSessionPlugin implements JsPsychPlugin<MtsSessionParams> {
       document: { type: ParameterType.OBJECT, default: undefined },
       sessionId: { type: ParameterType.STRING, default: undefined },
       assetBase: { type: ParameterType.STRING, default: '/stimuli/' },
+      resolveAsset: { type: ParameterType.FUNCTION, default: undefined },
       onTrial: { type: ParameterType.FUNCTION, default: undefined },
       onFinish: { type: ParameterType.FUNCTION, default: undefined },
     },
@@ -40,16 +43,17 @@ export class MtsSessionPlugin implements JsPsychPlugin<MtsSessionParams> {
   constructor(public jsPsych: JsPsych) {}
 
   async trial(display: HTMLElement, trial: TrialType<typeof this>) {
-    const { engine, document: doc, sessionId, assetBase, onTrial, onFinish } = trial
+    const { engine, document: doc, sessionId, assetBase, resolveAsset, onTrial, onFinish } = trial
     const batch = new BatchBuilder(sessionId)
     const bg = doc.experiment.screenColor?.join(', ') ?? '0, 0, 0'
     display.innerHTML = `<div id="mts-stage" style="background: rgb(${bg}); color: #eee; min-height: 90vh; display: flex; align-items: center; justify-content: center; flex-direction: column; user-select: none;"></div>`
     const stage = display.querySelector<HTMLElement>('#mts-stage')!
 
+    const assetUrl = (ref: StimulusRef): string => resolveAsset ? resolveAsset(ref) : `${assetBase}${ref}`
     const img = (ref: StimulusRef, size = 160): string =>
-      `<img src="${assetBase}${ref}" alt="" draggable="false" style="width:${size}px;height:${size}px;object-fit:contain;">`
+      `<img src="${assetUrl(ref)}" alt="" draggable="false" style="width:${size}px;height:${size}px;object-fit:contain;">`
     const audio = (ref: StimulusRef): HTMLAudioElement => {
-      const a = new window.Audio(`${assetBase}${ref}`)
+      const a = new window.Audio(assetUrl(ref))
       a.volume = doc.experiment.volume ?? 0.5
       return a
     }
@@ -108,7 +112,7 @@ export class MtsSessionPlugin implements JsPsychPlugin<MtsSessionParams> {
         }
 
         // fase 3: comparativos (SMTS mantém a amostra em cima)
-        const compsRow = p.comparisonOrder.map(c => `<img data-ref="${c}" src="${assetBase}${c}" alt="" draggable="false" style="width:200px;height:200px;object-fit:contain;cursor:pointer;">`).join('')
+        const compsRow = p.comparisonOrder.map(c => `<img data-ref="${c}" src="${assetUrl(c)}" alt="" draggable="false" style="width:200px;height:200px;object-fit:contain;cursor:pointer;">`).join('')
         const sampleHtml = p.display.kind === 'SMTS' ? `<div style="display:flex;gap:24px;padding:12px">${p.trial.sample.map(s => img(s, 120)).join('')}</div>` : ''
         stage.innerHTML = `${sampleHtml}<div id="mts-comps" style="display:flex;gap:96px;padding:24px">${compsRow}</div>`
         const compsStart = performance.now()

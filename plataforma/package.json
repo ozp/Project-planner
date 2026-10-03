@@ -19,9 +19,11 @@
   },
   "dependencies": {
     "@jspsych/plugin-preload": "2.1.0",
+    "@node-rs/argon2": "^2.2.1",
     "ajv": "^8.20.0",
     "jspsych": "8.3.0",
     "nuxt": "^4.0.0",
+    "otpauth": "^9.5.2",
     "postgres": "^3.4.9",
     "vue": "^3.5.0"
   },

@@ -36,8 +36,17 @@ function humanResult(sessionId: string, seq: number): TrialResult {
 
 describe.skipIf(!available)('ingestão append-only + idempotente (AD-4/AD-5)', () => {
   it('grava sessão e resultados; reenvio não duplica; update é bloqueado', async () => {
+    // setup completo pós-Epic 2: user + termo aceito + pseudônimo (constraint AD-9)
+    const email = `ing-${Math.random()}@test.dev`
+    const [user] = await sql`INSERT INTO user_accounts (email, password_hash) VALUES (${email}, 'x') RETURNING id`
+    const [doc] = await sql`INSERT INTO experiment_docs (document, content_sha1)
+      VALUES (${sql.json({ schemaVersion: 1, docVersion: 'x' })}, ${'ing-' + Math.random()}) RETURNING doc_version`
+    const [term] = await sql`INSERT INTO consent_terms (doc_version, version, body)
+      VALUES (${doc.doc_version}, 1, ${'termo '.repeat(10)}) RETURNING id`
+    await sql`INSERT INTO consent_acceptances (term_id, user_id) VALUES (${term.id}, ${user.id})`
     const [session] = await sql`
-      INSERT INTO sessions (doc_version, seed, respondent) VALUES ('test-doc', 7, 'human') RETURNING id`
+      INSERT INTO sessions (doc_version, seed, respondent, user_id, consent_term_id, pseudonym)
+      VALUES (${doc.doc_version}, 7, 'human', ${user.id}, ${term.id}, ${'b'.repeat(24)}) RETURNING id`
     const sessionId = session.id as string
     const key = `${sessionId}:batch-v1`
 
@@ -77,14 +86,16 @@ describe.skipIf(!available)('ingestão append-only + idempotente (AD-4/AD-5)', (
     const importDynamic = await import('../../server/utils/upload-token')
     expect(importDynamic.verifyUploadToken(token, sessionId, 'dev-only-secret')).toEqual({ ok: true })
 
-    await sql`DELETE FROM sessions WHERE id = ${sessionId}`.catch(async () => {
-      // FK impede? trial_results referencia sessions — como o trigger bloqueia DELETE,
-      // a limpeza de teste usa cascade manual nas filhas primeiro
-      await sql`ALTER TABLE trial_results DISABLE TRIGGER trial_results_append_only`
-      await sql`DELETE FROM ingest_log WHERE session_id = ${sessionId}`
-      await sql`DELETE FROM trial_results WHERE session_id = ${sessionId}`
-      await sql`ALTER TABLE trial_results ENABLE TRIGGER trial_results_append_only`
-      await sql`DELETE FROM sessions WHERE id = ${sessionId}`
-    })
+    // teardown linear: filhas antes das mães; o trigger append-only é
+    // desabilitado só para apagar o dado de teste
+    await sql`ALTER TABLE trial_results DISABLE TRIGGER trial_results_append_only`
+    await sql`DELETE FROM ingest_log WHERE session_id = ${sessionId}`
+    await sql`DELETE FROM trial_results WHERE session_id = ${sessionId}`
+    await sql`DELETE FROM sessions WHERE id = ${sessionId}`
+    await sql`DELETE FROM consent_acceptances WHERE term_id = ${term.id}`
+    await sql`DELETE FROM consent_terms WHERE id = ${term.id}`
+    await sql`DELETE FROM user_accounts WHERE id = ${user.id}`
+    await sql`DELETE FROM experiment_docs WHERE doc_version = ${doc.doc_version}`
+    await sql`ALTER TABLE trial_results ENABLE TRIGGER trial_results_append_only`
   })
 })
