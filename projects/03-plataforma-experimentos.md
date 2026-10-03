@@ -442,3 +442,17 @@ plataforma-experimentos/
   desenvolvimento sem depender do VPS. Sinergia registrada: o plugin jsPsych do projeto
   irmão [02-pymts-plugins](02-pymts-plugins.md) é bloco de construção natural desta
   plataforma.
+
+### Validação técnica da stack (2026-10-03, Fase 0)
+
+Estado verificado em out/2026 — ajustes recomendados sobre a spec original:
+
+| Item da spec | Estado real (out/2026) | Recomendação |
+|---|---|---|
+| Nuxt 3 | **Nuxt 4 é estável desde 2025** ([nuxt.com](https://nuxt.com)); migração 3→4 é maiormente non-breaking (novo layout `app/`, type safety) | Iniciar direto em **Nuxt 4** — sem razão para nascer uma major atrás |
+| Supabase (implantação indefinida) | **Self-hosted completo: ~12 containers Docker, mínimo 4 GB RAM/2 cores, recomendado 8 GB/4 cores**, custo ~US$ 14–43/mês; Studio self-hosted tem limitações; cloud tem free tier ([guia colossus](https://colossuscloud.com), [custo real selfhost.dev](https://selfhost.dev)) | **Desenvolver contra Supabase cloud free tier** (velocidade) e decidir self-hosted só no gate de produção — o requisito de 4–8 GB RAM é insumo direto para a alocação do VPS (`vps-strategy`) |
+| jsPsych 7.0+ | Ver validação no mapeamento do projeto irmão (`02a-mapeamento-psychopy-jspsych.md`) | — |
+
+Consequência para o ambiente: se a decisão for self-hosted, o Supabase sozinho justifica
+um servidor ≥8 GB — reforça o papel de `labs` (VPS potente) como alvo da plataforma em
+produção, com o app Nuxt podendo viver no mesmo host ou no `dash`.
