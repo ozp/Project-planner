@@ -1,0 +1,32 @@
+// Serve o asset de um documento pela REF LÓGICA (AD-10: resolução só via
+// registro do documento — nunca caminho direto do cliente).
+import { createReadStream } from 'node:fs'
+import { stat } from 'node:fs/promises'
+import { join } from 'node:path'
+
+export default defineEventHandler(async (event) => {
+  const ref = getRouterParam(event, 'ref')!
+  if (!/^[a-z0-9][a-z0-9._-]*$/.test(ref)) {
+    throw createError({ statusCode: 400, statusMessage: 'ref inválida' })
+  }
+  const docVersion = getQuery(event).doc as string | undefined
+  const sql = useDb()
+  const rows = docVersion
+    ? await sql`SELECT a.sha1, s.content_type FROM experiment_assets a
+        JOIN stimulus_assets s ON s.sha1 = a.sha1
+        WHERE a.ref = ${ref} AND a.doc_version::text = ${docVersion}`
+    : await sql`SELECT a.sha1, MAX(s.content_type) AS content_type FROM experiment_assets a
+        JOIN stimulus_assets s ON s.sha1 = a.sha1
+        WHERE a.ref = ${ref} GROUP BY a.sha1`
+  if (rows.length === 0) throw createError({ statusCode: 404, statusMessage: `asset não encontrado: ${ref}` })
+
+  const { sha1, content_type: contentType } = rows[0]!
+  const assetsDir = process.env.ASSETS_DIR ?? join(process.cwd(), 'data', 'assets')
+  const path = join(assetsDir, sha1 as string)
+  try {
+    await stat(path)
+  } catch {
+    throw createError({ statusCode: 500, statusMessage: 'binário do asset ausente no storage' })
+  }
+  return sendStream(event, createReadStream(path), contentType as string)
+})

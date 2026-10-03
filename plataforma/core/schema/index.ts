@@ -1,4 +1,5 @@
 export * from './types'
 export { validateExperimentDocument, type ValidationResult } from './experiment'
 export { validateTrialResult } from './trial-result'
+export { collectExperimentRefs } from './refs'
 export { fixtureExperiment } from './fixtures'
