@@ -205,6 +205,10 @@ atribuição por citação; o artigo é CC BY-NC 4.0 (ver §1). Portanto:
 - Pendência de higiene (não bloqueante): o repo não tem arquivo LICENSE → pedir aos autores
   (issue/e-mail) licença explícita no repositório ou confirmação expressa para o plugin. Até lá,
   registrar a citação em README e docs do plugin.
+  **Decisão do ozp (2026-10-03):** sem distribuição no horizonte próximo — o contato com os autores
+  fica condicionado a uma futura disponibilização pública. Desenvolvimento segue observando onde o
+  PyMTS se encaixa (original, transformado, lógica reutilizada, ou PR upstream melhorando o próprio
+  PyMTS — que não é distribuição e não levanta a questão).
 - A **reimplementação limpa** permanece opção (motor = 339 LOC; o valor está no modelo de
   configuração e na fidelidade procedimental), mas é escolha de engenharia, não requisito jurídico.
 - Nota: a lib PsychoPy é **GPLv3** — plugin PsychoPy distribuído precisará de licença compatível

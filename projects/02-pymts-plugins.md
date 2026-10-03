@@ -221,6 +221,13 @@ pymts-jspsych-plugin/
   4. **Nicho aberto**: não existe plugin MTS/equivalência dedicado em nenhum dos dois ecossistemas.
   5. Arquitetura alvo: schema JSON versionado (superset do formato PyMTS) como núcleo compartilhado;
      PsychoPy = Standalone Routine "MTS Block" via plugin pip; jsPsych = plugin de tentativa + helper de bloco.
+- **2026-10-03 (decisão do ozp sobre distribuição/licença)** — **Não há objetivo de distribuir nada
+  ainda.** Contato com os autores do PyMTS fica **condicionado a uma futura disponibilização pública**
+  (não é pendência ativa). O objetivo agora é **desenvolver o projeto e observar onde o PyMTS se
+  encaixa — de forma original ou transformada**; utilizar a lógica para desenvolver outro software
+  e/ou **melhorar o próprio PyMTS e submeter PR** são caminhos válidos. Consequência: nenhuma rota
+  de desenvolvimento está travada por licença (uso/modificação privados + PR upstream não são
+  distribuição); a questão de licença só renasce no dia da disponibilização pública.
 
 ---
 
