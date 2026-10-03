@@ -428,3 +428,17 @@ plataforma-experimentos/
 > - Validação de requisitos
 > - Orçamento e prazos
 > - Testes de segurança
+
+---
+
+## 🗒️ Registro de decisões
+
+- **2026-10-03** — Este repositório passa a ser a casa oficial do projeto (decisão do ozp).
+  Projetos descomissionados (`01-desktop-mcp`, `04-autogroq`) movidos para `archive/`.
+  Repriorização: sai da incubadora (Onda 5 do plano consolidado) e entra na fila ativa.
+  **Dependência declarada de infraestrutura:** a implantação em VPS permanece atrás do
+  bloco VPS do ambiente (decisões de alocação, DNS e hardening — ver `vps-strategy` no
+  wiki); o desenvolvimento do MVP (Fase 1) pode avançar com Supabase local/cloud de
+  desenvolvimento sem depender do VPS. Sinergia registrada: o plugin jsPsych do projeto
+  irmão [02-pymts-plugins](02-pymts-plugins.md) é bloco de construção natural desta
+  plataforma.

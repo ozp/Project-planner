@@ -201,7 +201,17 @@ pymts-jspsych-plugin/
 - Documentação PsychoPy: https://www.psychopy.org/
 - Documentação jsPsych: https://www.jspsych.org/
 - jsPsych Contrib: https://github.com/jspsych/jspsych-contrib
-- PyMTS: (link do repositório original)
+- PyMTS (original): https://github.com/AlceuRegaco/PyMTS — Carvalho, Regaço & de Rose (2023), UFSCar
+
+---
+
+## 🗒️ Registro de decisões
+
+- **2026-10-03** — Este repositório passa a ser a casa oficial do projeto (decisão do ozp).
+  Projetos descomissionados (`01-desktop-mcp`, `04-autogroq`) movidos para `archive/`.
+  Repriorização: o projeto sai da incubadora (Onda 5 do plano consolidado) e entra
+  na fila ativa de execução. Primeira etapa do roadmap (análise/prototipagem PsychoPy)
+  iniciada — ver `02a-mapeamento-psychopy-jspsych.md` quando existir.
 
 ---
 
