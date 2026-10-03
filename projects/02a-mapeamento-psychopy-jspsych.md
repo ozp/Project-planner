@@ -28,11 +28,38 @@ resposta é **pygame** (janela fullscreen, mouse). Branches `points` (economia d
 
 **Dependências:** `pygame`, `pandas`, `numpy` + stdlib. Não há `requirements.txt`, `setup.py` nem CI.
 
-### Licença — achado crítico
+### Licença — situação real (corrigida em 2026-10-03, 2ª verificação)
 
-**O repositório NÃO tem licença** (sem arquivo LICENSE, sem detecção no GitHub, README omite).
-Sem licença, o código é "todos os direitos reservados" dos autores (Carvalho, Regaço & de Rose,
-UFSCar) — **derivar plugins dele não é permitido sem autorização expressa**. Ver §5 para os caminhos.
+**Primeira leitura (errada por incompleta):** "o repo não tem licença → derivação bloqueada".
+**Correção após leitura do artigo-fonte:** o repositório de fato **não tem arquivo LICENSE** e o
+README não menciona licença — mas o artigo que publica o software declara formalmente o
+licenciamento:
+
+> Carvalho, F. C., Regaço, A., & de Rose, J. C. (2024). PYMTS: A Python matching-to-sample
+> software. *Revista Brasileira de Análise do Comportamento*, 20(1), 132–136.
+> DOI [10.18542/rebac.v20i1.16401](https://periodicos.ufpa.br/index.php/rebac/article/view/16401)
+
+Destaques do artigo (verificados no PDF):
+
+- **"PyMTS is an open-source software, which means the script can be downloaded and it is free
+  to be used and changed"** — os autores declaram, em publicação revisada por pares, que o código
+  é livre para uso e modificação e convidam outros pesquisadores a "contribute and help to
+  further develop and modify the software".
+- **Atribuição pedida pelos autores: citação ao trabalho** (a citação APA está no README do repo).
+- O artigo é publicado em **CC BY-NC 4.0** ("reproduzido livremente, distribuído, transmitido ou
+  modificado... desde que usado sem fins comerciais") — formalmente essa licença cobre o artigo;
+  aplicá-la ao software é a leitura mais conservadora coerente com a declaração dos autores.
+
+**Consequência prática:** derivar/portar é autorizado pelos titulares — a estratégia de
+**reimplementação limpa deixa de ser obrigatória** (continua sendo opção). Condições prudentes:
+atribuição via citação do artigo/software em qualquer distribuição derivada; uso não-comercial
+(BY-NC); e, como o repo não tem LICENSE formal, **abrir uma issue/e-mail pedindo aos autores um
+arquivo de licença explícito** (ou confirmação expressa para o plugin) elimina a ambiguidade
+residual — 1 interação de custo.
+
+Nota adicional do artigo: "PyMTS... developed **based on PsychoPy**" — inspiração metodológica
+(as dependências reais são pygame/pandas/numpy, sem psychopy), o que reforça a aderência do
+plugin PsychoPy ao espírito do projeto original.
 
 ### Configuração — 2 camadas
 
@@ -168,16 +195,20 @@ wx legado). Testar no Standalone estável e no Studio beta.
 
 ## 5. Recomendações
 
-### Gate zero: licença
+### Gate de licença — resolvido pela 2ª verificação (2026-10-03)
 
-O PyMTS não tem licença → código é propriedade dos autores. Caminhos:
-**(a)** pedir aos autores (UFSCar) adoção de licença (MIT/GPL) por e-mail/issue; ou
-**(b) reimplementação limpa a partir do paradigma** — o procedimento MTS e a estrutura de
-configuração não são protegidos por copyright; não copiar código, nomes de variáveis ou CSVs
-verbatim. Como o motor tem 339 LOC e qualidade baixa, **(b) é barato e elimina o risco** — o
-valor do PyMTS está no **modelo de configuração** e na **fidelidade procedimental**, não no
-código. Nota: a lib PsychoPy é **GPLv3** — o plugin PsychoPy herdará a obrigação de
-compatibilidade (decidir licença cedo).
+O artigo-fonte (REBAC 2024) declara o PyMTS open-source, livre para uso e modificação, com
+atribuição por citação; o artigo é CC BY-NC 4.0 (ver §1). Portanto:
+
+- **Derivação/port permitido** com **atribuição por citação** (Carvalho, Regaço & de Rose, 2024)
+  e **uso não-comercial** — coberto pela leitura BY-NC.
+- Pendência de higiene (não bloqueante): o repo não tem arquivo LICENSE → pedir aos autores
+  (issue/e-mail) licença explícita no repositório ou confirmação expressa para o plugin. Até lá,
+  registrar a citação em README e docs do plugin.
+- A **reimplementação limpa** permanece opção (motor = 339 LOC; o valor está no modelo de
+  configuração e na fidelidade procedimental), mas é escolha de engenharia, não requisito jurídico.
+- Nota: a lib PsychoPy é **GPLv3** — plugin PsychoPy distribuído precisará de licença compatível
+  (decidir cedo; para distribuição acadêmica o copyleft é neutro).
 
 ### O que preservar do PyMTS (portar o design, não o código)
 
@@ -208,7 +239,10 @@ compatibilidade (decidir licença cedo).
 
 ### Riscos
 
-1. Licença do PyMTS ausente (bloqueador — resolver primeiro).
+1. ~~Licença do PyMTS ausente (bloqueador)~~ **Resolvido pela 2ª verificação (2026-10-03):** artigo
+   REBAC 2024 declara open-source, uso/modificação livres com citação; repo sem LICENSE formal →
+   pendência de higiene (pedir aos autores), não bloqueio. Leitura conservadora: CC BY-NC 4.0
+   (não-comercial + atribuição).
 2. PsychoPy Studio em beta (mitigar: só entry points `psychopy.experiment.*`).
 3. Timing online limitado (Pavlovia/cognition.run) — documentar limitações de precisão.
 4. Spec original defasada (jsPsych 7 → nascer já na 8.x).

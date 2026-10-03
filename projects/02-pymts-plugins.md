@@ -211,9 +211,11 @@ pymts-jspsych-plugin/
   na fila ativa de execução (Multica `OZP-395`).
 - **2026-10-03 (Etapa 1 executada)** — Mapeamento técnico completo em
   [02a-mapeamento-psychopy-jspsych.md](02a-mapeamento-psychopy-jspsych.md). Achados que mudam a spec:
-  1. **LICENÇA: o PyMTS não tem licença** — derivação direta do código é bloqueada. Estratégia:
-     **reimplementação limpa do paradigma** (o valor está no modelo de configuração de 2 camadas
-     e na semântica procedimental, não nos 504 LOC). Contatar os autores (UFSCar) permanece opção.
+  1. **LICENÇA (corrigida após 2ª verificação):** o repo não tem arquivo LICENSE, mas o artigo que
+     publica o software (Carvalho, Regaço & de Rose, 2024, REBAC 20(1), 132–136,
+     DOI 10.18542/rebac.v20i1.16401) declara o PyMTS **open-source, livre para uso e modificação**,
+     com atribuição por citação; o artigo é CC BY-NC 4.0. **Derivação/port é permitido** com citação
+     e uso não-comercial; pedir LICENSE formal aos autores fica como pendência de higiene, não gate.
   2. **jsPsych está na 8.3** (não 7): plugin nasce na API 8.x.
   3. **Motor do PyMTS é pygame** (Tkinter só na tela inicial) — correção da premissa original.
   4. **Nicho aberto**: não existe plugin MTS/equivalência dedicado em nenhum dos dois ecossistemas.
