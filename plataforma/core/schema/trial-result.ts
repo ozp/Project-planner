@@ -1,7 +1,7 @@
 // Validação do TrialResult (AD-3): contrato respondente-agnóstico.
 // human → timing completo obrigatório, inference proibido;
 // synthetic → inference obrigatória, timing proibido. Mistos rejeitados.
-import Ajv2020 from 'ajv/dist/2020'
+import Ajv2020 from 'ajv/dist/2020.js'
 import type { TrialResult } from './types'
 import { STIMULUS_REF_PATTERN, TRIAL_RESULT_SCHEMA_VERSION } from './types'
 import type { ValidationResult } from './experiment'

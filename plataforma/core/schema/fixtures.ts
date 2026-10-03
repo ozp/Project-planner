@@ -22,23 +22,23 @@ export const fixtureExperiment: ExperimentDocument = {
         maxRepetitions: 3,
         trials: [
           {
-            sample: ['a1.png'],
+            sample: ['a1.svg'],
             sampleSoundRef: 'a1s.wav',
-            comparisons: ['b1.png', 'b2.png'],
-            correct: 'b1.png',
+            comparisons: ['b1.svg', 'b2.svg'],
+            correct: 'b1.svg',
             consequence: {
-              correct: { imageRef: 'right.png', durationSeconds: 1 },
-              incorrect: { imageRef: 'wrong.png', durationSeconds: 1 },
+              correct: { imageRef: 'right.svg', durationSeconds: 1 },
+              incorrect: { imageRef: 'wrong.svg', durationSeconds: 1 },
             },
           },
           {
-            sample: ['a2.png'],
+            sample: ['a2.svg'],
             sampleSoundRef: 'a2s.wav',
-            comparisons: ['b1.png', 'b2.png'],
-            correct: 'b2.png',
+            comparisons: ['b1.svg', 'b2.svg'],
+            correct: 'b2.svg',
             consequence: {
-              correct: { imageRef: 'right.png', durationSeconds: 1 },
-              incorrect: { imageRef: 'wrong.png', durationSeconds: 1 },
+              correct: { imageRef: 'right.svg', durationSeconds: 1 },
+              incorrect: { imageRef: 'wrong.svg', durationSeconds: 1 },
             },
           },
         ],
@@ -50,18 +50,18 @@ export const fixtureExperiment: ExperimentDocument = {
         maxRepetitions: 3,
         trials: [
           {
-            sample: ['a1.png'],
-            comparisons: ['c1.png', 'c2.png'],
-            correct: 'c1.png',
+            sample: ['a1.svg'],
+            comparisons: ['c1.svg', 'c2.svg'],
+            correct: 'c1.svg',
             consequence: {
               correct: { soundRef: 'ding.wav', durationSeconds: 1 },
               incorrect: { durationSeconds: 1 },
             },
           },
           {
-            sample: ['a2.png'],
-            comparisons: ['c1.png', 'c2.png'],
-            correct: 'c2.png',
+            sample: ['a2.svg'],
+            comparisons: ['c1.svg', 'c2.svg'],
+            correct: 'c2.svg',
             consequence: {
               correct: { soundRef: 'ding.wav', durationSeconds: 1 },
               incorrect: { durationSeconds: 1 },
@@ -78,9 +78,9 @@ export const fixtureExperiment: ExperimentDocument = {
         trials: [
           {
             // estímulo contextual: 2 amostras
-            sample: ['ctx1.png', 'a1.png'],
-            comparisons: ['b1.png', 'c1.png'],
-            correct: 'b1.png',
+            sample: ['ctx1.svg', 'a1.svg'],
+            comparisons: ['b1.svg', 'c1.svg'],
+            correct: 'b1.svg',
             consequence: {
               correct: { durationSeconds: 0 },
               incorrect: { durationSeconds: 0 },

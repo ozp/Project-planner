@@ -1,6 +1,6 @@
 // Validação do ExperimentDocument (AD-4): JSON Schema (estrutura) +
 // regras semânticas cross-field + guarda de conteúdo ativo (AD-10).
-import Ajv2020 from 'ajv/dist/2020'
+import Ajv2020 from 'ajv/dist/2020.js'
 import type { ExperimentDocument } from './types'
 import { EXPERIMENT_SCHEMA_VERSION, STIMULUS_REF_PATTERN } from './types'
 

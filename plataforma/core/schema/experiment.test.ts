@@ -12,7 +12,7 @@ describe('validateExperimentDocument', () => {
 
   it('rejeita estímulo com URL externa (AD-10)', () => {
     const doc = structuredClone(fixtureExperiment)
-    doc.experiment.blocks[0]!.trials[0]!.sample = ['https://evil.example.com/x.png']
+    doc.experiment.blocks[0]!.trials[0]!.sample = ['https://evil.example.com/x.svg']
     const result = validateExperimentDocument(doc)
     expect(result.ok).toBe(false)
     expect(result.errors.join('\n')).toMatch(/pattern|AD-10/)
@@ -20,7 +20,7 @@ describe('validateExperimentDocument', () => {
 
   it('rejeita estímulo com marcação de script (AD-10)', () => {
     const doc = structuredClone(fixtureExperiment)
-    doc.experiment.blocks[0]!.trials[0]!.comparisons = ['<script>alert(1)</script>', 'b2.png']
+    doc.experiment.blocks[0]!.trials[0]!.comparisons = ['<script>alert(1)</script>', 'b2.svg']
     const result = validateExperimentDocument(doc)
     expect(result.ok).toBe(false)
   })
@@ -49,7 +49,7 @@ describe('validateExperimentDocument', () => {
 
   it('rejeita correct fora de comparisons com erro apontando o campo', () => {
     const doc = structuredClone(fixtureExperiment)
-    doc.experiment.blocks[0]!.trials[0]!.correct = 'b3.png'
+    doc.experiment.blocks[0]!.trials[0]!.correct = 'b3.svg'
     const result = validateExperimentDocument(doc)
     expect(result.ok).toBe(false)
     expect(result.errors.join('\n')).toMatch(/trials\[0\]\.correct/)
