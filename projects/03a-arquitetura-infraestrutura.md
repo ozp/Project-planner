@@ -50,8 +50,10 @@ clique do participante. Isso molda tudo: latência, escala e privacidade.
 | 3 | **Motor de experimentos** | Execução dos testes no navegador | jsPsych 8.x | O plugin MTS (projeto 02) é o primeiro bloco |
 | 4 | **Autoria de experimentos** | Pesquisador cria/configura testes (formulário → timeline jsPsych) | Nuxt + schema JSON | Schema versionado (mesmo núcleo do projeto 02) |
 | 5 | **Dados** | Sessões, resultados, perfis anonimizados | PostgreSQL (JSONB p/ trials) | Modelo já esboçado na spec 03 §Dados |
-| 6 | **Resultados/relatórios** | Estatísticas p/ pesquisador; "resultados" p/ participante (futuro) | Views SQL + export CSV | Ver decisão ética §8.5 |
+| 6 | **Resultados/relatórios** | Estatísticas p/ pesquisador; "resultados" p/ participante (futuro) | Views SQL + export CSV | Ver decisão ética §8.8 |
 | 7 | **Operação** | Deploy, backups, monitoramento, logs | Docker/Dokploy, backups externos | Herda o padrão do ambiente (Traefik, fail2ban) |
+| 8 | **Assistência por agentes** (decisão ozp 2026-10-03) | Chat p/ montar experimentos e conversar sobre resultados | Gateway LLM (LiteLLM do ambiente) + SSE | Ver §7b — BYOK e modelos locais básicos |
+| 9 | **Participantes sintéticos** (objetivo futuro) | Rodar experimentos COM LLMs como respondentes — benchmark psicológico; prioridade testes projetivos | Adaptador LLM sobre o mesmo núcleo | Ver §7c — exige motor agnóstico ao respondente |
 
 ## 3. Infraestrutura física — âncoras do ambiente real
 
@@ -90,6 +92,28 @@ real do split. jsPsych client-side torna o piloto leve de banco; o que pesa cedo
 **C** fica restrito a **ambiente de desenvolvimento** (já decidido em 2026-10-03) — dados
 reais de participantes não vão para serviço externo.
 
+## 4b. Frontend — re-validação (2026-10-03, a pedido do ozp: "Nuxt ainda? HTMX seria melhor?")
+
+O que ESTA plataforma exige do frontend: portal público com SEO (catálogo), uma área
+client-rich (builder de experimentos: formulário dinâmico, timeline, preview), chat com
+streaming (agentes), jsPsych embutido (que já é uma ilha JS por natureza), e painéis de
+dados. Estado de out/2026 dos candidatos:
+
+| Candidato | Estado 2026 | Cabe aqui? |
+|---|---|---|
+| **Nuxt 4** (Vue) | Estável; SSR sólido; hybrid rendering (SSG portal + SPA app + API Nitro no mesmo repo) | ✅ **Sim — 1 framework cobre tudo** |
+| **Next.js** (React) | Maior ecossistema/components; mais material de treino p/ agentes de código; RSC/Vercel-centric | ✅ Forte alternativa — faz sentido se o time preferir React |
+| **SvelteKit 2** | Melhor razão performance/tamanho; ecossistema de componentes menor p/ builder | ⚠️ Viável; menos peças prontas |
+| **Astro 5** (ilhas) | Excelente p/ conteúdo; app interativa exige ilhas React/Vue — 2 mundos | ⚠️ Só se o portal dominasse e a app fosse pequena |
+| **HTMX + backend** (Go/Elixir/Laravel/FastAPI) | Server-first, mínimo JS; SSE dá conta de chat | ❌ **não para este perfil** — o builder rico (estado denso no cliente, preview ao vivo) e o chat empurram para client-rich; HTMX brilharia se a plataforma fosse majoritariamente formulários server-rendered sem builder |
+
+**Decisão: Nuxt 4 mantido (re-validado).** Motivos: (1) um só framework para portal
+(SSR/SSG p/ SEO e acesso facilitado) + aplicação (builder, painéis) + API (Nitro) +
+SSE p/ chat de agentes; (2) jsPsych é agnóstico, não trava nada; (3) Vue tem adoção
+forte no BR e DX/TypeScript madura; (4) sem vendor lock, self-host tranquilo.
+**Gatilho de revisão**: se o MVP cortar o builder de experimentos (formulário simples
+de config no lugar), HTMX+FastAPI/Laravel volta a ser opção legítima — registrar.
+
 ## 5. Jornada do participante (o "acesso facilitado")
 
 ```
@@ -98,7 +122,7 @@ reais de participantes não vão para serviço externo.
 3. Escolhe/é convidado a um teste → TERMO DE CONSENTIMENTO (LGPD) antes de anything
 4. Dados demográficos MÍNIMOS (idade, escolaridade — só o que o estudo precisa)
 5. Teste roda no navegador (jsPsych) — sem instalação, sem app
-6. Ao final: resultado salvo (batch) + feedback ao participante (escopo futura — §8.5)
+6. Ao final: resultado salvo (batch) + feedback ao participante (escopo futura — §8.8)
 ```
 
 ## 6. Dados & LGPD (transversal — não é fase, é restrição de todo o desenho)
@@ -118,24 +142,92 @@ reais de participantes não vão para serviço externo.
 
 | Fase | Ambiente | Escopo | Gate p/ próxima |
 |---|---|---|---|
-| **F0 — Dev** | Local (docker: Nuxt + Postgres; Supabase cloud só p/ dev) | Portal esqueleto, 1 experimento jsPsych de exemplo, schema do banco | Spec validada; auth básica |
-| **F1 — Piloto fechado** | **dash** (provisório, pós ou pré-reset conforme §8.6) | Registro **por convite**; 1–2 testes reais; coleta consentida; sem resultados ao público | Teste de coleta real + latência + LGPD revisada |
-| **F2 — Público** | dash (ou split B, se medido) | Registro aberto ("acesso facilitado"), catálogo, painel do pesquisador, backups verificados | Operação estável ≥1 mês |
-| **F3 — Resultados** | idem | Relatórios ao pesquisador; feedback ao participante (decisão ética §8.5) | — |
-| **F4 — Analytics/IA** | labs | Busca vetorial, recomendações, LLM assistido (já na spec 03) | Escala justificar |
+| **F0 — Dev** | Local (docker: Nuxt + Postgres; Supabase cloud só p/ dev) | Portal esqueleto, 1 experimento jsPsych de exemplo, schema do banco — **núcleo já desenhado agnóstico ao respondente (§7c)** | Spec validada; auth básica |
+| **F1 — Piloto fechado** | **VPS próprio** (qual = decidir na F1, §8.2) | Registro **por convite**; 1–2 testes reais; coleta consentida; sem resultados ao público | Teste de coleta real + latência + LGPD revisada |
+| **F2 — Público** | VPS (ou split, se medido) | Registro aberto ("acesso facilitado"), catálogo, painel do pesquisador, backups verificados | Operação estável ≥1 mês |
+| **F3 — Resultados + agentes assistidos** | idem | Relatórios ao pesquisador; feedback ao participante (§8.8); **chat de montagem e de resultados (§7b) — BYOK primeiro, local depois** | — |
+| **F4 — Analytics** | labs | Busca vetorial, recomendações (spec 03) | Escala justificar |
+| **F5 — Participantes sintéticos** | onde couber (batch, sem público) | **Benchmark psicológico de LLMs (§7c): adapter sintético, prioritariamente testes projetivos; humano×modelo no mesmo banco** | Métrica de benchmark definida |
 
-## 8. Decisões em aberto (para o ozp — nada disso bloqueia F0/F1)
+## 7b. Agentes integrados (decisão do ozp, 2026-10-03)
 
-1. **Alocação**: aceitar recomendação D (enxuto no dash → reavaliar split) ou outra opção do §4?
-2. **Domínio**: `experimentos.psico.net` (registro manual no HostGator) — confirma?
-3. **Banco no piloto**: Postgres enxuto + auth própria vs Supabase self-hosted reduzido desde o início?
-4. **Abertura do registro**: piloto por convite (recomendado) ou público desde o F1?
-5. **"Resultados" ao participante**: até onde devolver? (score bruto ok; **interpretação**
-   de teste psicológico a leigo tem risco ético — sugestão: feedback descritivo/
-   educativo, nunca diagnóstico; pesquisador decide o que publica)
-6. **Ordem vs Track C (reset VPS)**: deploy do piloto antes do reset (aceita retrabalho de
-   reinstall) ou depois (espera o gate de backup/restore)? Recomendação: **desenvolver F0
-   já; decidir quando F1 estiver pronta** — a distância entre as duas pode ser curta.
+**Objetivo declarado:** agentes para (a) ajudar o **usuário a montar experimentos** e
+(b) **conversar sobre os resultados** — tanto via **API key** quanto **rodando localmente
+no VPS com modelos básicos**.
+
+### Desenho
+
+```
+Nuxt (chat UI, SSE) ──► Camada de agentes (rotas Nitro: /api/agent/*)
+                              │  prompt + contexto (schema do experimento / resultado anonimizado)
+                              ▼
+                    Gateway de inferência — LiteLLM (já existe no ambiente)
+                       ├── rota 1: BYOK do pesquisador (chave própria, cifrada)
+                       ├── rota 2: chave da plataforma (API externa, custos controlados)
+                       └── rota 3: modelos LOCAIS no VPS (llama.cpp/Ollama, 1–4B quantizados)
+```
+
+- **Gateway**: o ambiente já roda **LiteLLM** (candidato a `litellm.psico.net` na
+  vps-strategy) — a plataforma não precisa de outra camada de roteamento; consome via API.
+- **Modelos locais "básicos"**: VPS de 4 vCPU/8 GB sem GPU → modelos **1–4B quantizados**
+  (classe Qwen/Llama/Phi small) via llama.cpp/Ollama em CPU. Adequados para orientação de
+  montagem ("qual bloco devo criar p/ treinar AB?") e resumo descritivo de resultados;
+  análise interpretativa fica para BYOK/API. Nota: vps-strategy decidiu NÃO redeployar
+  Ollama para a stack geral de IA — **reabrir exceção dedicada** só para o runtime dos
+  agentes da plataforma (decisão §8.3).
+- **Privacidade/LGPD (crítico)**: dado de participante só vai a LLM **anonimizado**
+  (`anonymized_id`, sem PII no prompt); no modo local, nada sai do host. BYOK = chave do
+  pesquisador, cifrada em repouso, nunca exposta ao front; responsabilidade de uso no termo.
+- **Streaming**: SSE (Nitro suporta nativamente) — chat fluido sem WebSocket.
+
+## 7c. Participantes sintéticos — LLM como respondente (objetivo futuro do ozp)
+
+**Objetivo declarado:** adaptar parte dos experimentos para **rodar de forma sintética com
+LLM** — ver como cada modelo responde a estímulos, **principalmente testes projetivos**, como
+**benchmark psicológico de LLMs**.
+
+### Implicação de desenho que vale JÁ (é o motivo de estar no quadro)
+
+O **núcleo do experimento** (schema JSON versionado + lógica de apresentação/coleta — o mesmo
+núcleo planejado no projeto irmão 02) deve ser **agnóstico ao respondente**:
+
+```
+Schema do experimento (fonte da verdade)
+        ├── Adapter humano     → jsPsych no navegador (tentativa, latência, clique)
+        └── Adapter sintético  → LLM (estímulo → prompt; resposta → mesmo formato de dados)
+                                     · modelos de texto e VISION (estímulos de imagem!)
+                                     · MTS: apresenta amostra/comparativos, coleta escolha
+                                     · Projetivos: estímulo aberto → resposta livre → análise
+```
+
+Assim a MESMA definição de experimento roda com humanos (plataforma) e com N modelos LLM
+(benchmark), e os resultados caem no mesmo banco — comparação humano×modelo vira uma query.
+
+- **Sinergias existentes**: o programa de pesquisa **psicologia-dos-agentes** (wiki) já
+  investiga probes de LLM — esta plataforma vira o **instrumento padronizado** dele; e o
+  schema do projeto 02 (PyMTS) vira a primeira família de probes procedurais.
+- **Testes projetivos**: estímulo aberto + resposta livre → dependem menos de engine
+  temporal e mais de análise de conteúdo — natural para LLM; começar por eles no piloto
+  sintético faz sentido.
+- **Custo**: rodar bateria de N modelos × M trials via API externa sai caro → preferir
+  BYOK/modelos locais p/ varreduras grandes; API paga só p/ benchmarks curtos de modelos
+  frontier (registra custo por run no banco).
+- **Métrica de benchmark** (o que é "acerto" num projetivo?) — questão científica em aberto;
+  primeira abordagem: comparar distribuição de respostas do modelo vs. normas humanas.
+
+## 8. Decisões (estado em 2026-10-03, após rodada do ozp)
+
+| # | Decisão | Estado |
+|---|---|---|
+| 1 | **Frontend** | ✅ **Nuxt 4 mantido** (re-validado — análise no §4b). Gatilho de revisão: MVP sem builder → HTMX volta a ser opção |
+| 2 | **Alocação** | 🔶 **VPS próprio confirmado**; **qual** fica em aberto — decidir na F1 (com a opção D do §4 como default: enxuto num host, split reavaliado com medição) |
+| 3 | **Agentes integrados** (§7b) | ✅ Objetivo confirmado (montagem + resultados; BYOK e local). 🔶 Aberto: política de chaves da plataforma; runtime local (llama.cpp vs Ollama — exceção dedicada à decisão "não redeployar Ollama"); quando entra (fase F3) |
+| 4 | **Participantes sintéticos** (§7c) | ✅ Objetivo futuro confirmado (benchmark psicológico, projetivos primeiro). 🔶 Aberto: métrica de benchmark (modelo vs normas humanas); orçamento de API vs BYOK/local |
+| 5 | **Domínio** | ⬜ `experimentos.psico.net` — confirma? |
+| 6 | **Banco no piloto** | ⬜ Postgres enxuto + auth própria vs Supabase self-hosted reduzido |
+| 7 | **Abertura do registro** | ⬜ Piloto por convite (recomendado) ou público desde F1 |
+| 8 | **"Resultados" ao participante** | ⬜ Score bruto ok; interpretação a leigo tem risco ético — sugestão: feedback descritivo/educativo, nunca diagnóstico |
+| 9 | **Ordem vs Track C (reset VPS)** | ⬜ Recomendação: desenvolver F0 já; decidir quando F1 estiver pronta |
 
 ## 9. Próximo passo — plano detalhado com skills
 
