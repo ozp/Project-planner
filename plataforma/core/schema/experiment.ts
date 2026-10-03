@@ -46,6 +46,7 @@ const experimentJsonSchema = {
         itiSeconds: { type: 'number', minimum: 0 },
         volume: { type: 'number', minimum: 0, maximum: 1 },
         startBlock: { type: 'integer', minimum: 1 },
+        endTextRef: stimulusRef,
         blocks: {
           type: 'array',
           minItems: 1,

@@ -51,6 +51,8 @@ export interface ExperimentConfig {
   volume?: number
   /** Bloco inicial (1-based) — semântica PyMTS de retomada. */
   startBlock: number
+  /** Tela final da sessão (end_text do PyMTS) — asset interno. */
+  endTextRef?: StimulusRef
   blocks: Block[]
 }
 
