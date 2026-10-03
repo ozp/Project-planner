@@ -7,6 +7,7 @@ const experiments = computed(() => (data.value as { experiments: Array<Record<st
 <template>
   <main class="catalog">
     <h1>Experimentos</h1>
+    <p style="font-size:.9rem"><NuxtLink to="/painel">Área do pesquisador</NuxtLink></p>
     <p v-if="error" style="color: #e74c3c">
       <NuxtLink to="/login?redirect=/explore">Entrar</NuxtLink> para ver os experimentos disponíveis.
     </p>
