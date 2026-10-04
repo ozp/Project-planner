@@ -28,5 +28,8 @@ export default defineEventHandler(async (event) => {
   } catch {
     throw createError({ statusCode: 500, statusMessage: 'binário do asset ausente no storage' })
   }
-  return sendStream(event, createReadStream(path), contentType as string)
+  // content-type explícito: sendStream não o infere (3º arg é status), e SVG
+  // sem image/svg+xml é recusado como <img> pelo navegador (quebra o preload)
+  setResponseHeader(event, 'content-type', contentType as string)
+  return sendStream(event, createReadStream(path))
 })

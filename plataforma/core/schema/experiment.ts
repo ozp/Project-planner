@@ -58,17 +58,18 @@ const experimentJsonSchema = {
               name: { type: 'string', minLength: 1, maxLength: 100 },
               instructionText: { type: 'string', maxLength: 5000 },
               instructionRef: stimulusRef,
-              display: {
-                oneOf: [
-                  { type: 'object', additionalProperties: false, required: ['kind'], properties: { kind: { const: 'SMTS' } } },
-                  {
-                    type: 'object',
-                    additionalProperties: false,
-                    required: ['kind', 'delaySeconds'],
-                    properties: { kind: { const: 'DMTS' }, delaySeconds: { type: 'number', minimum: 0 } },
+                  display: {
+                    oneOf: [
+                      { type: 'object', additionalProperties: false, required: ['kind'], properties: { kind: { const: 'SMTS' } } },
+                      {
+                        type: 'object',
+                        additionalProperties: false,
+                        required: ['kind', 'delaySeconds'],
+                        properties: { kind: { const: 'DMTS' }, delaySeconds: { type: 'number', minimum: 0 } },
+                      },
+                      { type: 'object', additionalProperties: false, required: ['kind'], properties: { kind: { const: 'STROOP' } } },
+                    ],
                   },
-                ],
-              },
               criterion: { type: 'integer', minimum: 1 },
               maxRepetitions: { type: 'integer', minimum: 1 },
               trials: {

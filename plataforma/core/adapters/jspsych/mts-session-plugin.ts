@@ -42,8 +42,11 @@ export class MtsSessionPlugin implements JsPsychPlugin<MtsSessionParams> {
   async trial(display: HTMLElement, trial: TrialType<typeof this>) {
     const { engine, document: doc, sessionId, assetBase, resolveAsset, onFinish } = trial
     const batch = new BatchBuilder(sessionId)
-    const bg = doc.experiment.screenColor?.join(', ') ?? '0, 0, 0'
-    display.innerHTML = `<div id="mts-stage" style="background: rgb(${bg}); color: #eee; min-height: 90vh; display: flex; align-items: center; justify-content: center; flex-direction: column; user-select: none;"></div>`
+    const rgb = doc.experiment.screenColor ?? [0, 0, 0]
+    const bg = rgb.join(', ')
+    // luminância decide a cor do texto (Stroop usa fundo claro, MTS escuro)
+    const fg = 0.2126 * rgb[0]! + 0.7152 * rgb[1]! + 0.0722 * rgb[2]! > 128 ? '#111' : '#eee'
+    display.innerHTML = `<div id="mts-stage" style="background: rgb(${bg}); color: ${fg}; min-height: 90vh; display: flex; align-items: center; justify-content: center; flex-direction: column; user-select: none;"></div>`
     const stage = display.querySelector<HTMLElement>('#mts-stage')!
 
     const assetUrl = (ref: StimulusRef): string => resolveAsset ? resolveAsset(ref) : `${assetBase}${ref}`
@@ -84,41 +87,56 @@ export class MtsSessionPlugin implements JsPsychPlugin<MtsSessionParams> {
 
         const p = ev.presentation
         const t0 = performance.now()
-        let sampleAudioDone = Promise.resolve()
-
-        // fase 1: amostra(s) — observing response obrigatória (clique)
-        stage.innerHTML = `<div id="mts-sample" style="display:flex;gap:24px;cursor:pointer;padding:24px">${p.trial.sample.map(s => img(s)).join('')}</div>`
-        await clickOn(stage.querySelector<HTMLElement>('#mts-sample')!)
-        const rtSampleMs = performance.now() - t0
-
-        // MTS auditivo-visual: som no clique da amostra; comparativos liberam após o fim
-        if (p.trial.sampleSoundRef) {
-          const a = audio(p.trial.sampleSoundRef)
-          sampleAudioDone = new Promise<void>(r => {
-            a.addEventListener('ended', () => r(), { once: true })
-            a.play().catch(() => r())
-          })
-        }
-
-        // fase 2: DMTS — amostra some, delay com tela vazia
-        if (p.display.kind === 'DMTS') {
-          stage.innerHTML = ''
-          await Promise.all([wait(p.display.delaySeconds * 1000), sampleAudioDone])
-        } else {
-          await sampleAudioDone
-        }
-
-        // fase 3: comparativos (SMTS mantém a amostra em cima)
-        const compsRow = p.comparisonOrder.map(c => `<img data-ref="${c}" src="${assetUrl(c)}" alt="" draggable="false" style="width:200px;height:200px;object-fit:contain;cursor:pointer;">`).join('')
-        const sampleHtml = p.display.kind === 'SMTS' ? `<div style="display:flex;gap:24px;padding:12px">${p.trial.sample.map(s => img(s, 120)).join('')}</div>` : ''
-        stage.innerHTML = `${sampleHtml}<div id="mts-comps" style="display:flex;gap:96px;padding:24px">${compsRow}</div>`
-        const compsStart = performance.now()
-        const selected: string = await new Promise<string>(resolve => {
+        const compsRow = (order: readonly StimulusRef[]): string =>
+          order.map(c => `<img data-ref="${c}" src="${assetUrl(c)}" alt="" draggable="false" style="width:200px;height:200px;object-fit:contain;cursor:pointer;">`).join('')
+        const selectFrom = (): Promise<string> => new Promise<string>(resolve => {
           for (const el of stage.querySelectorAll<HTMLImageElement>('#mts-comps img')) {
             el.addEventListener('click', () => resolve(el.dataset.ref!), { once: true })
           }
         })
-        const rtComparisonMs = performance.now() - compsStart
+
+        let rtSampleMs: number
+        let rtComparisonMs: number
+        let selected: string
+
+        if (p.display.kind === 'STROOP') {
+          // Stroop: estímulo + comparativos desde o onset, resposta única —
+          // TR = onset→resposta; sem observing response (rtSampleMs não se aplica)
+          stage.innerHTML = `<div style="display:flex;gap:24px;padding:24px">${p.trial.sample.map(s => img(s, 240)).join('')}</div><div id="mts-comps" style="display:flex;gap:96px;padding:24px">${compsRow(p.comparisonOrder)}</div>`
+          selected = await selectFrom()
+          rtSampleMs = 0
+          rtComparisonMs = performance.now() - t0
+        } else {
+          // fase 1: amostra(s) — observing response obrigatória (clique)
+          stage.innerHTML = `<div id="mts-sample" style="display:flex;gap:24px;cursor:pointer;padding:24px">${p.trial.sample.map(s => img(s)).join('')}</div>`
+          await clickOn(stage.querySelector<HTMLElement>('#mts-sample')!)
+          rtSampleMs = performance.now() - t0
+
+          // MTS auditivo-visual: som no clique da amostra; comparativos liberam após o fim
+          let sampleAudioDone = Promise.resolve()
+          if (p.trial.sampleSoundRef) {
+            const a = audio(p.trial.sampleSoundRef)
+            sampleAudioDone = new Promise<void>(r => {
+              a.addEventListener('ended', () => r(), { once: true })
+              a.play().catch(() => r())
+            })
+          }
+
+          // fase 2: DMTS — amostra some, delay com tela vazia
+          if (p.display.kind === 'DMTS') {
+            stage.innerHTML = ''
+            await Promise.all([wait(p.display.delaySeconds * 1000), sampleAudioDone])
+          } else {
+            await sampleAudioDone
+          }
+
+          // fase 3: comparativos (SMTS mantém a amostra em cima)
+          const sampleHtml = p.display.kind === 'SMTS' ? `<div style="display:flex;gap:24px;padding:12px">${p.trial.sample.map(s => img(s, 120)).join('')}</div>` : ''
+          stage.innerHTML = `${sampleHtml}<div id="mts-comps" style="display:flex;gap:96px;padding:24px">${compsRow(p.comparisonOrder)}</div>`
+          const compsStart = performance.now()
+          selected = await selectFrom()
+          rtComparisonMs = performance.now() - compsStart
+        }
 
         // fase 4: consequência diferencial + registro canônico (AD-3)
         const correct = engine.respond(selected)

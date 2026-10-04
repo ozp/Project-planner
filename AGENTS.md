@@ -13,10 +13,9 @@ Mapa para qualquer agente retomar o trabalho. Atualizado em 2026-10-03.
 
 ## Estado (2026-10-03)
 
-- **Done**: Epic 1 (OZP-397, walking skeleton F0), Epic 2 (OZP-398, identidade/consentimento/pseudonimização), E3 parcial (OZP-399: catálogo 3.3 + export 3.4 + painel). 59/59 testes, CI verde.
+- **Done**: Epic 1 (OZP-397, walking skeleton F0), Epic 2 (OZP-398, identidade/consentimento/pseudonimização), E3 parcial (OZP-399: catálogo 3.3 + export 3.4 + painel; refinamentos OZP-402 + 4 plugins ao /run) e **Story 3.6 — Stroop digital adapt. Victoria (OZP-405)**: protocolo display `STROOP` (resposta única desde o onset, comparativos em ordem fixa) + pacote `plataforma/experiments/stroop-victoria` (3 blocos × 24) + seed com 2 experimentos. 69/69 testes, CI verde. E2E no navegador validou registro→termo→demografia→preload→tentativas (2 bugs pré-existentes corrigidos no caminho: ordem auth/carga do /run e content-type ausente em `/api/assets`).
 - **Pendências do ozp** (bloqueiam E3 restante 3.1/3.2/3.5): qual VPS (recomendação: dash) e ordem vs reset Track C (OZP-93).
-- **Fila de refinamento** (não bloqueada): OZP-402 (3 cortes ponytail: rota local morta, onTrial sem consumidor, getters do engine) + integrar 4 plugins oficiais ao `/run` (survey-multi-choice/text, browser-check, fullscreen; áudio → pluginAPI.getAudioPlayer — ver docs/research/plugins).
-- **Próximo instrumento F1**: Stroop (shortlist da pesquisa de instrumentos; depois Go/No-Go, TMT).
+- **Próximo instrumento F1**: Go/No-Go (shortlist da pesquisa; depois N-back, TMT).
 - **F5 (benchmark LLM)**: gate de pesquisa CUMPRIDA; probe nº 1 = sensibilidade a consequências diferenciais dentro do MTS (Peng et al. 2025, taxonomia de 4 categorias como fator). Spec do F5 ainda não escrita.
 
 ## Regras locais (herdadas do spine/SPEC — violar exige registrar no memlog)

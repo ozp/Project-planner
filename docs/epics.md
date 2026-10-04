@@ -312,6 +312,21 @@ So que a plataforma valida end-to-end com dado científico de verdade.
 **Then** todas as sessões fecham com TrialResults completos e consentimentos registrados
 **And** export final íntegro; incidentes/latências anotados no relatório do piloto
 
+### Story 3.6: Segundo instrumento — Stroop digital (adapt. Victoria)
+
+As a pesquisador,
+I want definir e executar um experimento Stroop (neutro/congruente/incongruente) como documento JSON na mesma engine, medindo TR por tentativa,
+So that o piloto F1 ganha o 2º instrumento da shortlist (domínio público, normas BR — research 03/10) sem nova plataforma: engine, ingestão e export reutilizados (AD-2/AD-3).
+
+**Acceptance Criteria:**
+
+**Given** um documento Stroop válido (3 blocos: pontos/congruente/incongruente, 24 tentativas cada)
+**When** validado pelo schema
+**Then** o protocolo de display STROOP é aceito — resposta única desde o onset, sem observing response
+**And** blocos STROOP mantêm os comparativos em ordem fixa do documento (mapeamento de resposta estável — TR limpo); as tentativas seguem embaralhadas pela seed como nos demais blocos
+**And** o TR registrado é onset→resposta (rtComparisonMs; rtSampleMs=0); TrialResult canônico inalterado
+**And** o pacote submetido (experiment.json + SVGs) vira docVersion imutável com assets content-addressed, publica no catálogo e roda ponta-a-ponta no /run com batch aceito
+
 ---
 
 ## Epic 4: Abertura pública e direitos do titular (F2)

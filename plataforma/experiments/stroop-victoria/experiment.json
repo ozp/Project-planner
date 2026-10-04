@@ -1,0 +1,1422 @@
+{
+  "schemaVersion": 1,
+  "docVersion": "submission",
+  "title": "Teste de Stroop digital (adaptação Victoria)",
+  "description": "Paradigma Stroop (1935, domínio público) na adaptação Victoria: 3 cores (vermelho/azul/verde), 3 condições — neutro (pontos), congruente e incongruente — com 24 tentativas cada. Medida central: tempo de resposta por tentativa (resposta única desde a apresentação). Dados pseudonimizados, uso exclusivo em pesquisa.",
+  "language": "pt-BR",
+  "feedback": {
+    "text": "Obrigado! Você concluiu a tarefa de atenção. Seus tempos de resposta foram registrados para pesquisa — nenhum resultado individual é divulgado, apenas análises de grupo."
+  },
+  "experiment": {
+    "screenColor": [
+      255,
+      255,
+      255
+    ],
+    "itiSeconds": 0.5,
+    "startBlock": 1,
+    "blocks": [
+      {
+        "name": "neutro",
+        "instructionText": "Toque no retângulo cuja cor é a MESMA cor da tinta do estímulo do topo — o mais rápido que puder, sem se preocupar em errar.",
+        "display": {
+          "kind": "STROOP"
+        },
+        "criterion": 1,
+        "maxRepetitions": 1,
+        "trials": [
+          {
+            "sample": [
+              "st-pontos-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-pontos-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "congruente",
+        "instructionText": "Toque no retângulo cuja cor é a MESMA cor da tinta do estímulo do topo — o mais rápido que puder, sem se preocupar em errar.",
+        "display": {
+          "kind": "STROOP"
+        },
+        "criterion": 1,
+        "maxRepetitions": 1,
+        "trials": [
+          {
+            "sample": [
+              "st-vermelho-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-vermelho-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-vermelho-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-vermelho-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-vermelho-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-vermelho-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-vermelho-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-vermelho-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "incongruente",
+        "instructionText": "Toque no retângulo cuja cor é a MESMA cor da tinta do estímulo do topo — o mais rápido que puder, sem se preocupar em errar.",
+        "display": {
+          "kind": "STROOP"
+        },
+        "criterion": 1,
+        "maxRepetitions": 1,
+        "trials": [
+          {
+            "sample": [
+              "st-vermelho-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-vermelho-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-vermelho-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-vermelho-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-vermelho-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-vermelho-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-vermelho-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-vermelho-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-azul-verde.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-verde.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-vermelho.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-vermelho.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "st-verde-azul.svg"
+            ],
+            "comparisons": [
+              "st-cor-vermelho.svg",
+              "st-cor-azul.svg",
+              "st-cor-verde.svg"
+            ],
+            "correct": "st-cor-azul.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

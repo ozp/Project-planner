@@ -13,6 +13,7 @@ const phase = ref<Phase>('loading')
 const message = ref('')
 const summary = ref('')
 const sendResult = ref('')
+const docTitle = ref('')
 
 const email = ref('')
 const password = ref('')
@@ -39,9 +40,7 @@ onMounted(async () => {
       phase.value = 'error'
       return
     }
-    const loaded = await api(`/api/experiments/${docVersion}`) as RunPackage & { assets: { ref: string, url: string }[] }
-    pkg = loaded
-    assetMap = new Map((loaded.assets ?? []).map(a => [a.ref, a.url]))
+    // autenticação antes da carga: o pacote exige login (journeys.md registro→termo→execução)
     const { user } = await api('/api/auth/me') as { user: { id: string } | null }
     if (user) await afterAuth()
     else phase.value = 'auth'
@@ -67,6 +66,10 @@ async function login() {
 
 async function afterAuth() {
   try {
+    const loaded = await api(`/api/experiments/${docVersion}`) as RunPackage & { assets: { ref: string, url: string }[] }
+    pkg = loaded
+    docTitle.value = loaded.document.title
+    assetMap = new Map((loaded.assets ?? []).map(a => [a.ref, a.url]))
     term.value = await api(`/api/experiments/${docVersion}/terms`) as { id: string, version: number, body: string }
     phase.value = 'consent'
   } catch (e) {
@@ -163,7 +166,7 @@ async function acceptAndRun() {
 
 <template>
   <main style="font-family: system-ui, sans-serif; max-width: 760px; margin: 0 auto; padding: 1rem">
-    <h1 style="font-size: 1.2rem">Experimento de exemplo — equivalência de estímulos</h1>
+    <h1 style="font-size: 1.2rem">{{ docTitle || 'Experimento' }}</h1>
     <p v-if="phase === 'error'" style="color: #e74c3c">{{ message }}</p>
 
     <section v-if="phase === 'auth'" style="max-width: 360px; display: grid; gap: .5rem">

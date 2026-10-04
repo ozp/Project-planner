@@ -32,6 +32,9 @@ export interface Trial {
 export type DisplayProtocol =
   | { kind: 'SMTS' } // simultâneo: amostra permanece
   | { kind: 'DMTS'; delaySeconds: number } // atraso: amostra some
+  // Stroop: estímulo e comparativos juntos desde o onset — resposta única,
+  // sem observing response; comparativos em ordem fixa (TR = onset→resposta)
+  | { kind: 'STROOP' }
 
 export interface Block {
   name: string

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { fixtureExperiment, validateExperimentDocument } from './index'
+import { fixtureExperiment, fixtureStroop, validateExperimentDocument } from './index'
 
 // Story 1.2 — ACs do contrato do documento do experimento
 describe('validateExperimentDocument', () => {
@@ -75,5 +75,24 @@ describe('validateExperimentDocument', () => {
     const bad = structuredClone(fixtureExperiment)
     ;(bad.experiment.blocks[1]!.display as unknown as { delaySeconds: number }).delaySeconds = -1
     expect(validateExperimentDocument(bad).ok).toBe(false)
+  })
+})
+
+// Story 3.6 — protocolo STROOP (Stroop digital, adapt. Victoria)
+describe('validateExperimentDocument — STROOP', () => {
+  it('aceita documento Stroop válido', () => {
+    expect(validateExperimentDocument(fixtureStroop).ok).toBe(true)
+  })
+
+  it('rejeita STROOP com propriedade extra (delaySeconds)', () => {
+    const doc = structuredClone(fixtureStroop)
+    ;(doc.experiment.blocks[0]!.display as unknown as { delaySeconds: number }).delaySeconds = 1
+    expect(validateExperimentDocument(doc).ok).toBe(false)
+  })
+
+  it('rejeita kind de display desconhecido', () => {
+    const doc = structuredClone(fixtureStroop)
+    ;(doc.experiment.blocks[0]!.display as unknown as { kind: string }).kind = 'GNG'
+    expect(validateExperimentDocument(doc).ok).toBe(false)
   })
 })

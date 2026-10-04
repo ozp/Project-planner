@@ -67,11 +67,27 @@ if (login.ok) {
 }
 
 async function seedRest(cookie) {
-  // submete o experimento
-  const dir = new URL('../public/stimuli', import.meta.url).pathname
+  // submete e publica cada experimento (doc + pasta de estímulos)
+  await seedExperiment(cookie, {
+    doc,
+    dir: new URL('../public/stimuli', import.meta.url).pathname,
+    termo: 'Você participará de um experimento de equivalência de estímulos (pesquisa). Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento. Ambiente de desenvolvimento local.',
+  })
+  // Stroop (Story 3.6): pacote autorado em experiments/stroop-victoria
+  await seedExperiment(cookie, {
+    doc: JSON.parse(readFileSync(new URL('../experiments/stroop-victoria/experiment.json', import.meta.url), 'utf8')),
+    dir: new URL('../experiments/stroop-victoria', import.meta.url).pathname,
+    termo: 'Você participará de uma tarefa de atenção (Stroop) de pesquisa: verá palavras coloridas e tocará na cor da tinta. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento. Ambiente de desenvolvimento local.',
+  })
+}
+
+async function seedExperiment(cookie, { doc, dir, termo }) {
   const form = new FormData()
   form.append('document', new Blob([JSON.stringify(doc)], { type: 'application/json' }), 'experiment.json')
-  for (const f of readdirSync(dir)) form.append(f, new Blob([readFileSync(join(dir, f))]), f)
+  for (const f of readdirSync(dir)) {
+    if (f === 'experiment.json') continue // pacotes autorados trazem o doc na própria pasta
+    form.append(f, new Blob([readFileSync(join(dir, f))]), f)
+  }
   const sub = await fetch(`${base}/api/experiments`, { method: 'POST', headers: { cookie }, body: form })
   const subBody = await sub.json()
   if (!sub.ok) throw new Error(`submissão: ${sub.status} ${subBody.statusMessage}`)
@@ -80,7 +96,7 @@ async function seedRest(cookie) {
   // publica o termo (idempotente por versão nova — executa 1x por run)
   const term = await fetch(`${base}/api/experiments/${subBody.docVersion}/terms`, {
     method: 'POST', headers: { 'content-type': 'application/json', cookie },
-    body: JSON.stringify({ body: 'Você participará de um experimento de equivalência de estímulos (pesquisa). Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento. Ambiente de desenvolvimento local.' }),
+    body: JSON.stringify({ body: termo }),
   })
   const termBody = await term.json()
   if (!term.ok) throw new Error(`termo: ${term.status} ${termBody.statusMessage}`)

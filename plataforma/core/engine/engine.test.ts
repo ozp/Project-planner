@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { EngineEvent } from './engine'
 import { MtsEngine } from './engine'
-import { fixtureExperiment } from '../schema'
+import { fixtureExperiment, fixtureStroop } from '../schema'
 import type { ExperimentDocument } from '../schema'
 
 interface RunLog {
@@ -143,5 +143,38 @@ describe('MtsEngine', () => {
     const engine = new MtsEngine(fixtureExperiment, 1)
     engine.next() // blockStart
     expect(() => engine.respond('b1.png')).toThrow(/pendente/)
+  })
+})
+
+// Story 3.6 — STROOP no motor
+describe('MtsEngine — STROOP', () => {
+  it('comparativos em ordem fixa do documento (mapeamento estável, TR limpo)', () => {
+    const { events } = runAlwaysCorrect(fixtureStroop, 42)
+    const trials = events.filter((e): e is Extract<EngineEvent, { kind: 'trial' }> => e.kind === 'trial')
+    expect(trials.length).toBeGreaterThan(0)
+    for (const ev of trials) {
+      expect(ev.presentation.comparisonOrder).toEqual(ev.presentation.trial.comparisons)
+      expect(ev.presentation.display).toEqual({ kind: 'STROOP' })
+    }
+  })
+
+  it('tentativas do bloco STROOP seguem embaralhadas pela seed', () => {
+    const firsts = new Set<string>()
+    for (let seed = 1; seed <= 8; seed++) {
+      const { events } = runAlwaysFirst(fixtureStroop, seed)
+      const first = events.find((e): e is Extract<EngineEvent, { kind: 'trial' }> => e.kind === 'trial')
+      firsts.add(first!.presentation.trial.sample[0]!)
+    }
+    expect(firsts.size).toBeGreaterThan(1) // ordem varia com a seed
+  })
+
+  it('bloco de passagem única (criterion 1) completa sem repetir', () => {
+    const { events } = runAlwaysCorrect(fixtureStroop, 42)
+    const blockEnds = events.filter(e => e.kind === 'blockEnd')
+    expect(blockEnds).toHaveLength(2)
+    for (const e of blockEnds) {
+      expect(e).toMatchObject({ passed: true, repetition: 1 })
+    }
+    expect(events.at(-1)).toMatchObject({ kind: 'sessionEnd', reason: 'completed' })
   })
 })
