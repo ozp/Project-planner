@@ -3,7 +3,6 @@
 // registro/login → consentimento vigente (AD-9) → execução → batch.
 // jsPsych toca window no top-level: imports dinâmicos, só no browser.
 import { onMounted, ref } from 'vue'
-import type { RunPackage } from '~/../server/api/experiments/local.get'
 import { MtsEngine } from '@core/engine/engine'
 import type { BatchBuilder } from '@core/adapters/jspsych/batch'
 
@@ -19,6 +18,7 @@ const email = ref('')
 const password = ref('')
 const term = ref<{ id: string, version: number, body: string } | null>(null)
 
+interface RunPackage { document: import('@core/schema').ExperimentDocument, manifest: string[], assets: { ref: string, url: string }[] }
 let pkg: RunPackage
 let docVersion: string
 let assetMap: Map<string, string> = new Map()

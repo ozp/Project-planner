@@ -24,10 +24,6 @@ export type EngineEvent =
   | { kind: 'blockEnd'; blockName: string; passed: boolean; correct: number; total: number; repetition: number }
   | { kind: 'sessionEnd'; reason: 'completed' | 'maxRepetitions' }
 
-export interface RespondOutcome {
-  correct: boolean
-}
-
 /**
  * Máquina de estados do experimento.
  *
@@ -146,21 +142,13 @@ export class MtsEngine {
   }
 
   /** Registra a resposta do respondente para o trial pendente e computa o acerto. */
-  respond(selectedRef: StimulusRef): RespondOutcome {
+  respond(selectedRef: StimulusRef): boolean {
     const trial = this.pendingTrial
     if (!trial) throw new Error('engine: respond() sem trial pendente')
     const correct = selectedRef === trial.correct
     if (correct) this.blockCorrect += 1
     this.blockTotal += 1
     this.pendingTrial = null
-    return { correct }
-  }
-
-  private get correct(): number {
-    return this.blockCorrect
-  }
-
-  private get total(): number {
-    return this.blockTotal
+    return correct
   }
 }

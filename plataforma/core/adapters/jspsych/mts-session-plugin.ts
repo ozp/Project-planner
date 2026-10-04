@@ -16,8 +16,6 @@ interface MtsSessionParams {
   assetBase: string
   /** Resolução custom de ref→URL (docs submetidos: /api/assets/<ref>; default: assetBase+ref). */
   resolveAsset?: (ref: StimulusRef) => string
-  /** Coletor de checkpoints — recebe o builder a cada trial (AD-5 checkpoint explícito). */
-  onTrial?: (result: TrialResult, batch: BatchBuilder) => void
   /** Fim da sessão — a página envia o batch. */
   onFinish?: (batch: BatchBuilder, reason: string) => void
 }
@@ -32,7 +30,6 @@ export class MtsSessionPlugin implements JsPsychPlugin<MtsSessionParams> {
       sessionId: { type: ParameterType.STRING, default: undefined },
       assetBase: { type: ParameterType.STRING, default: '/stimuli/' },
       resolveAsset: { type: ParameterType.FUNCTION, default: undefined },
-      onTrial: { type: ParameterType.FUNCTION, default: undefined },
       onFinish: { type: ParameterType.FUNCTION, default: undefined },
     },
     data: {
@@ -43,7 +40,7 @@ export class MtsSessionPlugin implements JsPsychPlugin<MtsSessionParams> {
   constructor(public jsPsych: JsPsych) {}
 
   async trial(display: HTMLElement, trial: TrialType<typeof this>) {
-    const { engine, document: doc, sessionId, assetBase, resolveAsset, onTrial, onFinish } = trial
+    const { engine, document: doc, sessionId, assetBase, resolveAsset, onFinish } = trial
     const batch = new BatchBuilder(sessionId)
     const bg = doc.experiment.screenColor?.join(', ') ?? '0, 0, 0'
     display.innerHTML = `<div id="mts-stage" style="background: rgb(${bg}); color: #eee; min-height: 90vh; display: flex; align-items: center; justify-content: center; flex-direction: column; user-select: none;"></div>`
@@ -124,7 +121,7 @@ export class MtsSessionPlugin implements JsPsychPlugin<MtsSessionParams> {
         const rtComparisonMs = performance.now() - compsStart
 
         // fase 4: consequência diferencial + registro canônico (AD-3)
-        const { correct } = engine.respond(selected)
+        const correct = engine.respond(selected)
         const consequence = correct ? p.trial.consequence.correct : p.trial.consequence.incorrect
         const consAudio = consequence.soundRef ? audio(consequence.soundRef) : null
         stage.innerHTML = consequence.imageRef
@@ -143,7 +140,6 @@ export class MtsSessionPlugin implements JsPsychPlugin<MtsSessionParams> {
           timing: { rtSampleMs, rtComparisonMs, trialMs: performance.now() - t0 },
         }
         batch.add(result)
-        onTrial?.(result, batch)
         await wait(Math.max(0, consequence.durationSeconds * 1000))
         consAudio?.pause()
 
