@@ -9,7 +9,7 @@ Mapa para qualquer agente retomar o trabalho. Atualizado em 2026-10-03.
 - `docs/specs/spec-plataforma-experimentos-mvp/` — **SPEC.md** do MVP (F0–F2): 10 CAPs, companions phases/journeys, memlog append-only (decisões posteriores entram lá).
 - `docs/epics.md` — 4 épicos / 21 stories com AC Given-When-Then.
 - `docs/research/` — 3 pesquisas (instrumentos candidatos, plugins jsPsych, avaliação de LLM como participante — esta última **cumpre a gate do F5**; adendo Peng et al. 2025 verificado por PDF local).
-- `plataforma/` — código (Nuxt 4 monorepo: `app/`, `server/api`, `core/` puro, `db/migrations`, `deploy/`). Dev: `docker compose -f deploy/compose.yaml up -d db` → `pnpm db:migrate` → `pnpm dev`; ambiente completo de demo: `node scripts/seed-local.mjs`. Testes: `pnpm test` (integração pede o db do compose). CI: lint+test a cada push.
+- `plataforma/` — código (Nuxt 4 monorepo: `app/`, `server/api`, `core/` puro, `db/migrations`, `deploy/`). Dev: `docker compose -f deploy/compose.yaml up -d db` → exportar `DATABASE_URL=postgres://plataforma:plataforma_dev@localhost:5543/experimentos` (db do compose) → `pnpm db:migrate` → `PORT=3312 pnpm dev`; ambiente completo de demo (2 experimentos: MTS + Stroop): `node scripts/seed-local.mjs`. Testes: `pnpm test` (integração pede o db do compose; suíte nova precisa de migration → rodar `db:migrate`). CI: lint+test a cada push.
 
 ## Estado (2026-10-03)
 
