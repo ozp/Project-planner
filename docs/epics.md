@@ -342,6 +342,21 @@ So that o piloto F1 ganha o 3º instrumento da shortlist (dupla relevância: ini
 **And** TrialResult canônico inalterado: `response.selectedRef` registra a ação observada; TR = onset→resposta em `rtComparisonMs` nas tentativas com resposta (`rtSampleMs`=0); inibição → `rtComparisonMs`=0 (TR indefinido); comissão/omissão deriváveis de selectedRef × correct
 **And** o pacote submetido (experiment.json + SVGs) vira docVersion imutável com assets content-addressed, publica no catálogo e roda ponta-a-ponta no /run com batch aceito (3 blocos × 8; participante perfeito completa com 24/24 corretas)
 
+### Story 3.8: Quarto instrumento — N-back de letras (1/2-back)
+
+As a pesquisador,
+I want definir e executar um N-back de letras (ritmo fixo: letra + ISI; responder quando a letra repete a de n posições antes) como documento JSON na mesma engine, com a sequência autoral preservada e TR por tentativa,
+So that o piloto F1 ganha o 4º instrumento da shortlist (memória de trabalho; sem normas BR padronizadas — dados descritivos próprios, research 03/10) sem nova plataforma (AD-2/AD-3) — e a engine aprende o 1º protocolo em que a ORDEM das tentativas é semântica (a seed não pode destruir a relação n-back).
+
+**Acceptance Criteria:**
+
+**Given** um documento N-back válido (treino 1-back com feedback + bloco 1-back + bloco 2-back sem consequências; ~33% alvos; 2-back sem lures 1-back)
+**When** validado pelo schema
+**Then** o protocolo de display NBACK é aceito com ritmo fixo obrigatório (`{kind:'NBACK', stimulusMs, responseWindowMs}`, janela > estímulo — regra semântica acionável)
+**And** blocos NBACK preservam a ordem das tentativas do documento (o motor NÃO embaralha — alvo = igual à de n posições antes) e mantêm os comparativos como espaço de ações binário [match, não-match] em ordem fixa, exatamente 2 por tentativa
+**And** o ritmo é fixo no adapter: estímulo por stimulusMs, ISI em branco até a janela total mesmo após responder (resposta não encerra a tentativa); TR = onset→toque em `rtComparisonMs` (`rtSampleMs`=0); sem toque → ação não-match com `rtComparisonMs`=0; TrialResult canônico inalterado
+**And** o pacote submetido vira docVersion imutável com teste de contrato guardando a integridade da sequência (correct = match ⇔ letra igual à de n posições antes; contagem de alvos; sem lures), publica no catálogo e roda ponta-a-ponta no /run com batch aceito (60 tentativas; participante perfeito completa com 100%)
+
 ---
 
 ## Epic 4: Abertura pública e direitos do titular (F2)

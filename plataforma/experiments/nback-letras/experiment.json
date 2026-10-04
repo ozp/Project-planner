@@ -1,0 +1,1152 @@
+{
+  "schemaVersion": 1,
+  "docVersion": "submission",
+  "title": "N-back de letras (1-back e 2-back)",
+  "description": "N-back de letras consoantes — memória de trabalho contínua: ritmo fixo (letra 0,5s + intervalo 2s), responder (tocar) quando a letra atual repete a de 1 ou 2 posições antes. Treino 1-back com feedback e blocos 1-back/2-back sem consequências (8 alvos/24, ~33%; 2-back sem lures 1-back; sequência pseudo-aleatória autoral). Sem normas BR padronizadas — dados descritivos próprios (research 03/10). Medidas: acurácia por condição e TR por tentativa. Dados pseudonimizados, uso exclusivo em pesquisa.",
+  "language": "pt-BR",
+  "feedback": {
+    "text": "Obrigado! Você concluiu a tarefa de memória. Suas respostas e tempos foram registrados para pesquisa — nenhum resultado individual é divulgado, apenas análises de grupo."
+  },
+  "experiment": {
+    "screenColor": [
+      255,
+      255,
+      255
+    ],
+    "itiSeconds": 0,
+    "startBlock": 1,
+    "blocks": [
+      {
+        "name": "treino1back",
+        "instructionText": "Você verá letras aparecendo uma a uma. Toque em qualquer lugar da tela SEMPRE que a letra atual for IGUAL à letra ANTERIOR (1-back). Se for diferente, não toque — apenas espere a próxima.",
+        "display": {
+          "kind": "NBACK",
+          "stimulusMs": 500,
+          "responseWindowMs": 2500
+        },
+        "criterion": 8,
+        "maxRepetitions": 2,
+        "trials": [
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "nb-certo.svg",
+                "durationSeconds": 0.4
+              },
+              "incorrect": {
+                "durationSeconds": 0.4
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-b.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "nb-certo.svg",
+                "durationSeconds": 0.4
+              },
+              "incorrect": {
+                "durationSeconds": 0.4
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-r.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "nb-certo.svg",
+                "durationSeconds": 0.4
+              },
+              "incorrect": {
+                "durationSeconds": 0.4
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-r.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "nb-certo.svg",
+                "durationSeconds": 0.4
+              },
+              "incorrect": {
+                "durationSeconds": 0.4
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "nb-certo.svg",
+                "durationSeconds": 0.4
+              },
+              "incorrect": {
+                "durationSeconds": 0.4
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "nb-certo.svg",
+                "durationSeconds": 0.4
+              },
+              "incorrect": {
+                "durationSeconds": 0.4
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-k.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "nb-certo.svg",
+                "durationSeconds": 0.4
+              },
+              "incorrect": {
+                "durationSeconds": 0.4
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "nb-certo.svg",
+                "durationSeconds": 0.4
+              },
+              "incorrect": {
+                "durationSeconds": 0.4
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "nb-certo.svg",
+                "durationSeconds": 0.4
+              },
+              "incorrect": {
+                "durationSeconds": 0.4
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-m.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "nb-certo.svg",
+                "durationSeconds": 0.4
+              },
+              "incorrect": {
+                "durationSeconds": 0.4
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-m.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "nb-certo.svg",
+                "durationSeconds": 0.4
+              },
+              "incorrect": {
+                "durationSeconds": 0.4
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-c.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "nb-certo.svg",
+                "durationSeconds": 0.4
+              },
+              "incorrect": {
+                "durationSeconds": 0.4
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "bloco1back",
+        "instructionText": "Você verá letras aparecendo uma a uma. Toque em qualquer lugar da tela SEMPRE que a letra atual for IGUAL à letra ANTERIOR (1-back). Se for diferente, não toque — apenas espere a próxima.",
+        "display": {
+          "kind": "NBACK",
+          "stimulusMs": 500,
+          "responseWindowMs": 2500
+        },
+        "criterion": 1,
+        "maxRepetitions": 1,
+        "trials": [
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-k.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-k.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-c.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-k.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-k.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-m.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-c.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-b.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-c.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-h.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-h.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-k.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-c.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "bloco2back",
+        "instructionText": "Agora toque sempre que a letra atual for IGUAL à letra que apareceu DUAS posições antes (2-back). Não há retorno nesta parte — responda o melhor que puder.",
+        "display": {
+          "kind": "NBACK",
+          "stimulusMs": 500,
+          "responseWindowMs": 2500
+        },
+        "criterion": 1,
+        "maxRepetitions": 1,
+        "trials": [
+          {
+            "sample": [
+              "letra-h.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-r.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-h.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-b.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-b.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-m.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-k.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-m.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-c.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-h.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-c.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-b.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-h.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-b.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-k.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-r.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-k.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-h.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-r.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-h.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-k.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-nomatch.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "letra-f.svg"
+            ],
+            "comparisons": [
+              "nb-match.svg",
+              "nb-nomatch.svg"
+            ],
+            "correct": "nb-match.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

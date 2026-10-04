@@ -90,8 +90,10 @@ export class MtsEngine {
     const block = this.doc.experiment.blocks[this.blockIndex]!
 
     if (this.lastEvent === null || this.lastEvent === 'blockEnd') {
-      // início de passagem do bloco: (re)embaralha as linhas
-      this.queue = shuffled(block.trials, this.rand)
+      // início de passagem do bloco: (re)embaralha as linhas — EXCETO NBACK:
+      // a ordem é semântica (alvo = estímulo igual ao de n posições antes);
+      // o documento autora a sequência e a seed não pode destruí-la
+      this.queue = block.display.kind === 'NBACK' ? block.trials : shuffled(block.trials, this.rand)
       this.blockCorrect = 0
       this.blockTotal = 0
       this.lastEvent = 'blockStart'
@@ -118,9 +120,9 @@ export class MtsEngine {
         presentation: {
           trial: nextTrial,
           // Stroop mantém os comparativos na ordem do documento: mapeamento de
-          // resposta estável entre tentativas é requisito de TR limpo. GNG
-          // idem — comparativos são o espaço de ações [go, nogo] em ordem fixa
-          comparisonOrder: block.display.kind === 'STROOP' || block.display.kind === 'GNG'
+          // resposta estável entre tentativas é requisito de TR limpo. GNG e
+          // NBACK idem — comparativos são o espaço de ações [sim, não] fixo
+          comparisonOrder: block.display.kind === 'STROOP' || block.display.kind === 'GNG' || block.display.kind === 'NBACK'
             ? nextTrial.comparisons
             : shuffled(nextTrial.comparisons, this.rand),
           display: block.display,

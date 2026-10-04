@@ -99,7 +99,22 @@ export class MtsSessionPlugin implements JsPsychPlugin<MtsSessionParams> {
         let rtComparisonMs: number
         let selected: string
 
-        if (p.display.kind === 'GNG') {
+        if (p.display.kind === 'NBACK') {
+          // N-back: ritmo fixo — estímulo por stimulusMs, ISI até a janela
+          // total. O toque (match) é aceito durante toda a janela e NÃO
+          // encerra a tentativa (cadência preservada); TR = onset→toque;
+          // sem toque → ação não-match com rtComparisonMs=0
+          stage.innerHTML = `<div style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:24px">${p.trial.sample.map(s => img(s, 200)).join('')}</div>`
+          const tap = { at: 0 }
+          const controller = new AbortController()
+          stage.addEventListener('click', () => { tap.at = performance.now() - t0; controller.abort() }, { once: true, signal: controller.signal })
+          await wait(p.display.stimulusMs)
+          stage.innerHTML = ''
+          await wait(Math.max(0, p.display.responseWindowMs - p.display.stimulusMs))
+          selected = tap.at > 0 ? p.comparisonOrder[0]! : p.comparisonOrder[1]!
+          rtSampleMs = 0
+          rtComparisonMs = tap.at
+        } else if (p.display.kind === 'GNG') {
           // GNG: estímulo (simples ou composto) desde o onset; responder = toque
           // em qualquer lugar dentro da janela; inibir = deixar expirar. Ação
           // registrada = comparativos fixos [ação-go, ação-nogo]; TR = onset→toque

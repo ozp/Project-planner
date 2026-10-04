@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { EngineEvent } from './engine'
 import { MtsEngine } from './engine'
-import { fixtureExperiment, fixtureGng, fixtureStroop } from '../schema'
+import { fixtureExperiment, fixtureGng, fixtureNback, fixtureStroop } from '../schema'
 import type { ExperimentDocument } from '../schema'
 
 interface RunLog {
@@ -220,5 +220,43 @@ describe('MtsEngine — GNG', () => {
     expect(events.at(-1)).toMatchObject({ kind: 'sessionEnd', reason: 'completed' })
     const blockEnds = events.filter(e => e.kind === 'blockEnd')
     expect(blockEnds.every(e => e.kind === 'blockEnd' && e.passed)).toBe(true)
+  })
+})
+
+// Story 3.8 — NBACK no motor (sequência autoral: ordem é semântica)
+describe('MtsEngine — NBACK', () => {
+  it('tentativas preservam a ordem do documento em qualquer seed (alvo = relação n-back)', () => {
+    for (let seed = 1; seed <= 8; seed++) {
+      const { events } = runAlwaysFirst(fixtureNback, seed)
+      const trials = events.filter((e): e is Extract<EngineEvent, { kind: 'trial' }> => e.kind === 'trial')
+      const docOrder = [
+        ...fixtureNback.experiment.blocks[0]!.trials,
+        ...fixtureNback.experiment.blocks[1]!.trials,
+      ]
+      expect(trials.map(t => t.presentation.trial.sample[0])).toEqual(docOrder.map(t => t.sample[0]))
+    }
+  })
+
+  it('comparativos em ordem fixa e protocolo (stimulusMs/isi) na apresentação', () => {
+    const { events } = runAlwaysFirst(fixtureNback, 42)
+    for (const ev of events) {
+      if (ev.kind !== 'trial') continue
+      expect(ev.presentation.comparisonOrder).toEqual(ev.presentation.trial.comparisons)
+      expect(ev.presentation.display).toEqual({ kind: 'NBACK', stimulusMs: 500, responseWindowMs: 2500 })
+    }
+  })
+
+  it('participante n-back perfeito (respeita o histórico por bloco) completa 100%', () => {
+    const history: Record<string, string[][]> = {}
+    const { events } = runWith(fixtureNback, 42, p => {
+      const n = p.blockName === 'umback' ? 1 : 2
+      const seen = (history[p.blockName] ??= [])
+      const isTarget = seen.length >= n && seen[seen.length - n]![0] === p.trial.sample[0]
+      seen.push([...p.trial.sample])
+      return isTarget ? 'nb-match.svg' : 'nb-nomatch.svg'
+    })
+    const blockEnds = events.filter(e => e.kind === 'blockEnd')
+    expect(blockEnds.map(e => (e as { correct: number, total: number }).correct)).toEqual([4, 5])
+    expect(events.at(-1)).toMatchObject({ kind: 'sessionEnd', reason: 'completed' })
   })
 })

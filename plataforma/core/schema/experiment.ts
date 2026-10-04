@@ -74,6 +74,16 @@ const experimentJsonSchema = {
                         required: ['kind', 'responseWindowMs'],
                         properties: { kind: { const: 'GNG' }, responseWindowMs: { type: 'number', exclusiveMinimum: 0 } },
                       },
+                      {
+                        type: 'object',
+                        additionalProperties: false,
+                        required: ['kind', 'stimulusMs', 'responseWindowMs'],
+                        properties: {
+                          kind: { const: 'NBACK' },
+                          stimulusMs: { type: 'number', exclusiveMinimum: 0 },
+                          responseWindowMs: { type: 'number', exclusiveMinimum: 0 },
+                        },
+                      },
                     ],
                   },
               criterion: { type: 'integer', minimum: 1 },
@@ -149,8 +159,11 @@ function semanticRules(doc: ExperimentDocument, errors: string[]): void {
       if (new Set(trial.comparisons).size !== trial.comparisons.length) {
         errors.push(`${t}.comparisons: refs duplicadas`)
       }
-      if (block.display.kind === 'GNG' && trial.comparisons.length !== 2) {
-        errors.push(`${t}.comparisons: bloco GNG exige exatamente 2 comparativos — espaço de ações binário [ação-go, ação-nogo]`)
+      if ((block.display.kind === 'GNG' || block.display.kind === 'NBACK') && trial.comparisons.length !== 2) {
+        errors.push(`${t}.comparisons: bloco ${block.display.kind} exige exatamente 2 comparativos — espaço de ações binário [ação sim, ação não]`)
+      }
+      if (block.display.kind === 'NBACK' && block.display.responseWindowMs <= block.display.stimulusMs) {
+        errors.push(`${at}.display.responseWindowMs: janela (${block.display.responseWindowMs}ms) deve exceder stimulusMs (${block.display.stimulusMs}ms) — sem ISI não há N-back`)
       }
     })
   })

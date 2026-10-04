@@ -174,3 +174,46 @@ export const fixtureGng: ExperimentDocument = {
     ],
   },
 }
+
+export const fixtureNback: ExperimentDocument = {
+  schemaVersion: 1,
+  docVersion: 'doc-0004',
+  title: 'N-back de letras 1/2 (fixture)',
+  description: 'Sequência autoral: alvo = letra igual à de n posições antes; ritmo fixo estímulo+ISI.',
+  language: 'pt-BR',
+  feedback: { text: 'Obrigado! Suas respostas foram registradas para pesquisa.' },
+  experiment: {
+    screenColor: [255, 255, 255],
+    itiSeconds: 0,
+    startBlock: 1,
+    blocks: [
+      {
+        name: 'umback',
+        instructionText: 'Toque quando a letra for IGUAL à anterior.',
+        display: { kind: 'NBACK', stimulusMs: 500, responseWindowMs: 2500 },
+        criterion: 1,
+        maxRepetitions: 1,
+        trials: [
+          { sample: ['letra-b.svg'], comparisons: ['nb-match.svg', 'nb-nomatch.svg'], correct: 'nb-nomatch.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
+          { sample: ['letra-c.svg'], comparisons: ['nb-match.svg', 'nb-nomatch.svg'], correct: 'nb-nomatch.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
+          { sample: ['letra-c.svg'], comparisons: ['nb-match.svg', 'nb-nomatch.svg'], correct: 'nb-match.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
+          { sample: ['letra-f.svg'], comparisons: ['nb-match.svg', 'nb-nomatch.svg'], correct: 'nb-nomatch.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
+        ],
+      },
+      {
+        name: 'doisback',
+        instructionText: 'Toque quando a letra for IGUAL à de DUAS posições antes.',
+        display: { kind: 'NBACK', stimulusMs: 500, responseWindowMs: 2500 },
+        criterion: 1,
+        maxRepetitions: 1,
+        trials: [
+          { sample: ['letra-b.svg'], comparisons: ['nb-match.svg', 'nb-nomatch.svg'], correct: 'nb-nomatch.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
+          { sample: ['letra-c.svg'], comparisons: ['nb-match.svg', 'nb-nomatch.svg'], correct: 'nb-nomatch.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
+          { sample: ['letra-b.svg'], comparisons: ['nb-match.svg', 'nb-nomatch.svg'], correct: 'nb-match.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
+          { sample: ['letra-f.svg'], comparisons: ['nb-match.svg', 'nb-nomatch.svg'], correct: 'nb-nomatch.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
+          { sample: ['letra-b.svg'], comparisons: ['nb-match.svg', 'nb-nomatch.svg'], correct: 'nb-match.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
+        ],
+      },
+    ],
+  },
+}

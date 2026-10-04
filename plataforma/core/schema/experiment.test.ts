@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { fixtureExperiment, fixtureGng, fixtureStroop, validateExperimentDocument } from './index'
+import { fixtureExperiment, fixtureGng, fixtureNback, fixtureStroop, validateExperimentDocument } from './index'
 
 // Story 1.2 — ACs do contrato do documento do experimento
 describe('validateExperimentDocument', () => {
@@ -127,5 +127,34 @@ describe('validateExperimentDocument — GNG', () => {
     const doc = structuredClone(fixtureGng)
     ;(doc.experiment.blocks[0]!.display as unknown as { delaySeconds: number }).delaySeconds = 1
     expect(validateExperimentDocument(doc).ok).toBe(false)
+  })
+})
+
+// Story 3.8 — protocolo NBACK (N-back de letras)
+describe('validateExperimentDocument — NBACK', () => {
+  it('aceita documento NBACK válido (stimulusMs + responseWindowMs)', () => {
+    expect(validateExperimentDocument(fixtureNback).ok).toBe(true)
+  })
+
+  it('rejeita NBACK sem stimulusMs', () => {
+    const doc = structuredClone(fixtureNback)
+    delete (doc.experiment.blocks[0]!.display as { stimulusMs?: number }).stimulusMs
+    expect(validateExperimentDocument(doc).ok).toBe(false)
+  })
+
+  it('rejeita NBACK com janela menor ou igual ao estímulo (ISI inexistente)', () => {
+    const doc = structuredClone(fixtureNback)
+    ;(doc.experiment.blocks[0]!.display as { responseWindowMs: number }).responseWindowMs = 500
+    const v = validateExperimentDocument(doc)
+    expect(v.ok).toBe(false)
+    expect(v.errors.join('\n')).toMatch(/janela/)
+  })
+
+  it('rejeita NBACK com espaço de ações não binário (3 comparativos)', () => {
+    const doc = structuredClone(fixtureNback)
+    for (const t of doc.experiment.blocks[0]!.trials) t.comparisons = ['nb-match.svg', 'nb-nomatch.svg', 'nb-talvez.svg']
+    const v = validateExperimentDocument(doc)
+    expect(v.ok).toBe(false)
+    expect(v.errors.join('\n')).toMatch(/comparativos/)
   })
 })
