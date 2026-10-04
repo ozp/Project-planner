@@ -8,9 +8,21 @@ importers:
 
   .:
     dependencies:
+      '@jspsych/plugin-browser-check':
+        specifier: ^2.1.0
+        version: 2.1.0(jspsych@8.3.0)
+      '@jspsych/plugin-fullscreen':
+        specifier: ^2.1.0
+        version: 2.1.0(jspsych@8.3.0)
       '@jspsych/plugin-preload':
         specifier: 2.1.0
         version: 2.1.0(jspsych@8.3.0)
+      '@jspsych/plugin-survey-multi-choice':
+        specifier: ^2.2.1
+        version: 2.2.1(jspsych@8.3.0)
+      '@jspsych/plugin-survey-text':
+        specifier: ^2.1.1
+        version: 2.1.1(jspsych@8.3.0)
       '@node-rs/argon2':
         specifier: ^2.2.1
         version: 2.2.1
@@ -513,8 +525,28 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
+  '@jspsych/plugin-browser-check@2.1.0':
+    resolution: {integrity: sha512-jjqtiz/4u5keORwCE1BnG/GNLAx4SbT9KuFCtZcGqY5LHCC+aSWm7ivjezoQvzLD5UHrl6SGJ8uYa7Y+ZYYUWQ==}
+    peerDependencies:
+      jspsych: '>=7.1.0'
+
+  '@jspsych/plugin-fullscreen@2.1.0':
+    resolution: {integrity: sha512-mPS3393R66Hm144LumXB2I8zHvXbUmF6e1+gZzdYm4nE5o5k0rLZZmuPRtEQl5+JFyEmk+tyH/CwL+KNGOD8cw==}
+    peerDependencies:
+      jspsych: '>=7.1.0'
+
   '@jspsych/plugin-preload@2.1.0':
     resolution: {integrity: sha512-tQUViQQNK5RXc+sYjNyV1NKl8gt9Wl+sZ55kpW1eEn9I84WCSBtjPDthr7WxGMZeK+E/ybYucWMVcIwlncaHAg==}
+    peerDependencies:
+      jspsych: '>=7.1.0'
+
+  '@jspsych/plugin-survey-multi-choice@2.2.1':
+    resolution: {integrity: sha512-InbDgMkvn/SO50dpEU605Qwj3vZARdVvfXWyNvFDUzIt4G76NgDWmVZWsFVqaqocosC4OyHkc8CID2MIBEcnCg==}
+    peerDependencies:
+      jspsych: '>=7.1.0'
+
+  '@jspsych/plugin-survey-text@2.1.1':
+    resolution: {integrity: sha512-kAnM75at72JQxC8vrHeo2RDmhAGdlEbw0KJXQS/y1Wsn1C8/JM1jvIEGLBBHvrGpMHZHUXk4qg1Ad4fZFt4zjA==}
     peerDependencies:
       jspsych: '>=7.1.0'
 
@@ -1941,6 +1973,9 @@ packages:
 
   destr@2.0.5:
     resolution: {integrity: sha512-ugFTXCtDZunbzasqBxrK93Ik/DRYsO6S/fedkWEMKqt04xZ4csmnmwGDBAb07QWNaGMAmnTIemsYZCksjATwsA==}
+
+  detect-browser@5.3.0:
+    resolution: {integrity: sha512-53rsFbGdwMwlF7qvCt0ypLM5V5/Mbl0szB7GPN8y9NCcbknYOeVVXdrXEq+90IwAfrrzt6Hd+u2E2ntakICU8w==}
 
   detect-indent@7.0.2:
     resolution: {integrity: sha512-y+8xyqdGLL+6sh0tVeHcfP/QDd8gUgbasolJJpY7NgeQGSZ739bDtSiaiDgtoicy+mtYB81dKLxO9xRhCyIB3A==}
@@ -4832,7 +4867,24 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
+  '@jspsych/plugin-browser-check@2.1.0(jspsych@8.3.0)':
+    dependencies:
+      detect-browser: 5.3.0
+      jspsych: 8.3.0
+
+  '@jspsych/plugin-fullscreen@2.1.0(jspsych@8.3.0)':
+    dependencies:
+      jspsych: 8.3.0
+
   '@jspsych/plugin-preload@2.1.0(jspsych@8.3.0)':
+    dependencies:
+      jspsych: 8.3.0
+
+  '@jspsych/plugin-survey-multi-choice@2.2.1(jspsych@8.3.0)':
+    dependencies:
+      jspsych: 8.3.0
+
+  '@jspsych/plugin-survey-text@2.1.1(jspsych@8.3.0)':
     dependencies:
       jspsych: 8.3.0
 
@@ -6452,6 +6504,8 @@ snapshots:
   depd@2.0.0: {}
 
   destr@2.0.5: {}
+
+  detect-browser@5.3.0: {}
 
   detect-indent@7.0.2: {}
 

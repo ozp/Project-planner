@@ -83,16 +83,56 @@ async function acceptAndRun() {
       body: JSON.stringify({ docVersion, seed: 42 }),
     }) as { sessionId: string, uploadToken: string }
 
-    const [{ initJsPsych }, { default: PreloadPlugin }, { MtsSessionPlugin }] = await Promise.all([
+    const [{ initJsPsych }, { default: PreloadPlugin }, { MtsSessionPlugin },
+      { default: BrowserCheck }, { default: Fullscreen },
+      { default: SurveyMultiChoice }, { default: SurveyText }] = await Promise.all([
       import('jspsych'),
       import('@jspsych/plugin-preload'),
       import('@core/adapters/jspsych/mts-session-plugin'),
+      import('@jspsych/plugin-browser-check'),
+      import('@jspsych/plugin-fullscreen'),
+      import('@jspsych/plugin-survey-multi-choice'),
+      import('@jspsych/plugin-survey-text'),
     ])
     phase.value = 'running'
     const jsPsych = initJsPsych({ display_element: 'jspsych-target', on_finish: () => { phase.value = 'done' } })
     const engine = new MtsEngine(pkg.document, 42)
+
+    // pipeline (docs/research/2026-10-03-plugins-jspsych §4):
+    // gate de dispositivo → demografia (classe protegida, POST próprio) →
+    // fullscreen (gesto destrava áudio) → preload → sessão MTS
     jsPsych.run([
-      { type: PreloadPlugin, images: pkg.manifest.filter(u => !u.endsWith('.wav')), audio: pkg.manifest.filter(u => u.endsWith('.wav')) },
+      {
+        type: BrowserCheck,
+        minimum_width: 720, minimum_height: 500,
+        inclusion_function: (data: Record<string, unknown>) => data.webaudio !== false,
+        exclusion_message: () => '<p>Este experimento requer uma tela maior com áudio funcionando (use um computador ou tablet).</p>',
+      },
+      {
+        type: SurveyMultiChoice,
+        questions: [
+          { prompt: 'Qual a sua faixa de idade?', name: 'faixa_idade', options: ['18–24', '25–34', '35–44', '45–54', '55+'], required: true },
+          { prompt: 'Qual o seu nível de escolaridade?', name: 'escolaridade', options: ['Fundamental', 'Médio', 'Superior incompleto', 'Superior completo', 'Pós-graduação'], required: true },
+        ],
+        on_finish: (data: { response: Record<string, string> }) => {
+          void fetch(`/api/sessions/${session.sessionId}/demographics`, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json', authorization: `Bearer ${session.uploadToken}` },
+            body: JSON.stringify(data.response ?? {}),
+          })
+        },
+      },
+      { type: SurveyText, questions: [{ prompt: 'Como você se identifica (gênero)?', name: 'genero', placeholder: 'opcional', required: false }] },
+      { type: Fullscreen, fullscreen_mode: true, button_label: 'Começar em tela cheia', delay_after: 400 },
+      {
+        type: PreloadPlugin,
+        images: pkg.manifest.filter(u => !/\.(wav|mp3|ogg|m4a)$/i.test(u)),
+        audio: pkg.manifest.filter(u => /\.(wav|mp3|ogg|m4a)$/i.test(u)),
+        message: '<p>Preparando o experimento…</p>',
+        max_load_time: 120000,
+        continue_after_error: false,
+        show_detailed_errors: true,
+      },
       {
         type: MtsSessionPlugin,
         engine,

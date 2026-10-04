@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
 
   // gate de consentimento: termo vigente + aceite registrado por ESTE usuário
   const [term] = await sql`
-    SELECT t.id, (
+    SELECT t.id, t.version, (
       SELECT 1 FROM consent_acceptances a WHERE a.term_id = t.id AND a.user_id::text = ${user.id}
     ) AS accepted
     FROM consent_terms t

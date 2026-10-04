@@ -18,7 +18,11 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
+    "@jspsych/plugin-browser-check": "^2.1.0",
+    "@jspsych/plugin-fullscreen": "^2.1.0",
     "@jspsych/plugin-preload": "2.1.0",
+    "@jspsych/plugin-survey-multi-choice": "^2.2.1",
+    "@jspsych/plugin-survey-text": "^2.1.1",
     "@node-rs/argon2": "^2.2.1",
     "ajv": "^8.20.0",
     "jspsych": "8.3.0",
