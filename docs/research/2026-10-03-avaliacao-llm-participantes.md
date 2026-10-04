@@ -167,7 +167,7 @@ Recomendações conectadas ao que a plataforma já tem (TrialResult com modelRef
 ## Adendo (2026-10-03, tarde) — Peng et al. 2025: consequências comportamentais em LLMs
 
 Trazido pelo ozp: **Peng, Zhang, Li, Qu & Wei (2025), "Behavioral psychology of LLMs: Better task guidance through punishment and reinforcement", Neurocomputing 652:131040.**
-Verificação (limitada): o DOI `10.1016/j.neucom.2025.131040` resolve para PII válido da Elsevier (S0925231225017126) — existência confirmada; conteúdo não conferido nesta data (Elsevier retorna 403 a fetchers; buscador local sem cota até 29/10). Citação conforme o ozp.
+Verificação COMPLETA (2026-10-03, PDF local `~/Documents/artigos/peng-2025-behavioral-psychology-of-llms.pdf`): Sisi Peng, Wenlin Zhang, Shunhang Li, Dan Qu, Han Wei (Information Engineering University / LACIE, Zhengzhou). Detalhes confirmados além da citação: **4 escalas psicológicas** (PANAS de Watson; SES de Rosenberg; BES de Jolliffe — empatia; SCS de Neff, 26 itens); sujeito principal **ChatGLM3** (LLaMA2 na validação de escala); taxonomia BCS em 4 categorias de consequência (**interesse de sobrevivência, reforço social, interesse material, interesse espiritual**, com subdivisões); achado-âncora: **correlação r>0.5 entre o PANAS do ChatGLM3 e benchmarks humanos** (emoção-comportamento espelhado); BCSP ganha +3.53/+1.74 BLEU-2/4 no Wizard-of-Wikipedia e +2% de acurácia no CMMLU.
 
 Por que importa para o F5 (análise do ozp, endossada):
 
