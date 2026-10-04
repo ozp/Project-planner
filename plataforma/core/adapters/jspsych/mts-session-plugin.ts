@@ -99,7 +99,21 @@ export class MtsSessionPlugin implements JsPsychPlugin<MtsSessionParams> {
         let rtComparisonMs: number
         let selected: string
 
-        if (p.display.kind === 'STROOP') {
+        if (p.display.kind === 'GNG') {
+          // GNG: estímulo (simples ou composto) desde o onset; responder = toque
+          // em qualquer lugar dentro da janela; inibir = deixar expirar. Ação
+          // registrada = comparativos fixos [ação-go, ação-nogo]; TR = onset→toque
+          // (inibição não tem TR — rtComparisonMs=0, como rtSampleMs no Stroop)
+          stage.innerHTML = `<div style="min-height:80vh;display:flex;align-items:center;justify-content:center;gap:96px;padding:24px">${p.trial.sample.map(s => img(s, 200)).join('')}</div>`
+          const emitted = await new Promise<boolean>(resolve => {
+            const controller = new AbortController()
+            const timer = setTimeout(() => { controller.abort(); resolve(false) }, p.display.responseWindowMs)
+            stage.addEventListener('click', () => { clearTimeout(timer); resolve(true) }, { once: true, signal: controller.signal })
+          })
+          selected = emitted ? p.comparisonOrder[0]! : p.comparisonOrder[1]!
+          rtSampleMs = 0
+          rtComparisonMs = emitted ? performance.now() - t0 : 0
+        } else if (p.display.kind === 'STROOP') {
           // Stroop: estímulo + comparativos desde o onset, resposta única —
           // TR = onset→resposta; sem observing response (rtSampleMs não se aplica)
           stage.innerHTML = `<div style="display:flex;gap:24px;padding:24px">${p.trial.sample.map(s => img(s, 240)).join('')}</div><div id="mts-comps" style="display:flex;gap:96px;padding:24px">${compsRow(p.comparisonOrder)}</div>`

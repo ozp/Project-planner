@@ -79,6 +79,12 @@ async function seedRest(cookie) {
     dir: new URL('../experiments/stroop-victoria', import.meta.url).pathname,
     termo: 'Você participará de uma tarefa de atenção (Stroop) de pesquisa: verá palavras coloridas e tocará na cor da tinta. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento. Ambiente de desenvolvimento local.',
   })
+  // Go/No-Go compostos (Story 3.7): pacote autorado em experiments/gng-compostos
+  await seedExperiment(cookie, {
+    doc: JSON.parse(readFileSync(new URL('../experiments/gng-compostos/experiment.json', import.meta.url), 'utf8')),
+    dir: new URL('../experiments/gng-compostos', import.meta.url).pathname,
+    termo: 'Você participará de uma tarefa de pesquisa com pares de símbolos: deverá tocar na tela quando os símbolos forem relacionados e aguardar quando não forem. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento. Ambiente de desenvolvimento local.',
+  })
 }
 
 async function seedExperiment(cookie, { doc, dir, termo }) {

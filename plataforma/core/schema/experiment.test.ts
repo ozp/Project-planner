@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { fixtureExperiment, fixtureStroop, validateExperimentDocument } from './index'
+import { fixtureExperiment, fixtureGng, fixtureStroop, validateExperimentDocument } from './index'
 
 // Story 1.2 — ACs do contrato do documento do experimento
 describe('validateExperimentDocument', () => {
@@ -92,7 +92,40 @@ describe('validateExperimentDocument — STROOP', () => {
 
   it('rejeita kind de display desconhecido', () => {
     const doc = structuredClone(fixtureStroop)
-    ;(doc.experiment.blocks[0]!.display as unknown as { kind: string }).kind = 'GNG'
+    ;(doc.experiment.blocks[0]!.display as unknown as { kind: string }).kind = 'IRAP'
+    expect(validateExperimentDocument(doc).ok).toBe(false)
+  })
+})
+
+// Story 3.7 — protocolo GNG (Go/No-Go com estímulos compostos)
+describe('validateExperimentDocument — GNG', () => {
+  it('aceita documento GNG válido (com responseWindowMs)', () => {
+    expect(validateExperimentDocument(fixtureGng).ok).toBe(true)
+  })
+
+  it('rejeita GNG sem responseWindowMs', () => {
+    const doc = structuredClone(fixtureGng)
+    delete (doc.experiment.blocks[0]!.display as { responseWindowMs?: number }).responseWindowMs
+    expect(validateExperimentDocument(doc).ok).toBe(false)
+  })
+
+  it('rejeita GNG com responseWindowMs <= 0', () => {
+    const doc = structuredClone(fixtureGng)
+    ;(doc.experiment.blocks[0]!.display as { responseWindowMs: number }).responseWindowMs = 0
+    expect(validateExperimentDocument(doc).ok).toBe(false)
+  })
+
+  it('rejeita bloco GNG com espaço de ações não binário (3 comparativos)', () => {
+    const doc = structuredClone(fixtureGng)
+    for (const t of doc.experiment.blocks[0]!.trials) t.comparisons = ['gng-go.svg', 'gng-nogo.svg', 'gng-talvez.svg']
+    const v = validateExperimentDocument(doc)
+    expect(v.ok).toBe(false)
+    expect(v.errors.join('\n')).toMatch(/comparativos/)
+  })
+
+  it('rejeita GNG com propriedade extra (delaySeconds) — oneOf estrito', () => {
+    const doc = structuredClone(fixtureGng)
+    ;(doc.experiment.blocks[0]!.display as unknown as { delaySeconds: number }).delaySeconds = 1
     expect(validateExperimentDocument(doc).ok).toBe(false)
   })
 })

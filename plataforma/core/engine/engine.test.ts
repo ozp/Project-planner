@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { EngineEvent } from './engine'
 import { MtsEngine } from './engine'
-import { fixtureExperiment, fixtureStroop } from '../schema'
+import { fixtureExperiment, fixtureGng, fixtureStroop } from '../schema'
 import type { ExperimentDocument } from '../schema'
 
 interface RunLog {
@@ -176,5 +176,49 @@ describe('MtsEngine — STROOP', () => {
       expect(e).toMatchObject({ passed: true, repetition: 1 })
     }
     expect(events.at(-1)).toMatchObject({ kind: 'sessionEnd', reason: 'completed' })
+  })
+})
+
+// Story 3.7 — GNG no motor (espaço de ações binário nos comparativos)
+describe('MtsEngine — GNG', () => {
+  it('comparativos em ordem fixa do documento e protocolo na apresentação', () => {
+    const { events } = runAlwaysCorrect(fixtureGng, 42)
+    const trials = events.filter((e): e is Extract<EngineEvent, { kind: 'trial' }> => e.kind === 'trial')
+    expect(trials.length).toBeGreaterThan(0)
+    for (const ev of trials) {
+      expect(ev.presentation.comparisonOrder).toEqual(ev.presentation.trial.comparisons)
+      expect(ev.presentation.display).toEqual({ kind: 'GNG', responseWindowMs: 1500 })
+    }
+  })
+
+  it('tentativas do bloco GNG seguem embaralhadas pela seed', () => {
+    const firsts = new Set<string>()
+    for (let seed = 1; seed <= 8; seed++) {
+      const { events } = runAlwaysFirst(fixtureGng, seed)
+      const first = events.find((e): e is Extract<EngineEvent, { kind: 'trial' }> => e.kind === 'trial')
+      firsts.add(first!.presentation.trial.sample.join('+'))
+    }
+    expect(firsts.size).toBeGreaterThan(1) // ordem varia com a seed
+  })
+
+  it('responder sempre (ação-go) acerta só as tentativas go — nogo viram erro de comissão', () => {
+    const { events, picks } = runWith(fixtureGng, 42, () => 'gng-go.svg')
+    expect([...new Set([...picks.values()])]).toEqual(['gng-go.svg'])
+    const treino = events.find(e => e.kind === 'blockEnd' && e.blockName === 'treinoAB')
+    expect(treino).toMatchObject({ correct: 2, total: 4, passed: false, repetition: 1 })
+    expect(events.at(-1)).toMatchObject({ kind: 'sessionEnd', reason: 'maxRepetitions' })
+  })
+
+  it('inibir sempre (ação-nogo) acerta só as tentativas nogo — go viram erro de omissão', () => {
+    const { events } = runWith(fixtureGng, 42, () => 'gng-nogo.svg')
+    const treino = events.find(e => e.kind === 'blockEnd' && e.blockName === 'treinoAB')
+    expect(treino).toMatchObject({ correct: 2, total: 4, passed: false, repetition: 1 })
+  })
+
+  it('responder a ação correta por tentativa completa os 2 blocos (equivalência via GNG)', () => {
+    const { events } = runAlwaysCorrect(fixtureGng, 42)
+    expect(events.at(-1)).toMatchObject({ kind: 'sessionEnd', reason: 'completed' })
+    const blockEnds = events.filter(e => e.kind === 'blockEnd')
+    expect(blockEnds.every(e => e.kind === 'blockEnd' && e.passed)).toBe(true)
   })
 })

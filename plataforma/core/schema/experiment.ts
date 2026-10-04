@@ -68,6 +68,12 @@ const experimentJsonSchema = {
                         properties: { kind: { const: 'DMTS' }, delaySeconds: { type: 'number', minimum: 0 } },
                       },
                       { type: 'object', additionalProperties: false, required: ['kind'], properties: { kind: { const: 'STROOP' } } },
+                      {
+                        type: 'object',
+                        additionalProperties: false,
+                        required: ['kind', 'responseWindowMs'],
+                        properties: { kind: { const: 'GNG' }, responseWindowMs: { type: 'number', exclusiveMinimum: 0 } },
+                      },
                     ],
                   },
               criterion: { type: 'integer', minimum: 1 },
@@ -142,6 +148,9 @@ function semanticRules(doc: ExperimentDocument, errors: string[]): void {
       }
       if (new Set(trial.comparisons).size !== trial.comparisons.length) {
         errors.push(`${t}.comparisons: refs duplicadas`)
+      }
+      if (block.display.kind === 'GNG' && trial.comparisons.length !== 2) {
+        errors.push(`${t}.comparisons: bloco GNG exige exatamente 2 comparativos — espaço de ações binário [ação-go, ação-nogo]`)
       }
     })
   })

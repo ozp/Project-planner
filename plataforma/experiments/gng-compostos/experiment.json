@@ -1,0 +1,529 @@
+{
+  "schemaVersion": 1,
+  "docVersion": "submission",
+  "title": "Go/No-Go com estímulos compostos (equivalência de estímulos)",
+  "description": "Paradigma go/no-go com estímulos compostos — a variante brasileira mais publicada de equivalência sem MTS (Grisante & Debert, 2013; Modenesi, Grisante & Debert, 2021): diante de um par de símbolos, responder (tocar) se relacionados e inibir (não tocar) se não-relacionados. Treinos AB e AC com consequências e teste BC emergente sem consequências — mesmos conjuntos A/B/C do experimento MTS da plataforma, permitindo contraste direto entre formatos. Medidas: TR por tentativa (onset→toque), erros de comissão e omissão. Dados pseudonimizados, uso exclusivo em pesquisa.",
+  "language": "pt-BR",
+  "feedback": {
+    "text": "Obrigado! Você concluiu a tarefa. Suas respostas e tempos foram registrados para pesquisa — nenhum resultado individual é divulgado, apenas análises de grupo."
+  },
+  "experiment": {
+    "screenColor": [
+      255,
+      255,
+      255
+    ],
+    "itiSeconds": 0.5,
+    "startBlock": 1,
+    "blocks": [
+      {
+        "name": "treinoAB",
+        "instructionText": "Você verá DOIS símbolos juntos. Se os dois símbolos forem da MESMA família, TOQUE em qualquer lugar da tela o mais rápido que puder. Se forem de famílias DIFERENTES, NÃO toque — apenas espere a próxima tentativa.",
+        "display": {
+          "kind": "GNG",
+          "responseWindowMs": 1500
+        },
+        "criterion": 6,
+        "maxRepetitions": 3,
+        "trials": [
+          {
+            "sample": [
+              "a1.svg",
+              "b1.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-go.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          },
+          {
+            "sample": [
+              "a1.svg",
+              "b2.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-nogo.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          },
+          {
+            "sample": [
+              "a2.svg",
+              "b2.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-go.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          },
+          {
+            "sample": [
+              "a2.svg",
+              "b1.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-nogo.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          },
+          {
+            "sample": [
+              "a1.svg",
+              "b1.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-go.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          },
+          {
+            "sample": [
+              "a1.svg",
+              "b2.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-nogo.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          },
+          {
+            "sample": [
+              "a2.svg",
+              "b2.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-go.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          },
+          {
+            "sample": [
+              "a2.svg",
+              "b1.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-nogo.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "treinoAC",
+        "instructionText": "Você verá DOIS símbolos juntos. Se os dois símbolos forem da MESMA família, TOQUE em qualquer lugar da tela o mais rápido que puder. Se forem de famílias DIFERENTES, NÃO toque — apenas espere a próxima tentativa.",
+        "display": {
+          "kind": "GNG",
+          "responseWindowMs": 1500
+        },
+        "criterion": 6,
+        "maxRepetitions": 3,
+        "trials": [
+          {
+            "sample": [
+              "a1.svg",
+              "c1.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-go.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          },
+          {
+            "sample": [
+              "a1.svg",
+              "c2.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-nogo.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          },
+          {
+            "sample": [
+              "a2.svg",
+              "c2.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-go.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          },
+          {
+            "sample": [
+              "a2.svg",
+              "c1.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-nogo.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          },
+          {
+            "sample": [
+              "a1.svg",
+              "c1.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-go.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          },
+          {
+            "sample": [
+              "a1.svg",
+              "c2.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-nogo.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          },
+          {
+            "sample": [
+              "a2.svg",
+              "c2.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-go.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          },
+          {
+            "sample": [
+              "a2.svg",
+              "c1.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-nogo.svg",
+            "consequence": {
+              "correct": {
+                "imageRef": "gng-certo.svg",
+                "durationSeconds": 0.5
+              },
+              "incorrect": {
+                "durationSeconds": 0.5
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "testeBC",
+        "instructionText": "Continue respondendo como antes. Nesta parte NÃO haverá retorno para suas respostas.",
+        "display": {
+          "kind": "GNG",
+          "responseWindowMs": 1500
+        },
+        "criterion": 1,
+        "maxRepetitions": 1,
+        "trials": [
+          {
+            "sample": [
+              "b1.svg",
+              "c1.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-go.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "b2.svg",
+              "c2.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-go.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "b1.svg",
+              "c2.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-nogo.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "b2.svg",
+              "c1.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-nogo.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "b1.svg",
+              "c1.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-go.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "b2.svg",
+              "c2.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-go.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "b1.svg",
+              "c2.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-nogo.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          },
+          {
+            "sample": [
+              "b2.svg",
+              "c1.svg"
+            ],
+            "comparisons": [
+              "gng-go.svg",
+              "gng-nogo.svg"
+            ],
+            "correct": "gng-nogo.svg",
+            "consequence": {
+              "correct": {
+                "durationSeconds": 0
+              },
+              "incorrect": {
+                "durationSeconds": 0
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

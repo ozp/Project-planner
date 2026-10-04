@@ -327,6 +327,21 @@ So that o piloto F1 ganha o 2º instrumento da shortlist (domínio público, nor
 **And** o TR registrado é onset→resposta (rtComparisonMs; rtSampleMs=0); TrialResult canônico inalterado
 **And** o pacote submetido (experiment.json + SVGs) vira docVersion imutável com assets content-addressed, publica no catálogo e roda ponta-a-ponta no /run com batch aceito
 
+### Story 3.7: Terceiro instrumento — Go/No-Go com estímulos compostos (equivalência BR)
+
+As a pesquisador,
+I want definir e executar um experimento Go/No-Go na variante com estímulos compostos (par relacionado A1B1 → responder; não-relacionado A1B2 → inibir) como documento JSON na mesma engine, medindo TR por tentativa e inibição dentro de janela de resposta,
+So that o piloto F1 ganha o 3º instrumento da shortlist (dupla relevância: inibição clássica + a forma brasileira mais publicada de equivalência sem MTS — Grisante & Debert 2013; Modenesi et al. 2021, research 03/10) com sinergia direta com a linha MTS (mesmos conjuntos A/B/C, contraste de formatos na mesma plataforma), sem nova plataforma (AD-2/AD-3).
+
+**Acceptance Criteria:**
+
+**Given** um documento GNG válido (treinoAB/treinoAC com consequências + testeBC emergente sem consequências; compostos relacionados→go, não-relacionados→nogo, 50/50)
+**When** validado pelo schema
+**Then** o protocolo de display GNG é aceito com janela de resposta obrigatória (`{kind:'GNG', responseWindowMs}`) — estímulo composto (amostras múltiplas) desde o onset, responder = toque, inibir = não tocar até expirar
+**And** blocos GNG mantêm os comparativos em ordem fixa do documento: espaço de ações binário [ação-go, ação-nogo], nunca renderizado como botões (inibir não é escolha ativa); regra semântica exige exatamente 2 comparativos por tentativa GNG
+**And** TrialResult canônico inalterado: `response.selectedRef` registra a ação observada; TR = onset→resposta em `rtComparisonMs` nas tentativas com resposta (`rtSampleMs`=0); inibição → `rtComparisonMs`=0 (TR indefinido); comissão/omissão deriváveis de selectedRef × correct
+**And** o pacote submetido (experiment.json + SVGs) vira docVersion imutável com assets content-addressed, publica no catálogo e roda ponta-a-ponta no /run com batch aceito (3 blocos × 8; participante perfeito completa com 24/24 corretas)
+
 ---
 
 ## Epic 4: Abertura pública e direitos do titular (F2)

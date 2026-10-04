@@ -21,7 +21,8 @@ export interface Trial {
   sample: StimulusRef[]
   /** Som da amostra (MTS auditivo-visual) — resposta liberada após o fim. */
   sampleSoundRef?: StimulusRef
-  /** Comparativos apresentados (≥2), embaralhados entre posições pelo motor. */
+  /** Comparativos apresentados (≥2), embaralhados entre posições pelo motor.
+   *  GNG: espaço de ações binário [ação-go, ação-nogo], ordem fixa, não renderizado. */
   comparisons: StimulusRef[]
   /** Ref correta — obrigatoriamente uma de `comparisons`. */
   correct: StimulusRef
@@ -35,6 +36,12 @@ export type DisplayProtocol =
   // Stroop: estímulo e comparativos juntos desde o onset — resposta única,
   // sem observing response; comparativos em ordem fixa (TR = onset→resposta)
   | { kind: 'STROOP' }
+  // Go/No-Go (clássico ou com estímulos compostos — variante BR de
+  // equivalência): estímulo desde o onset; responder = toque na janela,
+  // inibir = não tocar até expirar. Comparativos = espaço de ações binário
+  // [ação-go, ação-nogo] em ordem fixa — nunca renderizados como botões
+  // (inibir não é escolha ativa; amostras múltiplas = estímulo composto)
+  | { kind: 'GNG'; responseWindowMs: number }
 
 export interface Block {
   name: string

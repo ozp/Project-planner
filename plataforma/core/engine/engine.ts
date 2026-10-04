@@ -118,8 +118,9 @@ export class MtsEngine {
         presentation: {
           trial: nextTrial,
           // Stroop mantém os comparativos na ordem do documento: mapeamento de
-          // resposta estável entre tentativas é requisito de TR limpo
-          comparisonOrder: block.display.kind === 'STROOP'
+          // resposta estável entre tentativas é requisito de TR limpo. GNG
+          // idem — comparativos são o espaço de ações [go, nogo] em ordem fixa
+          comparisonOrder: block.display.kind === 'STROOP' || block.display.kind === 'GNG'
             ? nextTrial.comparisons
             : shuffled(nextTrial.comparisons, this.rand),
           display: block.display,

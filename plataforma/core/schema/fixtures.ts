@@ -2,6 +2,8 @@
 // do PyMTS (ABtraining/ACtraining/testEq — ver mapeamento projects/02a).
 // fixtureStroop: 2º instrumento (Story 3.6) — compacta para testes; o pacote
 // real (3 blocos × 24) vive em plataforma/experiments/stroop-victoria/.
+// fixtureGng: 3º instrumento (Story 3.7) — Go/No-Go com estímulos compostos
+// (variante BR de equivalência); o pacote real vive em experiments/gng-compostos/.
 import type { ExperimentDocument } from './types'
 
 export const fixtureExperiment: ExperimentDocument = {
@@ -127,6 +129,46 @@ export const fixtureStroop: ExperimentDocument = {
         trials: [
           { sample: ['st-vermelho-azul.svg'], comparisons: ['st-cor-vermelho.svg', 'st-cor-azul.svg', 'st-cor-verde.svg'], correct: 'st-cor-azul.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
           { sample: ['st-azul-verde.svg'], comparisons: ['st-cor-vermelho.svg', 'st-cor-azul.svg', 'st-cor-verde.svg'], correct: 'st-cor-verde.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
+        ],
+      },
+    ],
+  },
+}
+
+export const fixtureGng: ExperimentDocument = {
+  schemaVersion: 1,
+  docVersion: 'doc-0003',
+  title: 'Go/No-Go com estímulos compostos AB/AC (fixture)',
+  description: 'Pares relacionados → responder; não-relacionados → inibir (Grisante & Debert 2013).',
+  language: 'pt-BR',
+  feedback: { text: 'Obrigado! Suas respostas foram registradas para pesquisa.' },
+  experiment: {
+    screenColor: [255, 255, 255],
+    itiSeconds: 0.5,
+    startBlock: 1,
+    blocks: [
+      {
+        name: 'treinoAB',
+        instructionText: 'Se os dois símbolos forem da mesma família, TOQUE na tela; se não forem, NÃO toque.',
+        display: { kind: 'GNG', responseWindowMs: 1500 },
+        criterion: 3,
+        maxRepetitions: 2,
+        trials: [
+          { sample: ['a1.svg', 'b1.svg'], comparisons: ['gng-go.svg', 'gng-nogo.svg'], correct: 'gng-go.svg', consequence: { correct: { imageRef: 'gng-certo.svg', durationSeconds: 0.5 }, incorrect: { durationSeconds: 0.5 } } },
+          { sample: ['a2.svg', 'b2.svg'], comparisons: ['gng-go.svg', 'gng-nogo.svg'], correct: 'gng-go.svg', consequence: { correct: { imageRef: 'gng-certo.svg', durationSeconds: 0.5 }, incorrect: { durationSeconds: 0.5 } } },
+          { sample: ['a1.svg', 'b2.svg'], comparisons: ['gng-go.svg', 'gng-nogo.svg'], correct: 'gng-nogo.svg', consequence: { correct: { imageRef: 'gng-certo.svg', durationSeconds: 0.5 }, incorrect: { durationSeconds: 0.5 } } },
+          { sample: ['a2.svg', 'b1.svg'], comparisons: ['gng-go.svg', 'gng-nogo.svg'], correct: 'gng-nogo.svg', consequence: { correct: { imageRef: 'gng-certo.svg', durationSeconds: 0.5 }, incorrect: { durationSeconds: 0.5 } } },
+        ],
+      },
+      {
+        name: 'testeBC',
+        instructionText: 'Continue como antes — agora sem feedback.',
+        display: { kind: 'GNG', responseWindowMs: 1500 },
+        criterion: 1,
+        maxRepetitions: 1,
+        trials: [
+          { sample: ['b1.svg', 'c1.svg'], comparisons: ['gng-go.svg', 'gng-nogo.svg'], correct: 'gng-go.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
+          { sample: ['b1.svg', 'c2.svg'], comparisons: ['gng-go.svg', 'gng-nogo.svg'], correct: 'gng-nogo.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
         ],
       },
     ],
