@@ -118,5 +118,14 @@ async function seedExperiment(cookie, { doc, dir, termo }) {
   if (!pub.ok) throw new Error(`publicação: ${pub.status}`)
   console.log('experimento publicado no catálogo')
 
+  // convite (Story 3.1): registro fechado — o seed emite um link por experimento
+  const inv = await fetch(`${base}/api/admin/invites`, {
+    method: 'POST', headers: { 'content-type': 'application/json', cookie },
+    body: JSON.stringify({ docVersion: subBody.docVersion }),
+  })
+  const invBody = await inv.json()
+  if (!inv.ok) throw new Error(`convite: ${inv.status} ${invBody.statusMessage}`)
+
   console.log(`\nURL do experimento: ${base}/run/${subBody.docVersion}`)
+  console.log(`URL com convite:     ${base}${invBody.inviteUrl}`)
 }

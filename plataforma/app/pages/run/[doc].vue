@@ -17,6 +17,7 @@ const docTitle = ref('')
 
 const email = ref('')
 const password = ref('')
+const invite = ref('')
 const term = ref<{ id: string, version: number, body: string } | null>(null)
 
 interface RunPackage { document: import('@core/schema').ExperimentDocument, manifest: string[], assets: { ref: string, url: string }[] }
@@ -35,6 +36,7 @@ onMounted(async () => {
   try {
     const route = useRoute()
     docVersion = String(route.params.doc ?? '')
+    invite.value = String(route.query.invite ?? '')
     if (!docVersion) {
       message.value = 'Sem documento. Rode "node scripts/seed-local.mjs" e use a URL impressa.'
       phase.value = 'error'
@@ -52,7 +54,7 @@ onMounted(async () => {
 
 async function register() {
   try {
-    await api('/api/auth/register', { method: 'POST', body: JSON.stringify({ email: email.value, password: password.value }) })
+    await api('/api/auth/register', { method: 'POST', body: JSON.stringify({ email: email.value, password: password.value, invite: invite.value.trim(), docVersion }) })
     await login()
   } catch (e) { message.value = String(e) }
 }
@@ -173,6 +175,7 @@ async function acceptAndRun() {
       <p>Crie sua conta (ou entre) para participar:</p>
       <input v-model="email" type="email" placeholder="seu@email.com" autocomplete="email">
       <input v-model="password" type="password" placeholder="senha (mín. 10 caracteres)" autocomplete="new-password">
+      <input v-model="invite" placeholder="código do convite (vem no link do pesquisador)">
       <button @click="register">Criar conta e participar</button>
       <button variant="outline" @click="login">Já tenho conta</button>
       <p v-if="message" style="color: #e67e22; font-size: .9rem">{{ message }}</p>
