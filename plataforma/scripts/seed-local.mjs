@@ -9,8 +9,10 @@ import { hash } from '@node-rs/argon2'
 
 const base = process.argv[2] ?? 'http://localhost:3312'
 const dbUrl = process.env.DATABASE_URL ?? 'postgres://plataforma:plataforma_dev@localhost:5543/experimentos'
-const ADMIN_EMAIL = 'admin@local.dev'
-const ADMIN_PASSWORD = 'dev-admin-password'
+const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL ?? 'admin@local.dev'
+// contra instância remota (prod): exporte SEED_ADMIN_PASSWORD e SEED_SKIP_DB=1
+// (admin já bootstrapado por outro meio; o upsert local não deve rodar lá)
+const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD ?? 'dev-admin-password'
 
 const doc = {
   schemaVersion: 1,
@@ -43,14 +45,16 @@ const doc = {
 }
 
 // 1) admin de dev direto no banco (bootstrap, senha conhecida de dev)
-const sql = postgres(dbUrl, { max: 1 })
-const adminHash = await hash(ADMIN_PASSWORD)
-// dev-only: reseta senha e remove MFA do admin local para o seed ser idempotente
-await sql`INSERT INTO user_accounts (email, password_hash, role, status)
-  VALUES (${ADMIN_EMAIL}, ${adminHash}, 'admin', 'active')
-  ON CONFLICT (email) DO UPDATE SET role = 'admin', status = 'active', password_hash = ${adminHash}, totp_secret_enc = NULL`
-await sql.end()
-console.log(`admin garantido: ${ADMIN_EMAIL}`)
+const sql = process.env.SEED_SKIP_DB ? null : postgres(dbUrl, { max: 1 })
+if (sql) {
+  const adminHash = await hash(ADMIN_PASSWORD)
+  // dev-only: reseta senha e remove MFA do admin local para o seed ser idempotente
+  await sql`INSERT INTO user_accounts (email, password_hash, role, status)
+    VALUES (${ADMIN_EMAIL}, ${adminHash}, 'admin', 'active')
+    ON CONFLICT (email) DO UPDATE SET role = 'admin', status = 'active', password_hash = ${adminHash}, totp_secret_enc = NULL`
+  await sql.end()
+}
+console.log(`admin garantido: ${ADMIN_EMAIL}${process.env.SEED_SKIP_DB ? ' (remoto — SEED_SKIP_DB)' : ''}`)
 
 // 2) login (sem MFA — conta nova não tem TOTP)
 const login = await fetch(`${base}/api/auth/login`, {
