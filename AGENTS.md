@@ -13,6 +13,7 @@ Mapa para qualquer agente retomar o trabalho. Atualizado em 2026-10-03.
 
 ## Estado (2026-10-06)
 
+- **Story 3.2 — Backup cifrado client-side + restore testado (OZP-413) DONE**: cron 03:45 no dash (pg_dump|gzip|age→R2 `plataforma-crypt/`, retenção 7); chave privada `age` só na estação; backup nativo Dokploy desativado e bucket purgado de plaintext. Restore verificado 06/10 em postgres 18 limpo: zero erros, sha256 do dump registrado, contagens idênticas à produção. Receita: `deploy/BACKUP.md`.
 - **Story 3.1 — Deploy F1 + registro por convite (OZP-412) DONE**: dash é VPS de aplicações (Debian 13, Dokploy Cloud — slot migrado do labs); app+postgres 18 no ar em **https://exp.psico.net** (LE; DNS A `exp` no HostGator). Registro fechado por convite: migração 006 (experiment_invites), gate atômico no auth/register (sem convite/inválido/expirado/esgotado/doc errado → 403), emissão `POST /api/admin/invites` (admin sem MFA — libera entrada, auditado), `/run` aceita `?invite=`, seed emite link por experimento (SEED_ADMIN_*/SEED_SKIP_DB p/ instância remota). 101/101 testes (5 novos). **E2E contra o host real passou**: sem convite → recusa; com convite → registro → termo → demografia → tela cheia → 5 tentativas perfeitas → batch aceito; rate limit 429 confirmado em prod. Dump diário 03:30 → R2 (retenção 7) via Dokploy. Admin prod: `ozp.admin@psico.net` (senha em ~/.secrets/plataforma-prod.json; ativar TOTP no 1º login).
 
 
