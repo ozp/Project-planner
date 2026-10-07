@@ -48,6 +48,8 @@ sources: []
 - **Nada de modelo executando no dash**: o runner chama modelos via rede/gateway; a topologia é open question (ver abaixo).
 - Método (dobra o desenho do runner): seed e temperatura fixas e registradas por run; estímulo congelado por hash; taxa de reuso de tentativas logada.
 - Estado mínimo ao prompt: nada de PII sai para nenhum modelo (sessões sintéticas não têm PII por construção).
+- **Decisão do ozp (07/10)**: respondentes = **LLMs externos ao ambiente** (alvo do benchmark; chaves BYOK na estação/labs, nunca na plataforma); **modelos locais gerenciam** — aplicam os prompts e coletam as respostas (harness agno + API de serviço). Runner off-platform; a plataforma permanece cofre determinístico. `core/adapters/synthetic` (tentativa→prompt, resposta→TrialResult) continua em core/ puro; a orquestração prevista em `server/jobs/` no spine migra para o harness local — desvio registrado no memlog.
+- Parâmetros de sampling (temperatura, seed) gravados nos metadados do run e visíveis no export.
 
 ## Non-goals
 
@@ -64,13 +66,9 @@ O primeiro resultado científico do F5: probe nº 1 executado (≥2 condições 
 
 ## Assumptions
 
-- O runner vive server-side (`server/jobs/` + `core/adapters/synthetic`), como o spine mapeia; topologia de rede a definir na arquitetura.
-- O export atual já distingue `respondent_class` (verdadeiro — `ExportRow`), então CAP-4 pode nascer como filtro no existente.
+- O export atual já distingue `respondent_class` (verdadeiro — `ExportRow`), então CAP-4 nasce como filtro no existente; painel comparativo fica para depois do primeiro resultado.
+- Probe nº 1 usa os estímulos fixos do MTS + log de taxa de reuso; geração procedural de tentativas únicas é fase 2 do F5.
 
 ## Open Questions
 
-1. **Topologia do runner**: job no dash chamando o gateway (o Ollama do labs é localhost-only — expor/túnel?) vs. runner off-platform ingerindo pela API de batch com classe sintética?
-2. **Quais respondentes no probe nº 1** (qwen3.5:2b local? Jev hosted? externos BYOK?) — a política de chaves (03a §8.3) segue aberta.
-3. Onde registrar temperatura/sampling: `inference` por tentativa vs. metadados de sessão?
-4. CAP-4 mínimo viável: filtro no export existente basta, ou painel comparativo novo?
-5. Geração procedural de tentativas únicas por run (anti-contaminação plena) fica para depois do probe nº 1?
+(nenhuma — as 5 originais foram resolvidas em 07/10: 2 por decisão do ozp, 3 por recomendação aceita; ver memlog)
