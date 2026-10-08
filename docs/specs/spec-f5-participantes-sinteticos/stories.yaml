@@ -27,7 +27,10 @@
     contrato no memlog do SPEC-MVP. Variantes clonam o MTS existente (padrão das
     tools de serviço), seeds equadas entre condições; textos de consequência em
     pt-BR, salientes por categoria (sobrevivência/reforço social/material/espiritual)
-    conforme Peng et al. 2025. Pacote com teste de contrato no padrão 3.6-3.8.
+    conforme Peng et al. 2025. Estímulos: considerar o desenho original do seed
+    (forma=chave da classe, cor=distrator — RETIFFICADO 08/10; o 'atalho de cor'
+    que eu registrei não existia) ou glifos monocromáticos; decidir na revisão da
+    story. Pacote com teste de contrato no padrão 3.6-3.8.
 - id: "3"
   title: Adaptador sintético puro em core/
   description: >-

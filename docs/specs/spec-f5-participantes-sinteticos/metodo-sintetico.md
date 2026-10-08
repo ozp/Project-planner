@@ -24,6 +24,16 @@
 - Logar **taxa de reuso** de tentativas entre participantes (geração procedural de
   tentativas únicas por run é evolução, não pré-requisito do probe nº 1 — estímulos
   MTS são formas arbitrárias, não itens públicos).
+- **RETIFFICADO 08/10 (ozp)**: os estímulos originais do seed (A=círculos vermelho/
+  azul, B=quadrados âmbar/verde, C=triângulos roxo/turquesa) têm desenho deliberado —
+  **forma = chave da classe; cor = DISTRACTOR** (classes 1 quentes, classes 2 frias;
+  seguir cor leva ao erro sistemático). O 5/5 do gemini na 1ª noite mostrou que o
+  modelo VÊ forma e cor, ignora o distrator e aprende a relação pelo feedback (a
+  "percepção de cor" que eu registrei antes estava errada — verificado visualmente
+  nos PNGs; o alegado bug de SVG "invisível" não existia: ImageMagick renderiza
+  rect/polygon mesmo com atributos de círculo). O pacote do probe pode usar o
+  desenho original (distrator de cor, chave de forma) — é proceduralmente mais rico
+  que glifos monocromáticos; a escolha fica para a reautoria.
 - Versão/rota do modelo é **variável experimental, não ruído** — registrar sempre.
 
 ## Enquadramento da avaliação (formulação do ozp, 08/10)
