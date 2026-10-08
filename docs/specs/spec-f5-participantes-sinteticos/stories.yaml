@@ -69,8 +69,10 @@
   spec_checkpoint: false
   done_checkpoint: false
   invoke_dev_with: >-
-    Dependência externa: chaves BYOK de ≥2 modelos externos fornecidas pelo ozp
-    (ficam só na estação). Réplicas com mesma seed reprodutíveis; registrar taxa de
+    Dependência do ozp: escolher ≥2 respondentes do inventário LiteLLM da casa
+    (freellmapi/free Google/assinatura Qwen — visão obrigatória p/ MTS; chaves só na
+    estação; custo marginal tende a zero, ver orçamento em metodo-sintetico.md).
+    Réplicas com mesma seed reprodutíveis; registrar taxa de
     reuso de tentativas; temperaturas fixas e registradas por run. Relatório em
     docs/research/ do repo com o contraste por condição e por modelo; advertência
     interpretativa da pesquisa (probe comportamental, não "personalidade do modelo").
