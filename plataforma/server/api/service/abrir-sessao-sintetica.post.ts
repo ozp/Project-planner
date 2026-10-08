@@ -18,6 +18,6 @@ export default defineEventHandler(async (event) => {
     const r = await openSyntheticSession(useDb(), {
       docVersion: exp.v, modelRef: body.model_ref, temperature: body.temperature, seed,
     })
-    return { sessionId: r.sessionId, docVersion: exp.v, runMeta: { modelRef: body.model_ref, temperature: body.temperature ?? null, seed }, plan: r.plan }
+    return { sessionId: r.sessionId, docVersion: exp.v, runMeta: { modelRef: body.model_ref, temperature: body.temperature ?? null, seed }, instructions: r.instructions, plan: r.plan }
   } catch (e) { throw asServiceError(e) }
 })
