@@ -26,6 +26,31 @@
   MTS são formas arbitrárias, não itens públicos).
 - Versão/rota do modelo é **variável experimental, não ruído** — registrar sempre.
 
+## Enquadramento da avaliação (formulação do ozp, 08/10)
+
+O que se pergunta: o LLM **aprende de forma compatível com o humano?** Mais
+rápido, mais lento, não aprende, ou **já chega sabendo**? Mapeamento nas
+medidas: 1º bloco = baseline "já sabe" (antes de qualquer treino, com estímulos
+arbitrários que não existem no corpus — o modelo pode conhecer o MÉTODO MTS do
+corpus, nunca o emparelhamento específico dos nossos glifos); inclinação da
+curva por repetição = velocidade de aquisição; teste BC = relações emergentes;
+comparação lado a lado com humanos via `respondent_class`.
+
+## Thinking on/off (parâmetro controlado)
+
+Pensar antes de responder pode deixar o modelo deduzir a regra em sessão —
+influência legítima, mas deliberada e registrada, nunca acidental. **Probe nº 1:
+thinking OFF onde a API permitir** (comparável ao humano que responde rápido);
+o estado (on/off/impossível-desligar) é gravado nos metadados do run; on/off
+vira condição de contraste futura. Nota medida: glm-4.5v é thinking (10–22 s,
+rate limit); gemini-flash-lite não é.
+
+## Réplicas × determinismo (lição do spike)
+
+temp=0 produz réplicas IDÊNTICAS (reprodutibilidade do pipeline, não variância
+amostral). A variação do probe vem das **seeds** (cada seed muda a ordem das
+tentativas → sessões independentes de verdade); temp fica fixa e registrada.
+
 ## Métricas MTS (probe nº 1)
 
 - Acurácia por dificuldade estrutural; curva de aprendizado (por bloco/repetição);

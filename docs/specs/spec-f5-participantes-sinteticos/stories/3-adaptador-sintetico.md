@@ -39,6 +39,10 @@ este contrato 1:1; os goldens garantem que os dois lados dizem a mesma coisa.
 
 ## Decisões que o ozp deve confirmar (marcadas no texto acima)
 
+- **e) Thinking OFF por padrão** (gravado nos metadados do run; on/off como
+  contraste futuro) — formulação do ozp 08/10: pensar pode influenciar o
+  desempenho e precisa ser controlado, não acidental.
+
 - **a) Responder por POSIÇÃO (1/2/3) e não por nome da opção**: natural para o
   modelo e resiste a variação de nome; a posição vem da ordem do plano
   (equilibrada no pacote). *Alternativa: responder a ref — mais rastreável,
