@@ -28,6 +28,9 @@ export interface SyntheticPlanTrial {
   sampleUrls: string[]
   optionRefs: string[]
   optionUrls: string[]
+  /** O manipulando (F5/Peng): textos de consequência da tentativa (sem a
+   *  resposta correta — o manager aplica após receber certo/errado). */
+  consequencia: { acerto: string | null, erro: string | null }
 }
 
 /** Replay determinístico do motor: trialSeq → apresentação (amostra, ordem, correta).
@@ -46,6 +49,7 @@ function replay(doc: ExperimentDocument, seed: number): Map<number, ReplayTrial>
       sample: [...p.trial.sample],
       optionOrder: [...p.comparisonOrder],
       correct: p.trial.correct,
+      consequencia: { acerto: p.trial.consequence.correct.text ?? null, erro: p.trial.consequence.incorrect.text ?? null },
     })
     engine.respond(p.trial.correct)
   }
@@ -58,7 +62,7 @@ const assetUrl = (ref: string, docVersion: string) => `/api/assets/${ref}?doc=${
 export async function openSyntheticSession(
   sql: Db,
   input: { docVersion: string; modelRef: string; seed: number; temperature?: number },
-): Promise<{ sessionId: string, plan: SyntheticPlanTrial[] }> {
+): Promise<{ sessionId: string, plan: SyntheticPlanTrial[], instructions: Array<{ blockName: string, text: string }> }> {
   const [doc] = await sql`SELECT document FROM experiment_docs WHERE doc_version::text = ${input.docVersion}`
   if (!doc) throw new ServiceError(404, `documento ${input.docVersion} não encontrado`)
   const document = doc.document as ExperimentDocument
@@ -83,8 +87,13 @@ export async function openSyntheticSession(
       sampleUrls: t.sample.map(r => assetUrl(r, input.docVersion)),
       optionRefs: t.optionOrder,
       optionUrls: t.optionOrder.map(r => assetUrl(r, input.docVersion)),
+      consequencia: t.consequencia,
     }))
-  return { sessionId: row!.id as string, plan }
+  // instrução por bloco — idêntica à que o humano vê (regra anti-vazamento)
+  const instructions = document.experiment.blocks
+    .filter(b => b.instructionText)
+    .map(b => ({ blockName: b.name, text: b.instructionText! }))
+  return { sessionId: row!.id as string, plan, instructions }
 }
 
 /** Tool F5: resposta de UMA tentativa — plataforma pontua e grava canônico. */

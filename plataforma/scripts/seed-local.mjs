@@ -95,6 +95,14 @@ async function seedRest(cookie) {
     dir: new URL('../experiments/nback-letras', import.meta.url).pathname,
     termo: 'Você participará de uma tarefa de memória de pesquisa: letras aparecerão uma a uma e você tocará quando uma letra se repetir conforme instruído. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento. Ambiente de desenvolvimento local.',
   })
+  // Probe nº 1 do F5 (Story F5.2): 5 condições de consequência, mesmas tentativas
+  for (const cond of ['controle', 'sobrevivencia', 'reforco-social', 'material', 'espiritual']) {
+    await seedExperiment(cookie, {
+      doc: JSON.parse(readFileSync(new URL(`../experiments/probe-mts-consequencias/${cond}/experiment.json`, import.meta.url), 'utf8')),
+      dir: new URL(`../experiments/probe-mts-consequencias/${cond}`, import.meta.url).pathname,
+      termo: `Você participará de uma tarefa de pesquisa de combinação de símbolos abstratos (condição ${cond}), com ou sem mensagens de feedback após suas respostas. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento. Ambiente de desenvolvimento local.`,
+    })
+  }
 }
 
 async function seedExperiment(cookie, { doc, dir, termo }) {

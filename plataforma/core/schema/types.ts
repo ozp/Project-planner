@@ -14,6 +14,9 @@ export interface Consequence {
   imageRef?: StimulusRef
   soundRef?: StimulusRef
   durationSeconds: number
+  /** Consequência textual (F5/Peng): reforço/punição salientes por tentativa.
+   *  É o manipulando do probe — nunca nomeia a categoria da condição. */
+  text?: string
 }
 
 export interface Trial {

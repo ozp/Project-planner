@@ -16,6 +16,7 @@ const consequenceSchema = {
     imageRef: stimulusRef,
     soundRef: stimulusRef,
     durationSeconds: { type: 'number', minimum: 0 },
+    text: { type: 'string', minLength: 1, maxLength: 500 },
   },
 }
 
@@ -182,6 +183,11 @@ export function validateExperimentDocument(input: unknown): ValidationResult {
   if (doc.feedback) assertNoActiveContent('feedback.text', doc.feedback.text, errors)
   doc.experiment.blocks.forEach((block, bi) => {
     if (block.instructionText) assertNoActiveContent(`experiment.blocks[${bi}].instructionText`, block.instructionText, errors)
+    block.trials.forEach((t, ti) => {
+      const at = `experiment.blocks[${bi}].trials[${ti}].consequence`
+      if (t.consequence.correct.text) assertNoActiveContent(`${at}.correct.text`, t.consequence.correct.text, errors)
+      if (t.consequence.incorrect.text) assertNoActiveContent(`${at}.incorrect.text`, t.consequence.incorrect.text, errors)
+    })
   })
   semanticRules(doc, errors)
 

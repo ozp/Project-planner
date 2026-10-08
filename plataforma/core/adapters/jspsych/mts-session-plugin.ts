@@ -173,7 +173,9 @@ export class MtsSessionPlugin implements JsPsychPlugin<MtsSessionParams> {
         const consAudio = consequence.soundRef ? audio(consequence.soundRef) : null
         stage.innerHTML = consequence.imageRef
           ? `<div>${img(consequence.imageRef, 240)}</div>`
-          : `<div style="height:240px"></div>`
+          : (consequence.text
+              ? `<p style="font-size:1.5rem;max-width:640px;text-align:center">${consequence.text}</p>`
+              : `<div style="height:240px"></div>`)
         consAudio?.play().catch(() => {})
         const result: TrialResult = {
           schemaVersion: 1,
