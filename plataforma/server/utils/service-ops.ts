@@ -46,7 +46,7 @@ async function templateOf(sql: Db, protocolo: ServiceProtocol): Promise<DocRow> 
 }
 
 /** Resolve por docVersion OU título exato (colisão de título: o mais novo). */
-async function resolveExperiment(sql: Db, ref: string): Promise<DocRow> {
+export async function resolveExperiment(sql: Db, ref: string): Promise<DocRow> {
   const rows = await sql`
     SELECT doc_version::text AS v, document FROM experiment_docs
     WHERE doc_version::text = ${ref}

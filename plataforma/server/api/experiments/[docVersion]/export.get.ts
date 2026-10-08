@@ -7,6 +7,11 @@ export default defineEventHandler(async (event) => {
   if (format !== 'csv' && format !== 'json') {
     throw createError({ statusCode: 422, statusMessage: 'format deve ser csv ou json' })
   }
+  // CAP-4 mínimo (F5.1): filtro por classe de respondente (human|synthetic)
+  const respondentClass = String(getQuery(event).respondent_class ?? '')
+  if (respondentClass && respondentClass !== 'human' && respondentClass !== 'synthetic') {
+    throw createError({ statusCode: 422, statusMessage: 'respondent_class deve ser human, synthetic ou vazio' })
+  }
 
   const sql = useDb()
   const [doc] = await sql`SELECT owner_user_id::text AS owner FROM experiment_docs WHERE doc_version::text = ${docVersion}`
@@ -17,7 +22,9 @@ export default defineEventHandler(async (event) => {
 
   const sessions = await sql`
     SELECT id::text, pseudonym, doc_version::text AS doc_version, seed, status, created_at
-    FROM sessions WHERE doc_version::text = ${docVersion} ORDER BY created_at`
+    FROM sessions WHERE doc_version::text = ${docVersion}
+      ${respondentClass ? sql`AND respondent = ${respondentClass}` : sql``}
+    ORDER BY created_at`
   const bySession = new Map(sessions.map(s => [s.id, s]))
   const results = await sql`
     SELECT r.session_id::text AS session_id, r.trial_seq, r.payload, r.ingested_at
