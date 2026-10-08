@@ -1,0 +1,77 @@
+- id: "1"
+  title: Sessão sintética na plataforma (service API)
+  description: >-
+    CAP-1+CAP-4 no lado servidor: abrir sessão sintética pela API de serviço
+    (respondent=synthetic, sem consentimento e sem demografia — AD-9 é gate de sessão
+    humana), expor o plano de tentativas determinístico por seed e pontuar server-side.
+  spec_checkpoint: false
+  done_checkpoint: false
+  invoke_dev_with: >-
+    Plano de tentativas NÃO inclui a resposta correta (o lado de fora nunca vê
+    `correct`; a plataforma pontua selectedRef vs trial.correct na ingestão do lote
+    sintético — o manager jamais envia "acertei"). Batch sintético valida o ramo
+    `inference` (mutuamente exclusivo com timing humano, AD-3). Export ganha filtro
+    `respondent_class` (CAP-4 mínimo viável, decisão registrada). Auth X-Service-Token
+    como nas tools existentes; mudanças de schema só por migration. Padrão de entrega:
+    commit por story citando a issue, suíte+lint, e2e contra produção.
+- id: "2"
+  title: Consequência textual no contrato + pacote do probe
+  description: >-
+    CAP-2 no contrato e no catálogo: `consequence.correct/incorrect` ganha `text?`
+    opcional (retrocompatível) e o MTS ganha variantes autoradas — controle (sem
+    consequência) + uma por categoria Peng.
+  spec_checkpoint: false
+  done_checkpoint: false
+  invoke_dev_with: >-
+    `schemaVersion` segue 1 (campo opcional é retrocompat) — registrar a decisão de
+    contrato no memlog do SPEC-MVP. Variantes clonam o MTS existente (padrão das
+    tools de serviço), seeds equadas entre condições; textos de consequência em
+    pt-BR, salientes por categoria (sobrevivência/reforço social/material/espiritual)
+    conforme Peng et al. 2025. Pacote com teste de contrato no padrão 3.6-3.8.
+- id: "3"
+  title: Adaptador sintético puro em core/
+  description: >-
+    CAP-5 + método (metodo-sintetico.md): o instrumento científico — constrói o prompt
+    da tentativa, parseia a resposta em formato fechado e monta o TrialResult com
+    metadados de inferência. Puro, sem rede, TDD.
+  spec_checkpoint: true
+  done_checkpoint: false
+  invoke_dev_with: >-
+    Regras que não negociam: instrução idêntica à que o humano vê (pt-BR, sem dica de
+    resposta correta); alternativas em formato fechado mapeando para selectedRef sem
+    juiz-LLM; consequência textual entra no prompt SÓ nas condições que a têm e JAMAIS
+    nomeia a categoria da condição (é o manipulando); modelo com visão recebe o asset
+    real (imagem), nunca descrição; parâmetros de sampling (temperatura, seed) entram
+    nos metadados do run. Não importa de app/server (AD-1).
+- id: "4"
+  title: Aplicador local (estação, sobre o agno)
+  description: >-
+    O examinador da decisão do ozp: roda na estação sobre o harness agno, aplica as
+    tentativas ao modelo externo via LiteLLM (BYOK), coleta respostas e entrega lotes
+    à plataforma pela API de serviço; operações de run sob gate Jev.
+  spec_checkpoint: false
+  done_checkpoint: true
+  invoke_dev_with: >-
+    Loop determinístico (não agente decidindo passo a passo): o agno hospeda o job;
+    Jev gateia as OPERAÇÕES de run (abrir sessão, postar lote) no padrão com_gate da
+    Fase C. Modelos externos chamados via LiteLLM com chaves que vivem SÓ na estação
+    (BYOK — nunca no repo nem na plataforma); modelo com visão recebe a imagem real
+    (asset por URL do pacote). Usar o adapter Python da OZP-414 como base das
+    chamadas de serviço. Smoke e2e: 1 sessão MTS completa com um modelo externo real
+    contra a produção. Verificação humana (done_checkpoint): ozp vê o modelo externo
+    respondendo antes da rodada completa.
+- id: "5"
+  title: Rodada do probe nº 1 + relatório do contraste
+  description: >-
+    O sinal de sucesso do SPEC: ≥2 modelos externos × condições (controle + Peng) ×
+    ≥10 réplicas com temperatura fixa; relatório do contraste de acurácia/latência por
+    condição, em dado canônico exportável.
+  spec_checkpoint: false
+  done_checkpoint: false
+  invoke_dev_with: >-
+    Dependência externa: chaves BYOK de ≥2 modelos externos fornecidas pelo ozp
+    (ficam só na estação). Réplicas com mesma seed reprodutíveis; registrar taxa de
+    reuso de tentativas; temperaturas fixas e registradas por run. Relatório em
+    docs/research/ do repo com o contraste por condição e por modelo; advertência
+    interpretativa da pesquisa (probe comportamental, não "personalidade do modelo").
+    Fechamento no padrão: issue, AGENTS.md, wiki.
