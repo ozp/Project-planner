@@ -41,13 +41,17 @@ export interface SyntheticPlanTrial {
  *  apresentações) — mas responder controla repetir/avançar/encerrar. */
 function replayWith(doc: ExperimentDocument, seed: number, respostas: Map<number, string>): {
   apresentadas: Map<number, ReplayTrial>
-  fim: boolean
+  fim: false
+} | {
+  apresentadas: Map<number, ReplayTrial>
+  fim: true
+  motivo: 'completed' | 'maxRepetitions'
 } {
   const engine = new MtsEngine(doc, seed)
   const apresentadas = new Map<number, ReplayTrial>()
   for (;;) {
     const ev = engine.next()
-    if (ev.kind === 'sessionEnd') return { apresentadas, fim: true }
+    if (ev.kind === 'sessionEnd') return { apresentadas, fim: true, motivo: ev.reason }
     if (ev.kind !== 'trial') continue
     const p = ev.presentation
     apresentadas.set(p.trialSeq, {
@@ -190,7 +194,7 @@ export async function respondTrial(
     return { trialSeq: input.trialSeq, correct: effectiveCorrect, proxima: planTrialOf(proxima[1], proxima[0], session.doc_version) }
   }
   await sql`UPDATE sessions SET status = 'closed', closed_at = now() WHERE id = ${input.sessionId}::uuid AND status = 'open'`
-  return { trialSeq: input.trialSeq, correct: effectiveCorrect, proxima: null, motivoFim: 'completed' }
+  return { trialSeq: input.trialSeq, correct: effectiveCorrect, proxima: null, motivoFim: continuation.motivo }
 }
 
 /** CAP-4 mínimo: sessões por classe para o export. */
