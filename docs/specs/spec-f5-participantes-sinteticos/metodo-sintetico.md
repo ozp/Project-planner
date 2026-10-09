@@ -36,15 +36,30 @@
   que glifos monocromáticos; a escolha fica para a reautoria.
 - Versão/rota do modelo é **variável experimental, não ruído** — registrar sempre.
 
-## Enquadramento da avaliação (formulação do ozp, 08/10)
+## Enquadramento da avaliação (formulação do ozp, 08/10; corrigida 09/10)
 
-O que se pergunta: o LLM **aprende de forma compatível com o humano?** Mais
-rápido, mais lento, não aprende, ou **já chega sabendo**? Mapeamento nas
-medidas: 1º bloco = baseline "já sabe" (antes de qualquer treino, com estímulos
-arbitrários que não existem no corpus — o modelo pode conhecer o MÉTODO MTS do
-corpus, nunca o emparelhamento específico dos nossos glifos); inclinação da
-curva por repetição = velocidade de aquisição; teste BC = relações emergentes;
-comparação lado a lado com humanos via `respondent_class`.
+**Linguagem correta (ozp 09/10):** o modelo é fechado — não há aprendizado nem
+treinamento; mede-se **mudança de DESEMPENHO DENTRO DA SESSÃO** (janela de
+contexto): "o modelo percebe e passa a responder aos estímulos relacionados".
+Nunca alegar "aprendizado" no reporting.
+
+Pergunta: o modelo **passa a responder às relações corretas ao longo da
+sessão**, e como isso se compara ao **humano no mesmo procedimento** (o
+verdadeiro controle — condição sem feedback é provavelmente disfuncional)?
+Medidas: 1ª passagem = linha de base (com o caveat: o LLM pode conhecer o
+MÉTODO MTS do corpus — a tarefa nunca é "nova" no sentido humano; novos são os
+estímulos arbitrários e seus emparelhamentos); desempenho por passagem até o
+critério; teste BC = relações emergentes; comparação lado a lado via
+`respondent_class`.
+
+## Consequência no MTS × respondente sintético (ozp 09/10 — ver card no wiki)
+
+A consequência é a **recomendada pelo próprio sistema MTS: feedback diferencial
+"Acertou."/"Errou."** Consequências simuladas (água/alimento/crédito) NÃO são
+consequências operantes para o LLM: não há reforçador real, e **punição negativa
+é impossível** (exige remover algo que o organismo TEM). Variações de conteúdo
+textual do feedback, se um dia forem manipuladas, são ESTÍMULOS textuais — não
+consequências operantes.
 
 ## Thinking on/off (parâmetro controlado)
 

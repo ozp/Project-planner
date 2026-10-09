@@ -24,9 +24,9 @@ sources: []
   - **intent:** O pesquisador executa um experimento existente com um respondente LLM, gravando a sessão e os TrialResults canônicos (ramo synthetic com `inference`) no mesmo banco das sessões humanas.
   - **success:** Uma sessão sintética do MTS aparece no export com `respondent_class=synthetic`, `inference` preenchido (modelo/rota/latência/custo) e `timing` humano ausente; a ingestão idempotente aceita o batch.
 
-- **CAP-2 — Probe nº 1: consequências diferenciais no MTS**
-  - **intent:** O pesquisador contrasta condições de consequência (sem consequência vs. consequências das categorias Peng — sobrevivência, reforço social, material, espiritual) dentro do mesmo MTS, com seeds equadas entre condições.
-  - **success:** Uma rodada do probe com ≥2 condições produz acurácia e latência sintéticas comparáveis por condição; o contraste (ou sua ausência) fica registrado em dado exportável.
+- **CAP-2 — Probe nº 1: MTS padrão, sintético × humano (reformulado 09/10 pelo ozp)**
+  - **intent:** O pesquisador roda o procedimento MTS canônico (consequência diferencial "Acertou."/"Errou." — a do próprio sistema MTS; sem consequências simuladas) com respondentes sintéticos e compara o desempenho dentro da sessão com o humano no mesmo procedimento.
+  - **success:** Sessões sintéticas sob o procedimento padrão com curvas de desempenho por passagem exportáveis lado a lado com sessões humanas (respondent_class); mudança de desempenho descrita SEM alegação de aprendizado (modelo é fechado — janela de contexto).
 
 - **CAP-3 — Rotação de respondentes e réplicas**
   - **intent:** O pesquisador roda o mesmo protocolo com múltiplos modelos e múltiplas réplicas por condição, com temperatura fixa e registrada.

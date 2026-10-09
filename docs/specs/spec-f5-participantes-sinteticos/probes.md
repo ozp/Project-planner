@@ -2,22 +2,31 @@
 
 > Companion do SPEC-F5. Prioridade em ordem; o F5-MVP entrega o nº 1, o resto é fila.
 
-## Nº 1 — Sensibilidade a consequências diferenciais dentro do MTS (F5-MVP)
+## Nº 1 — MTS padrão com respondente sintético × humano (REFORMULADO 09/10)
 
-- **Pergunta:** LLMs mudam acurácia/latência quando o MTS aplica consequências
-  diferenciais simuladas por tentativa (reforço/punição textuais), comparado a sem
-  consequência?
-- **Ancoragem:** Peng et al. 2025 (Neurocomputing 652:131040, verificado por PDF local):
-  consequências comportamentais mensuráveis em LLMs (BCS: sobrevivência, reforço social,
-  material, espiritual; r>0.5 ChatGLM3×humano no PANAS). O contrato do MTS já modela
-  `consequence.correct/incorrect` por tentativa.
-- **Desenho:** mesmo MTS, condições = {sem consequência} ∪ {categorias Peng}; seeds
-  equadas entre condições; N≥10 réplicas/modelo/condição; temperatura fixa.
-- **Por que primeiro:** usa o motor e o schema existentes sem nenhum instrumento novo;
-  contraste limpo dentro-do-MTS; ponte direta com a linha de análise do comportamento.
-- **Condição paralela recomendada (Bradshaw et al.):** leitura determinística por
-  probabilidade de token (MTS fechado) como contraste à amostragem — fila técnica,
-  não bloqueia o desenho principal.
+- **Pergunta:** o modelo **percebe as contingências e passa a responder aos
+  estímulos relacionados** ao longo da sessão (mudança de desempenho via janela
+  de contexto — o modelo é fechado, NÃO há aprendizado/treinamento), e como seu
+  desempenho se compara ao **humano no mesmo procedimento** (o verdadeiro
+  controle — ozp 09/10)?
+- **Procedimento:** MTS padrão, consequência diferencial **"Acertou."/"Errou."**
+  (a recomendada pelo próprio sistema MTS — ozp 09/10; SEM consequências
+  simuladas: modelos não recebem água/alimento e punição negativa exige
+  removedor de reforçador REAL, que o modelo não tem). Treinos AB/AC sob
+  critério com repetições + teste de equivalência combinada (BC).
+- **Caveat de novidade (ozp):** para humanos a tarefa precisa ser nova; o LLM
+  pode CONHECER a teoria e o método MTS do corpus — a tarefa nunca é "nova" no
+  sentido humano. O que é novo: os estímulos arbitrários e seus emparelhamentos.
+  A linha de base (1ª passagem) interpreta-se sob esse caveat.
+- **Por que primeiro:** procedimento canônico, zero invenção — valida o sistema
+  (mecanismo, dado canônico, comparação de classes) antes de qualquer
+  manipulação.
+- **Antecessor reformulado:** a versão anterior (consequências simuladas por
+  categoria Peng como manipulando) teve a premissa contestada pelo ozp — textos
+  de sobrevivência/material etc. NÃO são consequências operantes para um LLM.
+  O contraste entre CATEGORIAS de consequência volta à fila como repensar
+  (ex.: variações de conteúdo do feedback como estímulos textuais, não como
+  consequências operantes).
 
 ## Fila (após o nº 1)
 
