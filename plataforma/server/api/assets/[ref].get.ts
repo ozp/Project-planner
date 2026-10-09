@@ -23,13 +23,18 @@ export default defineEventHandler(async (event) => {
   const { sha1, content_type: contentType } = rows[0]!
   const assetsDir = process.env.ASSETS_DIR ?? join(process.cwd(), 'data', 'assets')
   const path = join(assetsDir, sha1 as string)
-  try {
-    await stat(path)
-  } catch {
-    throw createError({ statusCode: 500, statusMessage: 'binário do asset ausente no storage' })
-  }
   // content-type explícito: sendStream não o infere (3º arg é status), e SVG
   // sem image/svg+xml é recusado como <img> pelo navegador (quebra o preload)
   setResponseHeader(event, 'content-type', contentType as string)
-  return sendStream(event, createReadStream(path))
+  try {
+    await stat(path)
+    return sendStream(event, createReadStream(path))
+  } catch {
+    // disco volátil (deploy recria o container): cai para o binário no banco
+    const [row] = await useDb()`SELECT bytes FROM stimulus_assets WHERE sha1 = ${sha1}`
+    if (!row?.bytes) {
+      throw createError({ statusCode: 500, statusMessage: 'binário do asset ausente no storage' })
+    }
+    return Buffer.from(row.bytes as Uint8Array)
+  }
 })

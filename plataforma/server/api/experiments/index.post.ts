@@ -70,16 +70,18 @@ export default defineEventHandler(async (event) => {
   }
 
   // mime validado aqui; stimulus_assets é deduplicado fora da tx (idempotente);
-  // a tx idempotente do doc + experiment_assets vive em persistExperimentDoc
+  // a tx idempotente do doc + experiment_assets vive em persistExperimentDoc.
+  // Durabilidade (008): o binário também vai ao banco — o disco do container é
+  // volátil (cada deploy apaga data/assets); o arquivo vira cache de leitura.
   for (const [ref, { data }] of files) {
     const ext = ref.split('.').pop()!.toLowerCase()
     const mime = EXT_MIME[ext]
     if (!mime) throw createError({ statusCode: 422, statusMessage: `extensão não suportada: .${ext} (${ref})` })
     const sha1 = refToSha1.get(ref)!
     await useDb()`
-      INSERT INTO stimulus_assets (sha1, content_type, size_bytes)
-      VALUES (${sha1}, ${mime}, ${data.byteLength})
-      ON CONFLICT (sha1) DO NOTHING`
+      INSERT INTO stimulus_assets (sha1, content_type, size_bytes, bytes)
+      VALUES (${sha1}, ${mime}, ${data.byteLength}, ${data})
+      ON CONFLICT (sha1) DO UPDATE SET bytes = EXCLUDED.bytes`
   }
 
   const result = await persistExperimentDoc(useDb(), { doc, refToSha1, ownerId: user.id })
