@@ -1,10 +1,11 @@
-// F5.1 — sessão sintética (OZP-415): o respondente é um LLM gerenciado por
-// fora (decisão do ozp 07/10). A plataforma abre a sessão sem consentimento
-// (AD-9 é gate de sessão HUMANA) e sem demografia, entrega o PLANO de
-// tentativas determinístico pela seed SEM vazar a resposta correta, e pontua
-// SERVER-SIDE a cada resposta (o manager só recebe certo/errado — o mesmo
-// feedback que um humano veria). TrialResult canônico: ramo synthetic com
-// inference, jamais timing (AD-3).
+// F5.1 — sessão sintética (OZP-417), dinâmica (revisão da story 4): o respondente
+// é um LLM gerenciado por fora (decisão do ozp 07/10). A plataforma abre a sessão
+// sem consentimento (AD-9 é gate de sessão HUMANA) e sem demografia, entrega a
+// PRÓXIMA tentativa conforme o motor consome as respostas reais — blocos repetem
+// até o critério de mastery exatamente como com um humano (aquisição = nº de
+// passagens). O plano NUNCA vaza a resposta correta; a pontuação é server-side a
+// cada tentativa (o manager só recebe certo/errado). TrialResult canônico: ramo
+// synthetic com inference, jamais timing (AD-3).
 import { createHash } from 'node:crypto'
 import type postgres from 'postgres'
 import { MtsEngine } from '@core/engine/engine'
@@ -17,8 +18,9 @@ type Db = ReturnType<typeof postgres>
 interface ReplayTrial {
   blockName: string
   sample: string[]
-  optionOrder: string[] // ordem de apresentação (comparisonOrder do motor)
+  optionOrder: string[]
   correct: string
+  consequencia: { acerto: string | null, erro: string | null }
 }
 
 export interface SyntheticPlanTrial {
@@ -33,39 +35,76 @@ export interface SyntheticPlanTrial {
   consequencia: { acerto: string | null, erro: string | null }
 }
 
-/** Replay determinístico do motor: trialSeq → apresentação (amostra, ordem, correta).
- *  As respostas do replay não influenciam a sequência — o rand só é consumido
- *  nos embaralhamentos de apresentação, nunca por respond(). */
-function replay(doc: ExperimentDocument, seed: number): Map<number, ReplayTrial> {
+/** Replay com as respostas REAIS: o motor decide repetição/avanço/fim pelo
+ *  critério. Retorna as apresentações até a próxima ainda sem resposta (ou o
+ *  fim da sessão). A ordem não depende das respostas (rand só nas
+ *  apresentações) — mas responder controla repetir/avançar/encerrar. */
+function replayWith(doc: ExperimentDocument, seed: number, respostas: Map<number, string>): {
+  apresentadas: Map<number, ReplayTrial>
+  fim: boolean
+} {
   const engine = new MtsEngine(doc, seed)
-  const map = new Map<number, ReplayTrial>()
+  const apresentadas = new Map<number, ReplayTrial>()
   for (;;) {
     const ev = engine.next()
-    if (ev.kind === 'sessionEnd') break
+    if (ev.kind === 'sessionEnd') return { apresentadas, fim: true }
     if (ev.kind !== 'trial') continue
     const p = ev.presentation
-    map.set(p.trialSeq, {
+    apresentadas.set(p.trialSeq, {
       blockName: p.blockName,
       sample: [...p.trial.sample],
       optionOrder: [...p.comparisonOrder],
       correct: p.trial.correct,
       consequencia: { acerto: p.trial.consequence.correct.text ?? null, erro: p.trial.consequence.incorrect.text ?? null },
     })
-    engine.respond(p.trial.correct)
+    const resposta = respostas.get(p.trialSeq)
+    if (resposta === undefined) return { apresentadas, fim: false } // próxima a apresentar
+    engine.respond(resposta)
   }
-  return map
 }
 
 const assetUrl = (ref: string, docVersion: string) => `/api/assets/${ref}?doc=${docVersion}`
 
-/** Tool F5: abrir sessão sintética + plano sem `correct`. */
+function planTrialOf(t: ReplayTrial, seq: number, docVersion: string): SyntheticPlanTrial {
+  return {
+    trialSeq: seq,
+    blockName: t.blockName,
+    sampleRefs: t.sample,
+    sampleUrls: t.sample.map(r => assetUrl(r, docVersion)),
+    optionRefs: t.optionOrder,
+    optionUrls: t.optionOrder.map(r => assetUrl(r, docVersion)),
+    consequencia: t.consequencia,
+  }
+}
+
+interface SessionDocRow { document: ExperimentDocument }
+
+async function loadSession(sql: Db, sessionId: string) {
+  const [session] = await sql`
+    SELECT s.doc_version::text AS doc_version, s.seed, s.status, s.respondent, d.document
+    FROM sessions s JOIN experiment_docs d ON d.doc_version::text = s.doc_version
+    WHERE s.id::text = ${sessionId} AND s.respondent = 'synthetic'`
+  if (!session) throw new ServiceError(404, `sessão sintética ${sessionId} não encontrada`)
+  return { ...session, document: (session as unknown as SessionDocRow).document } as {
+    doc_version: string, seed: number, status: string, document: ExperimentDocument
+  }
+}
+
+async function respostasIngeridas(sql: Db, sessionId: string): Promise<Map<number, string>> {
+  const rows = await sql`SELECT trial_seq, payload FROM trial_results WHERE session_id = ${sessionId}::uuid ORDER BY trial_seq`
+  return new Map((rows as unknown as Array<{ trial_seq: number, payload: TrialResult }>)
+    .map(r => [r.trial_seq, r.payload.response.selectedRef ?? '']))
+}
+
+/** Tool F5: abrir sessão sintética — devolve a 1ª tentativa (a sessão cresce
+ *  conforme o respondente responde; blocos repetem até o critério). */
 export async function openSyntheticSession(
   sql: Db,
   input: { docVersion: string; modelRef: string; seed: number; temperature?: number },
-): Promise<{ sessionId: string, plan: SyntheticPlanTrial[], instructions: Array<{ blockName: string, text: string }> }> {
+): Promise<{ sessionId: string, primeira: SyntheticPlanTrial, instructions: Array<{ blockName: string, text: string }> }> {
   const [doc] = await sql`SELECT document FROM experiment_docs WHERE doc_version::text = ${input.docVersion}`
   if (!doc) throw new ServiceError(404, `documento ${input.docVersion} não encontrado`)
-  const document = doc.document as ExperimentDocument
+  const document = (doc as unknown as SessionDocRow).document
 
   // pseudônimo estável por modelo+experimento (export consistente, AD-6)
   const secret = process.env.PLATAFORMA_SECRET ?? 'dev-only-secret'
@@ -77,26 +116,19 @@ export async function openSyntheticSession(
             ${sql.json({ modelRef: input.modelRef, temperature: input.temperature ?? null })})
     RETURNING id::text AS id`
 
-  const replayed = replay(document, input.seed)
-  const plan = [...replayed.entries()]
-    .sort((a, b) => a[0] - b[0])
-    .map(([seq, t]) => ({
-      trialSeq: seq,
-      blockName: t.blockName,
-      sampleRefs: t.sample,
-      sampleUrls: t.sample.map(r => assetUrl(r, input.docVersion)),
-      optionRefs: t.optionOrder,
-      optionUrls: t.optionOrder.map(r => assetUrl(r, input.docVersion)),
-      consequencia: t.consequencia,
-    }))
-  // instrução por bloco — idêntica à que o humano vê (regra anti-vazamento)
+  const { apresentadas, fim } = replayWith(document, input.seed, new Map())
+  if (fim || apresentadas.size === 0) throw new ServiceError(422, 'documento sem tentativas')
+  const primeira = [...apresentadas.entries()].sort((a, b) => b[0] - a[0])[0]!
+
   const instructions = document.experiment.blocks
     .filter(b => b.instructionText)
     .map(b => ({ blockName: b.name, text: b.instructionText! }))
-  return { sessionId: row!.id as string, plan, instructions }
+  return { sessionId: row!.id as string, primeira: planTrialOf(primeira[1], primeira[0], input.docVersion), instructions }
 }
 
-/** Tool F5: resposta de UMA tentativa — plataforma pontua e grava canônico. */
+/** Tool F5: resposta de UMA tentativa — pontua server-side, grava canônico e
+ *  devolve a PRÓXIMA tentativa (ou fim, fechando a sessão). O manager alimenta
+ *  o modelo com {correct} como feedback — o manipulando do probe. */
 export async function respondTrial(
   sql: Db,
   input: {
@@ -105,17 +137,14 @@ export async function respondTrial(
     selectedRef: string
     inference: { modelRef: string, provider: string, route: 'byok' | 'platform' | 'local', latencyMs: number, costUsd?: number }
   },
-): Promise<{ trialSeq: number, correct: boolean }> {
-  const [session] = await sql`
-    SELECT s.doc_version::text AS doc_version, s.seed, d.document
-    FROM sessions s JOIN experiment_docs d ON d.doc_version::text = s.doc_version
-    WHERE s.id::text = ${input.sessionId} AND s.respondent = 'synthetic'`
-  if (!session) throw new ServiceError(404, `sessão sintética ${input.sessionId} não encontrada`)
+): Promise<{ trialSeq: number, correct: boolean, proxima: SyntheticPlanTrial | null, motivoFim?: 'completed' | 'maxRepetitions' }> {
+  const session = await loadSession(sql, input.sessionId)
+  const respostas = await respostasIngeridas(sql, input.sessionId)
 
-  const replayed = replay(session.document as ExperimentDocument, session.seed as number)
-  const trial = replayed.get(input.trialSeq)
+  const { apresentadas } = replayWith(session.document, session.seed, respostas)
+  const trial = apresentadas.get(input.trialSeq)
   if (!trial) {
-    throw new ServiceError(422, `trial_seq ${input.trialSeq} fora do plano da sessão (${replayed.size} tentativas)`)
+    throw new ServiceError(422, `trial_seq ${input.trialSeq} fora do plano corrente da sessão`)
   }
   const correct = input.selectedRef === trial.correct
 
@@ -151,12 +180,17 @@ export async function respondTrial(
         INSERT INTO trial_results (session_id, trial_seq, payload)
         VALUES (${input.sessionId}::uuid, ${input.trialSeq}, ${sql.json(result)})`
     }
-    const [{ total }] = await tx`SELECT count(*)::int AS total FROM trial_results WHERE session_id = ${input.sessionId}::uuid`
-    if (total >= replayed.size) {
-      await tx`UPDATE sessions SET status = 'closed', closed_at = now() WHERE id = ${input.sessionId}::uuid`
-    }
   })
-  return { trialSeq: input.trialSeq, correct: effectiveCorrect }
+
+  // próxima tentativa com TODAS as respostas (a recém-ingerida incluída)
+  const respostasApos = await respostasIngeridas(sql, input.sessionId)
+  const continuation = replayWith(session.document, session.seed, respostasApos)
+  if (!continuation.fim) {
+    const proxima = [...continuation.apresentadas.entries()].sort((a, b) => b[0] - a[0])[0]!
+    return { trialSeq: input.trialSeq, correct: effectiveCorrect, proxima: planTrialOf(proxima[1], proxima[0], session.doc_version) }
+  }
+  await sql`UPDATE sessions SET status = 'closed', closed_at = now() WHERE id = ${input.sessionId}::uuid AND status = 'open'`
+  return { trialSeq: input.trialSeq, correct: effectiveCorrect, proxima: null, motivoFim: 'completed' }
 }
 
 /** CAP-4 mínimo: sessões por classe para o export. */

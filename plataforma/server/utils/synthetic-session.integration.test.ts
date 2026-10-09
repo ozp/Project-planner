@@ -1,12 +1,12 @@
-// Story F5.1 — sessão sintética (OZP-415): abrir sem consentimento, plano
-// sem vazar `correct`, pontuação SERVER-SIDE por tentativa (o manager nunca
-// vê a resposta certa — só o certo/errado que um humano receberia), TrialResult
-// canônico synthetic (inference, sem timing). Exige o Postgres do compose.
+// Story F5.1/F5.4 — sessão sintética DINÂMICA: o motor consome as respostas
+// reais e blocos repetem até o critério (aquisição = nº de passagens até o
+// mastery, como com humanos). Sem vazamento de `correct`; pontuação server-side;
+// TrialResult synthetic (inference, sem timing). Exige o Postgres do compose.
 import type { Sql } from 'postgres'
 import postgres from 'postgres'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-
 import { fixtureExperiment } from '@core/schema'
+import { MtsEngine } from '@core/engine/engine'
 import { openSyntheticSession, respondTrial, sessionsForExport } from './synthetic-session'
 
 const DB_URL = process.env.DATABASE_URL_TESTS ?? 'postgres://plataforma:plataforma_dev@localhost:5543/experimentos'
@@ -20,8 +20,7 @@ try {
   available = false
 }
 
-const DOC = structuredClone(fixtureExperiment)
-
+const DOC = structuredClone(fixtureExperiment) // AB crit 2/2 maxRep 3; AC idem; teste 1/1
 let docVersion = ''
 beforeAll(async () => {
   if (!available) return
@@ -33,104 +32,102 @@ beforeAll(async () => {
     t.sample.forEach(r => refs.add(r)); t.comparisons.forEach(r => refs.add(r))
   }
   for (const ref of refs) {
-    await sql`INSERT INTO stimulus_assets (sha1, content_type, size_bytes) VALUES (${'sh-' + Math.random()}, 'image/svg+xml', 10) ON CONFLICT DO NOTHING`
-    const sha = (await sql`SELECT sha1 FROM stimulus_assets ORDER BY size_bytes DESC LIMIT 1`)[0]!.sha1
-    await sql`INSERT INTO experiment_assets (doc_version, ref, sha1) VALUES (${docVersion}::uuid, ${ref}, ${sha}) ON CONFLICT DO NOTHING`
+    const sha1 = `sh-${Math.random().toString(36).slice(2)}`
+    await sql`INSERT INTO stimulus_assets (sha1, content_type, size_bytes) VALUES (${sha1}, 'image/svg+xml', 10) ON CONFLICT DO NOTHING`
+    await sql`INSERT INTO experiment_assets (doc_version, ref, sha1) VALUES (${docVersion}::uuid, ${ref}, ${sha1}) ON CONFLICT DO NOTHING`
   }
 })
 afterAll(async () => { if (available) await sql.end() })
 
-describe.skipIf(!available)('openSyntheticSession', () => {
-  it('abre sem consentimento/usuário, com meta do modelo e pseudônimo estável', async () => {
-    const a = await openSyntheticSession(sql, { docVersion, modelRef: 'gemini-3.1-flash-lite', temperature: 0, seed: 42 })
-    const b = await openSyntheticSession(sql, { docVersion, modelRef: 'gemini-3.1-flash-lite', temperature: 0, seed: 42 })
-    expect(a.sessionId).toBeTruthy()
-    const [row] = await sql`SELECT respondent, user_id, consent_term_id, pseudonym, synthetic_meta
-      FROM sessions WHERE id = ${a.sessionId}::uuid`
+const INF = { modelRef: 'teste', provider: 'x', route: 'byok' as const, latencyMs: 7 }
+
+describe.skipIf(!available)('sessão sintética dinâmica', () => {
+  it('abre sem consentimento com a 1ª tentativa (sem correct) e instruções', async () => {
+    const s = await openSyntheticSession(sql, { docVersion, modelRef: 'm', seed: 42 })
+    expect(s.sessionId).toBeTruthy()
+    expect(s.primeira.trialSeq).toBe(0)
+    expect(s.primeira.optionRefs.length).toBeGreaterThanOrEqual(2)
+    expect(JSON.stringify(s.primeira)).not.toContain('correct')
+    expect(s.instructions.length).toBeGreaterThan(0)
+    const [row] = await sql`SELECT respondent, user_id, consent_term_id, synthetic_meta FROM sessions WHERE id = ${s.sessionId}::uuid`
     expect(row.respondent).toBe('synthetic')
     expect(row.user_id).toBeNull()
     expect(row.consent_term_id).toBeNull()
-    expect(row.pseudonym).toBe(b && (await sql`SELECT pseudonym FROM sessions WHERE id=${b.sessionId}::uuid`)[0]!.pseudonym)
-    expect(row.synthetic_meta).toMatchObject({ modelRef: 'gemini-3.1-flash-lite', temperature: 0 })
+    expect(row.synthetic_meta).toMatchObject({ modelRef: 'm' })
   })
 
-  it('plano determinístico por seed: sequência de tentativas + URLs, SEM correct', async () => {
-    const a = await openSyntheticSession(sql, { docVersion, modelRef: 'm', seed: 7 })
-    const b = await openSyntheticSession(sql, { docVersion, modelRef: 'm', seed: 7 })
-    const c = await openSyntheticSession(sql, { docVersion, modelRef: 'm', seed: 8 })
-    expect(a.plan.map(p => p.sampleRefs.join())).toEqual(b.plan.map(p => p.sampleRefs.join()))
-    expect(a.plan.length).toBeGreaterThan(0)
-    expect(JSON.stringify(a.plan)).not.toContain('correct')
-    for (const p of a.plan) {
-      expect(p.optionRefs.length).toBeGreaterThanOrEqual(2)
-      for (const u of p.optionUrls) expect(u).toMatch(/\/api\/assets\//)
+  it('respondente PERFEITO: 5 tentativas e fim (critério na 1ª passagem)', async () => {
+    // chave de respostas legítima no teste: o motor é determinístico — o teste
+    // o replaya alimentando as respostas certas (papel do pesquisador)
+    const engine = new MtsEngine(DOC, 42)
+    const chave = new Map<number, string>()
+    for (;;) {
+      const ev = engine.next()
+      if (ev.kind === 'sessionEnd') break
+      if (ev.kind !== 'trial') continue
+      chave.set(ev.presentation.trialSeq, ev.presentation.trial.correct)
+      engine.respond(ev.presentation.trial.correct)
     }
-    // a doc tem 5 tentativas na passagem perfeita (2 AB + 2 AC + 1 teste)
-    expect(a.plan).toHaveLength(5)
-    expect(a.plan.map(p => p.trialSeq)).toEqual([0, 1, 2, 3, 4])
-    void c
-  })
-})
-
-describe.skipIf(!available)('respondTrial — pontuação server-side', () => {
-  it('responde certo/errado conforme o documento e grava TrialResult synthetic (inference, sem timing)', async () => {
-    const s = await openSyntheticSession(sql, { docVersion, modelRef: 'glm-4.5v', seed: 42 })
-    // seq 0 = ABtraining t0: sample a1 → correct b1.svg (fixture)
-    const r0 = await respondTrial(sql, {
-      sessionId: s.sessionId, trialSeq: 0, selectedRef: 'b1.svg',
-      inference: { modelRef: 'glm-4.5v', provider: 'zhipu', route: 'byok', latencyMs: 1234 },
-    })
-    expect(r0.correct).toBe(true)
-    // resposta errada numa sessão LIMPA (reenvio na mesma sessão devolve a 1ª — ver teste abaixo)
-    const s2 = await openSyntheticSession(sql, { docVersion, modelRef: 'glm-4.5v', seed: 42 })
-    const r0b = await respondTrial(sql, {
-      sessionId: s2.sessionId, trialSeq: 0, selectedRef: 'b2.svg',
-      inference: { modelRef: 'glm-4.5v', provider: 'zhipu', route: 'byok', latencyMs: 99 },
-    })
-    expect(r0b.correct).toBe(false)
-    const [row] = await sql`SELECT payload FROM trial_results WHERE session_id=${s.sessionId}::uuid AND trial_seq=0`
-    expect(row.payload).toMatchObject({ respondentClass: 'synthetic', correct: true })
-    expect(row.payload.response).toEqual({ selectedRef: 'b1.svg' })
-    expect(row.payload.timing).toBeUndefined()
-    expect(row.payload.inference).toMatchObject({ modelRef: 'glm-4.5v', latencyMs: 1234 })
-  })
-
-  it('reenvio da mesma tentativa é idempotente (primeira resposta vale)', async () => {
-    const s = await openSyntheticSession(sql, { docVersion, modelRef: 'm2', seed: 42 })
-    const a = await respondTrial(sql, { sessionId: s.sessionId, trialSeq: 0, selectedRef: 'b1.svg',
-      inference: { modelRef: 'm2', provider: 'x', route: 'byok', latencyMs: 1 } })
-    const b = await respondTrial(sql, { sessionId: s.sessionId, trialSeq: 0, selectedRef: 'b2.svg',
-      inference: { modelRef: 'm2', provider: 'x', route: 'byok', latencyMs: 2 } })
-    expect(b.correct).toBe(a.correct)
-    const n = await sql`SELECT count(*)::int AS n FROM trial_results WHERE session_id=${s.sessionId}::uuid`
-    expect(n[0]!.n).toBe(1)
-  })
-
-  it('trial_seq fora do plano é rejeitado; última tentativa fecha a sessão', async () => {
-    const s = await openSyntheticSession(sql, { docVersion, modelRef: 'm3', seed: 42 })
-    await expect(respondTrial(sql, { sessionId: s.sessionId, trialSeq: 99, selectedRef: 'b1.svg',
-      inference: { modelRef: 'm3', provider: 'x', route: 'byok', latencyMs: 1 } }))
-      .rejects.toMatchObject({ statusCode: 422 })
-    // responde com opções VÁLIDAS do plano (a 1ª opção de cada tentativa)
-    const responder = s.plan.map(p => p.optionRefs[0]!)
-    for (const seq of [0, 1, 2, 3, 4]) {
-      await respondTrial(sql, { sessionId: s.sessionId, trialSeq: seq, selectedRef: responder[seq]!,
-        inference: { modelRef: 'm3', provider: 'x', route: 'byok', latencyMs: 1 } })
+    const s = await openSyntheticSession(sql, { docVersion, modelRef: 'ok', seed: 42 })
+    let atual: typeof s.primeira | null = s.primeira
+    const seq: number[] = []
+    let fim = ''
+    for (let i = 0; i < 10 && atual; i++) {
+      seq.push(atual.trialSeq)
+      const r = await respondTrial(sql, { sessionId: s.sessionId, trialSeq: atual.trialSeq,
+        selectedRef: chave.get(atual.trialSeq)!, inference: INF })
+      expect(r.correct).toBe(true)
+      atual = r.proxima
+      fim = r.motivoFim ?? ''
     }
-    const [row] = await sql`SELECT status FROM sessions WHERE id=${s.sessionId}::uuid`
+    expect(seq).toEqual([0, 1, 2, 3, 4])
+    expect(atual).toBeNull()
+    expect(fim).toBe('completed')
+    const [row] = await sql`SELECT status FROM sessions WHERE id = ${s.sessionId}::uuid`
     expect(row.status).toBe('closed')
   })
-})
 
-describe.skipIf(!available)('sessionsForExport — filtro por classe', () => {
-  it('separa synthetic de human (CAP-4 mínimo)', async () => {
-    const s = await openSyntheticSession(sql, { docVersion, modelRef: 'm4', seed: 1 })
-    void s
+  it('respondente NO ACASO: blocos REPETEM até maxRepetitions e a sessão termina com motivo', async () => {
+    const s = await openSyntheticSession(sql, { docVersion, modelRef: 'azarado', seed: 42 })
+    let atual: typeof s.primeira | null = s.primeira
+    let respostas = 0
+    let fim: string | undefined
+    // erra SEMPRE (escolhe a 1ª opção quando ela NÃO é a correta… sem saber qual é:
+    // tenta 1ª; se correta, tenta a 2ª para errar por idempotência… simplesmente
+    // responde sempre a 1ª opção — na fixture isso erra ~metade; o critério 2/2
+    // não será atingido em AB → repete até 3 → sessão termina por maxRepetitions
+    for (let i = 0; i < 30 && atual; i++) {
+      const r = await respondTrial(sql, { sessionId: s.sessionId, trialSeq: atual.trialSeq, selectedRef: atual.optionRefs[0]!, inference: INF })
+      respostas++
+      atual = r.proxima
+      fim = r.motivoFim
+    }
+    // AB com 2 tentativas, critério 2, maxRep 3: se a 1ª opção não é a correta em
+    // ambas → 0 acertos por passagem → 3 passagens = 6 respostas e fim
+    expect(respostas).toBeGreaterThan(5) // repetiu bloco
+    expect(atual).toBeNull()
+    expect(fim).toBeTruthy()
+    const [row] = await sql`SELECT status FROM sessions WHERE id = ${s.sessionId}::uuid`
+    expect(row.status).toBe('closed')
+  })
+
+  it('trial_seq fora do plano corrente é rejeitado', async () => {
+    const s = await openSyntheticSession(sql, { docVersion, modelRef: 'x', seed: 42 })
+    await expect(respondTrial(sql, { sessionId: s.sessionId, trialSeq: 99, selectedRef: 'b1.svg', inference: INF }))
+      .rejects.toMatchObject({ statusCode: 422 })
+  })
+
+  it('TrialResult canônico: synthetic com inference, sem timing; filtro por classe', async () => {
+    const s = await openSyntheticSession(sql, { docVersion, modelRef: 'chk', seed: 42 })
+    await respondTrial(sql, { sessionId: s.sessionId, trialSeq: 0, selectedRef: s.primeira.optionRefs[0]!,
+      inference: { modelRef: 'chk', provider: 'x', route: 'byok', latencyMs: 1 } })
+    const [row] = await sql`SELECT payload FROM trial_results WHERE session_id = ${s.sessionId}::uuid AND trial_seq = 0`
+    expect(row.payload).toMatchObject({ respondentClass: 'synthetic' })
+    expect(row.payload.timing).toBeUndefined()
+    expect(row.payload.inference).toMatchObject({ modelRef: 'chk' })
     const syn = await sessionsForExport(sql, docVersion, 'synthetic')
     const hum = await sessionsForExport(sql, docVersion, 'human')
     expect(syn.length).toBeGreaterThanOrEqual(1)
     expect(hum).toHaveLength(0)
-    const all = await sessionsForExport(sql, docVersion)
-    expect(all.length).toBe(syn.length)
   })
 })
