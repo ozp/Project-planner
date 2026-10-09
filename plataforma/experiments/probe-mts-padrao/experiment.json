@@ -1,0 +1,981 @@
+{
+ "schemaVersion": 1,
+ "docVersion": "submission",
+ "title": "Probe MTS — procedimento padrão (feedback Acertou/Errou)",
+ "description": "Probe nº 1 do F5 reformulado (09/10): procedimento MTS canônico — consequência diferencial \"Acertou.\"/\"Errou.\" (a recomendada pelo próprio sistema MTS; SEM consequências simuladas), 3 classes de símbolos arbitrários, 3 comparativos por tentativa, treinos AB/AC sob critério (14/18, até 3 passagens) e teste de equivalência combinada BC sem consequência. Comparação primária: desempenho na sessão sintético × humano no mesmo procedimento. Mede-se mudança de DESEMPENHO na sessão — o modelo é fechado, não há aprendizado/treinamento.",
+ "language": "pt-BR",
+ "feedback": {
+  "text": "Obrigado! Suas respostas foram registradas para pesquisa."
+ },
+ "experiment": {
+  "screenColor": [
+   255,
+   255,
+   255
+  ],
+  "itiSeconds": 0.3,
+  "startBlock": 1,
+  "blocks": [
+   {
+    "name": "treinoAB",
+    "instructionText": "Você participa de uma tarefa de combinação de símbolos abstratos. Em cada tentativa, veja o símbolo do topo e escolha, entre as opções apresentadas, a que COMBINA com ele. Após cada resposta você saberá se acertou.",
+    "display": {
+     "kind": "SMTS"
+    },
+    "criterion": 14,
+    "maxRepetitions": 3,
+    "trials": [
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "b1.svg",
+       "b3.svg",
+       "b2.svg"
+      ],
+      "correct": "b1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "b2.svg",
+       "b1.svg",
+       "b3.svg"
+      ],
+      "correct": "b2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "b2.svg",
+       "b3.svg",
+       "b1.svg"
+      ],
+      "correct": "b3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "b2.svg",
+       "b1.svg",
+       "b3.svg"
+      ],
+      "correct": "b1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "b2.svg",
+       "b3.svg",
+       "b1.svg"
+      ],
+      "correct": "b2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "b3.svg",
+       "b1.svg",
+       "b2.svg"
+      ],
+      "correct": "b3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "b2.svg",
+       "b3.svg",
+       "b1.svg"
+      ],
+      "correct": "b1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "b3.svg",
+       "b1.svg",
+       "b2.svg"
+      ],
+      "correct": "b2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "b3.svg",
+       "b2.svg",
+       "b1.svg"
+      ],
+      "correct": "b3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "b3.svg",
+       "b1.svg",
+       "b2.svg"
+      ],
+      "correct": "b1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "b3.svg",
+       "b2.svg",
+       "b1.svg"
+      ],
+      "correct": "b2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "b1.svg",
+       "b2.svg",
+       "b3.svg"
+      ],
+      "correct": "b3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "b3.svg",
+       "b2.svg",
+       "b1.svg"
+      ],
+      "correct": "b1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "b1.svg",
+       "b2.svg",
+       "b3.svg"
+      ],
+      "correct": "b2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "b1.svg",
+       "b3.svg",
+       "b2.svg"
+      ],
+      "correct": "b3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "b1.svg",
+       "b2.svg",
+       "b3.svg"
+      ],
+      "correct": "b1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "b1.svg",
+       "b3.svg",
+       "b2.svg"
+      ],
+      "correct": "b2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "b2.svg",
+       "b1.svg",
+       "b3.svg"
+      ],
+      "correct": "b3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     }
+    ]
+   },
+   {
+    "name": "treinoAC",
+    "instructionText": "Você participa de uma tarefa de combinação de símbolos abstratos. Em cada tentativa, veja o símbolo do topo e escolha, entre as opções apresentadas, a que COMBINA com ele. Após cada resposta você saberá se acertou.",
+    "display": {
+     "kind": "SMTS"
+    },
+    "criterion": 14,
+    "maxRepetitions": 3,
+    "trials": [
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "c1.svg",
+       "c3.svg",
+       "c2.svg"
+      ],
+      "correct": "c1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "c2.svg",
+       "c1.svg",
+       "c3.svg"
+      ],
+      "correct": "c2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "c2.svg",
+       "c3.svg",
+       "c1.svg"
+      ],
+      "correct": "c3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "c2.svg",
+       "c1.svg",
+       "c3.svg"
+      ],
+      "correct": "c1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "c2.svg",
+       "c3.svg",
+       "c1.svg"
+      ],
+      "correct": "c2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "c3.svg",
+       "c1.svg",
+       "c2.svg"
+      ],
+      "correct": "c3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "c2.svg",
+       "c3.svg",
+       "c1.svg"
+      ],
+      "correct": "c1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "c3.svg",
+       "c1.svg",
+       "c2.svg"
+      ],
+      "correct": "c2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "c3.svg",
+       "c2.svg",
+       "c1.svg"
+      ],
+      "correct": "c3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "c3.svg",
+       "c1.svg",
+       "c2.svg"
+      ],
+      "correct": "c1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "c3.svg",
+       "c2.svg",
+       "c1.svg"
+      ],
+      "correct": "c2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "c1.svg",
+       "c2.svg",
+       "c3.svg"
+      ],
+      "correct": "c3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "c3.svg",
+       "c2.svg",
+       "c1.svg"
+      ],
+      "correct": "c1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "c1.svg",
+       "c2.svg",
+       "c3.svg"
+      ],
+      "correct": "c2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "c1.svg",
+       "c3.svg",
+       "c2.svg"
+      ],
+      "correct": "c3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "c1.svg",
+       "c2.svg",
+       "c3.svg"
+      ],
+      "correct": "c1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "c1.svg",
+       "c3.svg",
+       "c2.svg"
+      ],
+      "correct": "c2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "c2.svg",
+       "c1.svg",
+       "c3.svg"
+      ],
+      "correct": "c3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0.8,
+        "text": "Acertou."
+       },
+       "incorrect": {
+        "durationSeconds": 0.8,
+        "text": "Errou."
+       }
+      }
+     }
+    ]
+   },
+   {
+    "name": "testeBC",
+    "instructionText": "Você participa de uma tarefa de combinação de símbolos abstratos. Em cada tentativa, veja o símbolo do topo e escolha, entre as opções apresentadas, a que COMBINA com ele. Após cada resposta você saberá se acertou.",
+    "display": {
+     "kind": "SMTS"
+    },
+    "criterion": 1,
+    "maxRepetitions": 1,
+    "trials": [
+     {
+      "sample": [
+       "b1.svg"
+      ],
+      "comparisons": [
+       "c1.svg",
+       "c3.svg",
+       "c2.svg"
+      ],
+      "correct": "c1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b2.svg"
+      ],
+      "comparisons": [
+       "c2.svg",
+       "c1.svg",
+       "c3.svg"
+      ],
+      "correct": "c2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b3.svg"
+      ],
+      "comparisons": [
+       "c2.svg",
+       "c3.svg",
+       "c1.svg"
+      ],
+      "correct": "c3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b1.svg"
+      ],
+      "comparisons": [
+       "c2.svg",
+       "c3.svg",
+       "c1.svg"
+      ],
+      "correct": "c1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b2.svg"
+      ],
+      "comparisons": [
+       "c3.svg",
+       "c1.svg",
+       "c2.svg"
+      ],
+      "correct": "c2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b3.svg"
+      ],
+      "comparisons": [
+       "c3.svg",
+       "c2.svg",
+       "c1.svg"
+      ],
+      "correct": "c3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b1.svg"
+      ],
+      "comparisons": [
+       "c3.svg",
+       "c2.svg",
+       "c1.svg"
+      ],
+      "correct": "c1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b2.svg"
+      ],
+      "comparisons": [
+       "c1.svg",
+       "c2.svg",
+       "c3.svg"
+      ],
+      "correct": "c2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b3.svg"
+      ],
+      "comparisons": [
+       "c1.svg",
+       "c3.svg",
+       "c2.svg"
+      ],
+      "correct": "c3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     }
+    ]
+   }
+  ]
+ }
+}
