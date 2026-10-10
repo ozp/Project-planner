@@ -15,9 +15,14 @@ export default defineEventHandler(async (event) => {
     ? await sql`SELECT a.sha1, s.content_type FROM experiment_assets a
         JOIN stimulus_assets s ON s.sha1 = a.sha1
         WHERE a.ref = ${ref} AND a.doc_version::text = ${docVersion}`
-    : await sql`SELECT a.sha1, MAX(s.content_type) AS content_type FROM experiment_assets a
+    : await sql`SELECT a.sha1, MAX(s.content_type) AS content_type,
+               MAX(CASE WHEN s.bytes IS NOT NULL THEN 1 ELSE 0 END) AS tem_bytes
+        FROM experiment_assets a
         JOIN stimulus_assets s ON s.sha1 = a.sha1
-        WHERE a.ref = ${ref} GROUP BY a.sha1`
+        WHERE a.ref = ${ref}
+        GROUP BY a.sha1
+        ORDER BY tem_bytes DESC, count(*) DESC
+        LIMIT 1`
   if (rows.length === 0) throw createError({ statusCode: 404, statusMessage: `asset não encontrado: ${ref}` })
 
   const { sha1, content_type: contentType } = rows[0]!

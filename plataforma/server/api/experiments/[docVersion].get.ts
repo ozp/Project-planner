@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   const sql = useDb()
   const rows = await sql`
     SELECT d.document, d.published, d.owner_user_id::text AS owner, (
-      SELECT jsonb_agg(jsonb_build_object('ref', a.ref, 'url', '/api/assets/' || a.ref))
+      SELECT jsonb_agg(jsonb_build_object('ref', a.ref, 'url', '/api/assets/' || a.ref || '?doc=' || a.doc_version::text))
       FROM experiment_assets a WHERE a.doc_version = d.doc_version
     ) AS assets
     FROM experiment_docs d
