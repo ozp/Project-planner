@@ -44,7 +44,10 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 500, statusMessage: 'binário do asset ausente no storage' })
     }
     await mkdir(assetsDir, { recursive: true }) // container novo: data/assets pode não existir
-    await writeFile(path, Buffer.from(row.bytes as Uint8Array))
+    const buf = Buffer.from(row.bytes as Uint8Array)
+    await writeFile(path, buf)
+    // length explícito: resposta chunked empaca o preload de <audio> do jsPsych
+    setResponseHeader(event, 'content-length', String(buf.byteLength))
     return sendStream(event, createReadStream(path))
   }
 })
