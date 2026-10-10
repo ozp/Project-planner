@@ -39,12 +39,20 @@
 
 ## Leitura (descritiva; n=7, um único respondente)
 
+0. **Análise de viés (feito sobre o dado canônico)**: a escolha por REF revela
+   preferência acentuada por estímulo — b1.svg escolhido 409× (61% das escolhas
+   de treinoAB), contra b2 169× e b3 141×; c1/c2/c3 quase nunca (sessões não
+   alcançaram AC). Por POSIÇÃO: pos1 280×, pos2 159×, pos3 307× — viés de
+   posição leve nas extremidades, mas o viés dominante é **por estímulo**
+   (b1 = losango preto, o primeiro glifo da série B): o modelo escolhe o mesmo
+   símbolo repetidamente quase independentemente da amostra — padrão compatível
+   com "resposta fixa/perseverativa" na literatura de equivalência com
+   participantes que não adquirem as relações.
 1. **O flash-lite não passou a responder conforme as contingências** do MTS
    padrão dentro da sessão: desempenho estável **abaixo do acaso** com feedback
-   diferencial canônico em 3 passagens de treino. Abaixo-do-acaso sugere
-   preferência sistemática por algum comparativo/posição não-controlada pelas
-   relações (ex.: viés de posição ou por estímulo) — a análise por posição e por
-   estímulo das respostas (dado canônico permite) é o próximo passo de exame.
+   diferencial canônico em 3 passagens de treino — e o abaixo-do-acaso agora
+   tem explicação observável: 61% das escolhas de AB foram para o MESMO
+   comparativo (b1), que só é correto em 1/3 das tentativas de amostra a1.
 2. **Não há efeito de passagem**: as janelas não sobem da 1ª para a 3ª passagem —
    o feedback "Acertou./Errou." não modificou o padrão de escolha deste modelo
    neste tamanho de exposição.
