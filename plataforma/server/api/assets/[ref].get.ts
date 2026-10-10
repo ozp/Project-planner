@@ -1,7 +1,7 @@
 // Serve o asset de um documento pela REF LÓGICA (AD-10: resolução só via
 // registro do documento — nunca caminho direto do cliente).
 import { createReadStream } from 'node:fs'
-import { stat } from 'node:fs/promises'
+import { stat, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
 export default defineEventHandler(async (event) => {
@@ -35,11 +35,15 @@ export default defineEventHandler(async (event) => {
     await stat(path)
     return sendStream(event, createReadStream(path))
   } catch {
-    // disco volátil (deploy recria o container): cai para o binário no banco
+    // disco volátil (deploy recria o container): reconstrói o arquivo a partir
+    // do banco e responde pelo mesmo sendStream — resposta byte-idêntica ao
+    // caminho original (elementos <audio>/<img> do jsPsych exigem) e o disco
+    // vira cache autorrepovoador a cada deploy
     const [row] = await useDb()`SELECT bytes FROM stimulus_assets WHERE sha1 = ${sha1}`
     if (!row?.bytes) {
       throw createError({ statusCode: 500, statusMessage: 'binário do asset ausente no storage' })
     }
-    return Buffer.from(row.bytes as Uint8Array)
+    await writeFile(path, Buffer.from(row.bytes as Uint8Array))
+    return sendStream(event, createReadStream(path))
   }
 })
