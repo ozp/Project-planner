@@ -1,7 +1,7 @@
 // Serve o asset de um documento pela REF LÓGICA (AD-10: resolução só via
 // registro do documento — nunca caminho direto do cliente).
 import { createReadStream } from 'node:fs'
-import { stat, writeFile } from 'node:fs/promises'
+import { mkdir, stat, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
 export default defineEventHandler(async (event) => {
@@ -43,6 +43,7 @@ export default defineEventHandler(async (event) => {
     if (!row?.bytes) {
       throw createError({ statusCode: 500, statusMessage: 'binário do asset ausente no storage' })
     }
+    await mkdir(assetsDir, { recursive: true }) // container novo: data/assets pode não existir
     await writeFile(path, Buffer.from(row.bytes as Uint8Array))
     return sendStream(event, createReadStream(path))
   }
