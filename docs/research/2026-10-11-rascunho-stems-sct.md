@@ -56,64 +56,115 @@ numa direção só (par 2 e 8 são positivos).
   instrução de bloco: "Olhe a imagem e escreva o que você vê — descreva
   livremente, como se explicasse a alguém."
 
-## Exemplares de mancha (gerador determinístico — mesma seed, mesmos bytes)
+## Manchas — gerador v2 + PRÉ-TESTE LLM (feedback do ozp: variar FORMA, não tamanho)
 
-Gerador: `plataforma/scripts/gen-mancha.mjs` (mulberry32 idêntico ao core;
-espelho bilateral; densidade radial). Determinismo verificado por md5.
+**v2 do gerador** (`plataforma/scripts/gen-mancha.mjs`): 8 arquétipos de forma
+(blob, anel, lobos, coluna, diagonal, ilhas, raios, faixas) com dispersão
+(sigma 1,6–5,0) e tinta (12–55%) sorteadas por seed — **canvas e rampa fixos**
+(mesmo tamanho/orçamento de caracteres, como pedido). Determinismo por md5.
 
-### seed 1 (md5 b8ab2be3…)
+**Pré-teste (11/10)**: 14 candidatas (seeds 1–14, 5 arquétipos sorteados)
+apresentadas ao gemini-3.1-flash-lite com a consigna da D5
+(`~/code/f5-aplicador/pre-test-manchas.py`, idempotente). Resultados:
 
-```
- =       +=---=+       = 
-    =  - **# #** -  =    
-     -  =* %+% *=  -     
-        : #%-%# :        
-  *==+ -  -%-%-  - +==*  
-   -=  +- % : % -+  =-   
- *   -   -+===+-   -   * 
-    =-# =:+-=-+:= #-=    
-     +  -*=#=#=*-  +     
-  *   - **+ - +** -   *  
-  =   # *= = = =* #   =  
-```
+- **Respostas projetivas de fato**: "árvore de Natal" (diagonal), "máscara
+  estilizada / emblema tribal" (anel), "criatura com olhos grandes e
+  expressão enigmática" (ilhas), "alienígena ou robô minimalista" (faixas) —
+  analogia + elaboração perceptiva, não descrição do meio. A menção "arte
+  ASCII" abre a resposta porque a CONSIGNA a nomeia (priming do meio) — não
+  domina o conteúdo; registrar como nota de método.
+- **Distintividade** (1 − Jaccard médio entre respostas a estímulos
+  diferentes): 0,69–0,83; melhores: seed 1 (0,826), 5 (0,756), 4 (0,750),
+  11 (0,750), 9 (0,739), 13 (0,732).
+- **glm-4.5v**: quota da zhipu ainda fechada (429) — coluna glm a completar
+  re-rodando o script quando abrir (`python3 pre-test-manchas.py ... glm`).
 
-### seed 2 (md5 854ff70d…)
+**Recomendação das 9 a congelar** (cobertura de arquétipo + distintividade):
+seeds **1, 13** (diagonal), **2** (lobos), **4, 11** (faixas), **5, 14**
+(anel), **7, 9** (ilhas). Decisão final do ozp após olhar os renders.
 
-```
-       **= - - =**       
-  *-:    +--%--+    :-*  
- ** +*  #*  +  *#  *+ ** 
-+     =#+   =   +#=     +
-    -+= #+#@-@#+# =+-    
- +  = -  -%*#*%-  - =  + 
-   * ++=#+-#@#-+#=++ *   
-      =  +  #  +  =      
-   = = -* ##*## *- = =   
-    =    *#=#=#*    =    
-    =  + :#* *#: +  =    
-```
+### Exemplares (5 das recomendadas)
 
-### seed 3
+#### seed 1 (seed=1 arquétipo=diagonal sigma=3.2 tinta=17%)
 
 ```
- =+  - - * *** * - -  += 
-   *   *= :#*#: =*   *   
-   =  =+  =*%*=  +=  =   
-     -  ++*#%#*++  -     
-   =+     % = %     +=   
-    + ##+ *= =* +## +    
-  -     -**= =**-     -  
-       *+ +%-%+ +*       
-      =-=:+% %+:=-=      
-    +-  ++ %-% ++  -+    
-=         + - +         =
+- -           
+            -            
+            #            
+        *  =+=  *        
+    -      *+*      -    
+      = ** %=% ** =      
+       *# ++*++ #*       
+    -   =**---**=   -    
+     ==+%-@+++@-%+==     
+  - +*=-=-- # --=-=*+ -  
+  =    =##=+ +=##=    =
 ```
 
-**Pergunta para o ozp**: densidade/tamanho destes exemplares servem, ou quer
-manchas mais cheias/mais vazias, maiores/menores? (parâmetros W/H/densidade
-no script).
+#### seed 5 (seed=5 arquétipo=anel sigma=4.6 tinta=26%)
 
-## Análise v0 (D3 — descritiva, juiz adiado)
+```
+=  =*=#=%*%=#=*=  =   
+       -+* = = *+-       
+      #+- @%=%@ -+#      
+      -*+*= + =*+*-      
+    *-*-=%*+#+*%=-*-*    
+    **%+%*= * =*%+%**    
+   *  -%%+=# #=+%%-  *   
+     = *-#-*=*-#-* =     
+    + -*%=*@@@*=%*- +    
+       -*%  #  %*-       
+       =  *=-=*  =
+```
+
+#### seed 4 (seed=4 arquétipo=faixas sigma=1.9 tinta=18%)
+
+```
+*  +   =     =   +  *  
+  == =%-+%=#=#=%+-%= ==  
+    *+-    *=*    -+*    
+                         
+                         
+++*- #=    -=-    =# -*++
+*   % %   -===-   % %   *
+=-  = * +*# * #*+ * =  -=
+       **       **       
+   #+- +=* %#% *=+ -+#
+```
+
+#### seed 9 (seed=9 arquétipo=ilhas sigma=4.1 tinta=20%)
+
+```
++-*-+ +-*-+       
+    - *+== ### ==+* -    
+  +  + - ==* *== - +  +  
+    + *= -** **- =* +    
+ + -*  -*  #-#  *-  *- + 
+    +   #= *%* =#   +    
+                         
+     +-=   * *   =-+     
+    *+-+   % %   +-+*    
+   =  %+  == ==  +%  =   
+      =+ #=-*-=# +=
+```
+
+#### seed 13 (seed=13 arquétipo=diagonal sigma=4.1 tinta=17%)
+
+```
+- = = -         
+          +   +          
+          -+++-          
+      +    ===    +      
+       * =++-++= *       
+       #  = = =  #       
+      =+=  +*+  =+=      
+   -*  =- ==+== -=  *-   
+     = ==* +++ *== =     
+   =  # **+= =+** #  =   
+  =+  #%#--   --#%#  +=
+```
+
+### Análise v0 (D3)(D3 — descritiva, juiz adiado)
 
 1. Taxa de completion e comprimento por modelo/domínio;
 2. Deriva direcional por par (codificação humana de amostra primeiro — gabarito);
