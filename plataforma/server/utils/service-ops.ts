@@ -14,11 +14,11 @@ import { ServiceError } from './service-auth'
 
 type Db = ReturnType<typeof postgres>
 
-export const SERVICE_PROTOCOLS = ['mts', 'stroop', 'gng', 'nback'] as const
+export const SERVICE_PROTOCOLS = ['mts', 'stroop', 'gng', 'nback', 'text'] as const
 export type ServiceProtocol = typeof SERVICE_PROTOCOLS[number]
 
 const KIND_TO_PROTOCOL: Record<string, ServiceProtocol> = {
-  SMTS: 'mts', DMTS: 'mts', STROOP: 'stroop', GNG: 'gng', NBACK: 'nback',
+  SMTS: 'mts', DMTS: 'mts', STROOP: 'stroop', GNG: 'gng', NBACK: 'nback', TEXT: 'text',
 }
 
 /** Protocolo dominante do documento — null se blocos de protocolos mistos. */
