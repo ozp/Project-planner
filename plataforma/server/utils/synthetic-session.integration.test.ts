@@ -5,7 +5,7 @@
 import type { Sql } from 'postgres'
 import postgres from 'postgres'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { fixtureExperiment } from '@core/schema'
+import { fixtureExperiment, fixtureSct } from '@core/schema'
 import { MtsEngine } from '@core/engine/engine'
 import { openSyntheticSession, respondTrial, sessionsForExport } from './synthetic-session'
 
@@ -129,5 +129,66 @@ describe.skipIf(!available)('sessão sintética dinâmica', () => {
     const hum = await sessionsForExport(sql, docVersion, 'human')
     expect(syn.length).toBeGreaterThanOrEqual(1)
     expect(hum).toHaveLength(0)
+  })
+})
+
+// F5 probe nº2 S4 — sessão sintética de RESPOSTA LIVRE (bloco TEXT/SCT)
+describe.skipIf(!available)('sessão sintética — bloco TEXT (resposta livre)', () => {
+  const DOC_TEXT = structuredClone(fixtureSct) // 1 bloco TEXT, 4 stems (1 com visualText)
+  let docVersionText = ''
+
+  beforeAll(async () => {
+    if (!available) return
+    const [row] = await sql`INSERT INTO experiment_docs (document, content_sha1, published)
+      VALUES (${sql.json(DOC_TEXT)}, ${`sct-${Math.random()}`}, true) RETURNING doc_version::text AS v`
+    docVersionText = row!.v as string
+  })
+
+  it('abre com a 1ª tentativa de texto (stem + visualText, sem options, sem correct)', async () => {
+    const s = await openSyntheticSession(sql, { docVersion: docVersionText, modelRef: 'm-texto', seed: 42 })
+    expect(s.primeira.trialSeq).toBe(0)
+    expect('stem' in s.primeira).toBe(true)
+    if (!('stem' in s.primeira)) throw new Error('primeira deveria ser de texto')
+    expect(s.primeira.stem.length).toBeGreaterThan(0)
+    expect(JSON.stringify(s.primeira)).not.toContain('correct')
+    expect(JSON.stringify(s.primeira)).not.toContain('optionRefs')
+    expect(s.instructions.length).toBe(1)
+  })
+
+  it('completa a sessão com response_text (4 tentativas, fim completed, dado canônico no banco)', async () => {
+    const s = await openSyntheticSession(sql, { docVersion: docVersionText, modelRef: 'm-texto', seed: 42 })
+    const falas = ['feliz por estar aqui', 'um refúgio', 'dou o meu melhor', 'uma figura simétrica']
+    let atual = s.primeira
+    const seqs: number[] = []
+    let motivoFim: string | undefined
+    let guard = 0
+    while (atual && guard++ < 20) {
+      seqs.push(atual.trialSeq)
+      const r = await respondTrial(sql, {
+        sessionId: s.sessionId, trialSeq: atual.trialSeq,
+        responseText: falas[seqs.length - 1]!, inference: INF,
+      })
+      expect(r.correct).toBeNull()
+      atual = r.proxima!
+      motivoFim = r.motivoFim
+    }
+    expect(atual).toBeNull()
+    expect(motivoFim).toBe('completed')
+    expect(seqs).toEqual([0, 1, 2, 3])
+    const rows = await sql`SELECT payload->'response'->>'text' AS txt
+      FROM trial_results WHERE session_id = ${s.sessionId}::uuid ORDER BY trial_seq`
+    expect(rows.map(r => r.txt)).toEqual(falas)
+    const [sess] = await sql`SELECT status FROM sessions WHERE id = ${s.sessionId}::uuid`
+    expect(sess.status).toBe('closed')
+  })
+
+  it('rejeita selected_ref em tentativa de texto (e response_text vazio)', async () => {
+    const s = await openSyntheticSession(sql, { docVersion: docVersionText, modelRef: 'm-texto', seed: 42 })
+    await expect(respondTrial(sql, {
+      sessionId: s.sessionId, trialSeq: s.primeira.trialSeq, selectedRef: 'b1.svg', inference: INF,
+    })).rejects.toThrow(/response_text|texto/i)
+    await expect(respondTrial(sql, {
+      sessionId: s.sessionId, trialSeq: s.primeira.trialSeq, responseText: '', inference: INF,
+    })).rejects.toThrow()
   })
 })

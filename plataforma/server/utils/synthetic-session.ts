@@ -15,7 +15,7 @@ import { ServiceError } from './service-auth'
 
 type Db = ReturnType<typeof postgres>
 
-interface ReplayTrial {
+interface ReplayChoiceTrial {
   blockName: string
   sample: string[]
   optionOrder: string[]
@@ -23,7 +23,15 @@ interface ReplayTrial {
   consequencia: { acerto: string | null, erro: string | null }
 }
 
-export interface SyntheticPlanTrial {
+interface ReplayTextTrial {
+  blockName: string
+  stem: string
+  visualText: string | null
+}
+
+type ReplayTrial = ReplayChoiceTrial | ReplayTextTrial
+
+export interface SyntheticChoicePlanTrial {
   trialSeq: number
   blockName: string
   sampleRefs: string[]
@@ -34,6 +42,17 @@ export interface SyntheticPlanTrial {
    *  resposta correta — o manager aplica após receber certo/errado). */
   consequencia: { acerto: string | null, erro: string | null }
 }
+
+export interface SyntheticTextPlanTrial {
+  trialSeq: number
+  blockName: string
+  /** Frase incompleta/prompt aberto (SCT, vinhetas). */
+  stem: string
+  /** Mancha ASCII (estímulo visual text-native) ou null. */
+  visualText: string | null
+}
+
+export type SyntheticPlanTrial = SyntheticChoicePlanTrial | SyntheticTextPlanTrial
 
 /** Replay com as respostas REAIS: o motor decide repetição/avanço/fim pelo
  *  critério. Retorna as apresentações até a próxima ainda sem resposta (ou o
@@ -52,7 +71,18 @@ function replayWith(doc: ExperimentDocument, seed: number, respostas: Map<number
   for (;;) {
     const ev = engine.next()
     if (ev.kind === 'sessionEnd') return { apresentadas, fim: true, motivo: ev.reason }
-    if (ev.kind === 'textTrial') throw new Error('bloco TEXT (resposta livre/projetivos) ainda sem suporte no caminho sintético — S4 do plano do SCT')
+    if (ev.kind === 'textTrial') {
+      const p = ev.presentation
+      apresentadas.set(p.trialSeq, {
+        blockName: p.blockName,
+        stem: p.trial.stem,
+        visualText: p.trial.visualText ?? null,
+      })
+      const resposta = respostas.get(p.trialSeq)
+      if (resposta === undefined) return { apresentadas, fim: false } // próxima a apresentar
+      engine.respondText(resposta)
+      continue
+    }
     if (ev.kind !== 'trial') continue
     const p = ev.presentation
     apresentadas.set(p.trialSeq, {
@@ -71,6 +101,7 @@ function replayWith(doc: ExperimentDocument, seed: number, respostas: Map<number
 const assetUrl = (ref: string, docVersion: string) => `/api/assets/${ref}?doc=${docVersion}`
 
 function planTrialOf(t: ReplayTrial, seq: number, docVersion: string): SyntheticPlanTrial {
+  if ('stem' in t) return { trialSeq: seq, blockName: t.blockName, stem: t.stem, visualText: t.visualText }
   return {
     trialSeq: seq,
     blockName: t.blockName,
@@ -98,7 +129,7 @@ async function loadSession(sql: Db, sessionId: string) {
 async function respostasIngeridas(sql: Db, sessionId: string): Promise<Map<number, string>> {
   const rows = await sql`SELECT trial_seq, payload FROM trial_results WHERE session_id = ${sessionId}::uuid ORDER BY trial_seq`
   return new Map((rows as unknown as Array<{ trial_seq: number, payload: TrialResult }>)
-    .map(r => [r.trial_seq, r.payload.response.selectedRef ?? '']))
+    .map(r => [r.trial_seq, r.payload.response.selectedRef ?? r.payload.response.text ?? '']))
 }
 
 /** Tool F5: abrir sessão sintética — devolve a 1ª tentativa (a sessão cresce
@@ -131,18 +162,25 @@ export async function openSyntheticSession(
   return { sessionId: row!.id as string, primeira: planTrialOf(primeira[1], primeira[0], input.docVersion), instructions }
 }
 
+/** AD-10 (paridade com o core): resposta livre não carrega conteúdo ativo/URL. */
+const ACTIVE_CONTENT = /<\s*script|<\s*iframe|javascript\s*:|\son\w+\s*=|https?:\/\//i
+
 /** Tool F5: resposta de UMA tentativa — pontua server-side, grava canônico e
  *  devolve a PRÓXIMA tentativa (ou fim, fechando a sessão). O manager alimenta
- *  o modelo com {correct} como feedback — o manipulando do probe. */
+ *  o modelo com {correct} como feedback — o manipulando do probe (tentativas
+ *  de texto não têm acerto: correct vem null). */
 export async function respondTrial(
   sql: Db,
   input: {
     sessionId: string
     trialSeq: number
-    selectedRef: string
+    /** Tentativa de escolha: a ref escolhida. */
+    selectedRef?: string
+    /** Tentativa de resposta livre (bloco TEXT): o texto do respondente. */
+    responseText?: string
     inference: { modelRef: string, provider: string, route: 'byok' | 'platform' | 'local', latencyMs: number, costUsd?: number }
   },
-): Promise<{ trialSeq: number, correct: boolean, proxima: SyntheticPlanTrial | null, motivoFim?: 'completed' | 'maxRepetitions' }> {
+): Promise<{ trialSeq: number, correct: boolean | null, proxima: SyntheticPlanTrial | null, motivoFim?: 'completed' | 'maxRepetitions' }> {
   const session = await loadSession(sql, input.sessionId)
   const respostas = await respostasIngeridas(sql, input.sessionId)
 
@@ -151,25 +189,53 @@ export async function respondTrial(
   if (!trial) {
     throw new ServiceError(422, `trial_seq ${input.trialSeq} fora do plano corrente da sessão`)
   }
-  const correct = input.selectedRef === trial.correct
-
-  const result: TrialResult = {
-    schemaVersion: 1,
-    sessionId: input.sessionId,
-    respondentClass: 'synthetic',
-    trialSeq: input.trialSeq,
-    blockName: trial.blockName,
-    stimulusHashes: { sample: trial.sample, comparisons: trial.optionOrder },
-    response: { selectedRef: input.selectedRef },
-    correct,
-    inference: {
-      modelRef: input.inference.modelRef,
-      provider: input.inference.provider,
-      route: input.inference.route,
-      latencyMs: input.inference.latencyMs,
-      ...(input.inference.costUsd !== undefined ? { costUsd: input.inference.costUsd } : {}),
-    },
+  const hasRef = typeof input.selectedRef === 'string' && input.selectedRef.length > 0
+  const hasText = typeof input.responseText === 'string' && input.responseText.length > 0
+  if (hasRef === hasText) {
+    throw new ServiceError(422, 'informe exatamente um: selected_ref (tentativa de escolha) ou response_text (tentativa de texto)')
   }
+  if (hasText && input.responseText!.length > 5000) {
+    throw new ServiceError(422, 'response_text: máximo 5000 caracteres')
+  }
+  if (hasText && ACTIVE_CONTENT.test(input.responseText!)) {
+    throw new ServiceError(422, 'response_text: conteúdo ativo/URL externa proibido (AD-10)')
+  }
+  const isTextTrial = 'stem' in trial
+  if (isTextTrial !== hasText) {
+    throw new ServiceError(422, isTextTrial
+      ? 'tentativa de TEXTO exige response_text (não selected_ref)'
+      : 'tentativa de ESCOLHA exige selected_ref (não response_text)')
+  }
+
+  const inference: TrialResult['inference'] = {
+    modelRef: input.inference.modelRef,
+    provider: input.inference.provider,
+    route: input.inference.route,
+    latencyMs: input.inference.latencyMs,
+    ...(input.inference.costUsd !== undefined ? { costUsd: input.inference.costUsd } : {}),
+  }
+  const result: TrialResult = isTextTrial
+    ? {
+        schemaVersion: 1,
+        sessionId: input.sessionId,
+        respondentClass: 'synthetic',
+        trialSeq: input.trialSeq,
+        blockName: trial.blockName,
+        response: { text: input.responseText! },
+        inference,
+      }
+    : {
+        schemaVersion: 1,
+        sessionId: input.sessionId,
+        respondentClass: 'synthetic',
+        trialSeq: input.trialSeq,
+        blockName: trial.blockName,
+        stimulusHashes: { sample: trial.sample, comparisons: trial.optionOrder },
+        response: { selectedRef: input.selectedRef! },
+        correct: input.selectedRef === trial.correct,
+        inference,
+      }
+  const correct: boolean | null = isTextTrial ? null : input.selectedRef === trial.correct
   const v = validateTrialResult(result)
   if (!v.ok) throw new ServiceError(422, `resultado sintético inválido — ${v.errors.join(' | ')}`)
 
@@ -178,9 +244,9 @@ export async function respondTrial(
     // idempotente por tentativa: a 1ª resposta vale (inclusive no retorno)
     const existing = await tx`SELECT payload->>'correct' AS correct
       FROM trial_results WHERE session_id = ${input.sessionId}::uuid AND trial_seq = ${input.trialSeq}`
-    if (existing.length > 0) {
+    if (existing.length > 0 && !isTextTrial) {
       effectiveCorrect = existing[0]!.correct === 'true'
-    } else {
+    } else if (existing.length === 0) {
       await tx`
         INSERT INTO trial_results (session_id, trial_seq, payload)
         VALUES (${input.sessionId}::uuid, ${input.trialSeq}, ${sql.json(result)})`
