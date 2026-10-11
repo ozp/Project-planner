@@ -15,7 +15,7 @@ const trialResultJsonSchema = {
   $id: 'trial-result-v1',
   type: 'object',
   additionalProperties: false,
-  required: ['schemaVersion', 'sessionId', 'respondentClass', 'trialSeq', 'blockName', 'stimulusHashes', 'response'],
+  required: ['schemaVersion', 'sessionId', 'respondentClass', 'trialSeq', 'blockName', 'response'],
   properties: {
     schemaVersion: { const: TRIAL_RESULT_SCHEMA_VERSION },
     sessionId: { type: 'string', minLength: 1 },
@@ -36,7 +36,7 @@ const trialResultJsonSchema = {
       additionalProperties: false,
       properties: {
         selectedRef: stimulusRef,
-        text: { type: 'string', maxLength: 20000 },
+        text: { type: 'string', minLength: 1, maxLength: 20000 },
       },
     },
     correct: { type: 'boolean' },
@@ -65,6 +65,11 @@ const trialResultJsonSchema = {
   },
   allOf: [
     {
+      // tentativa de escolha: refs apresentadas são obrigatórias (reprodutibilidade)
+      if: { properties: { response: { type: 'object', required: ['selectedRef'], properties: { selectedRef: true } } }, required: ['response'] },
+      then: { required: ['stimulusHashes'], properties: { stimulusHashes: true } },
+    },
+    {
       // humano: timing obrigatório, inference proibida (prop false = forbidden, draft 2020-12)
       if: { properties: { respondentClass: { const: 'human' } }, required: ['respondentClass'] },
       then: { required: ['timing'], properties: { timing: true, inference: false } },
@@ -87,7 +92,7 @@ export function validateTrialResult(input: unknown): ValidationResult {
   const tr = input as TrialResult
   const errors: string[] = []
   // selectedRef apresentado deve estar entre os comparativos da tentativa
-  if (tr.response.selectedRef && !tr.stimulusHashes.comparisons.includes(tr.response.selectedRef)) {
+  if (tr.response.selectedRef && !tr.stimulusHashes?.comparisons.includes(tr.response.selectedRef)) {
     errors.push('response.selectedRef: não está em stimulusHashes.comparisons')
   }
   return { ok: errors.length === 0, errors }

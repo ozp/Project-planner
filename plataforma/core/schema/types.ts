@@ -33,6 +33,17 @@ export interface Trial {
   consequence: { correct: Consequence; incorrect: Consequence }
 }
 
+/** Tentativa de resposta livre (projetivos — F5 probes nº 2-5): stem textual
+ *  e/ou estímulo visual text-native (manchas ASCII). Sem correct, sem
+ *  consequência — a resposta vai no ramo `response.text` do TrialResult.
+ *  O estímulo é texto do documento imutável (congelado pelo docVersion). */
+export interface TextTrial {
+  /** Frase incompleta/prompt aberto (SCT, vinhetas). */
+  stem: string
+  /** Estímulo visual text-native (mancha ASCII) — o adapter renderiza monospace. */
+  visualText?: string
+}
+
 export type DisplayProtocol =
   | { kind: 'SMTS' } // simultâneo: amostra permanece
   | { kind: 'DMTS'; delaySeconds: number } // atraso: amostra some
@@ -63,6 +74,20 @@ export interface Block {
   trials: Trial[]
 }
 
+/** Bloco de resposta livre (projetivos): apresenta stems/manchas e captura
+ *  texto — SEM critério e SEM repetições (uma passagem; a análise é de
+ *  conteúdo, não de acerto). */
+export interface TextBlock {
+  name: string
+  instructionText?: string
+  instructionRef?: StimulusRef
+  display: { kind: 'TEXT' }
+  trials: TextTrial[]
+}
+
+/** Documento pode misturar blocos de escolha e de resposta livre. */
+export type AnyBlock = Block | TextBlock
+
 export interface ExperimentConfig {
   screenColor?: [number, number, number]
   itiSeconds: number
@@ -71,7 +96,7 @@ export interface ExperimentConfig {
   startBlock: number
   /** Tela final da sessão (end_text do PyMTS) — asset interno. */
   endTextRef?: StimulusRef
-  blocks: Block[]
+  blocks: AnyBlock[]
 }
 
 /** Feedback descritivo/educativo ao participante — NUNCA diagnóstico (NFR7). */
@@ -118,8 +143,10 @@ export interface TrialResult {
   /** Sequência da tentativa dentro da sessão (ordenador canônico). */
   trialSeq: number
   blockName: string
-  /** Hashes das refs apresentadas — não URLs (reprodutibilidade do estímulo). */
-  stimulusHashes: { sample: StimulusRef[]; comparisons: StimulusRef[] }
+  /** Hashes das refs apresentadas — não URLs (reprodutibilidade do estímulo).
+   *  Obrigatório em tentativas de escolha (selectedRef); tentativas de
+   *  resposta livre não têm refs — o estímulo é texto do documento imutável. */
+  stimulusHashes?: { sample: StimulusRef[]; comparisons: StimulusRef[] }
   /** MTS: selectedRef; projetivos (F5): texto livre. */
   response: { selectedRef?: StimulusRef; text?: string }
   correct?: boolean

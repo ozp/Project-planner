@@ -87,3 +87,40 @@ describe('validateTrialResult', () => {
     expect(validateTrialResult(tr).ok).toBe(false)
   })
 })
+
+// F5 probe nº2 S1 — resultados de resposta livre (projetivos)
+describe('TrialResult — resposta livre', () => {
+  const textHuman: TrialResult = {
+    schemaVersion: 1,
+    sessionId: 'sess-sct-1',
+    respondentClass: 'human',
+    trialSeq: 0,
+    blockName: 'sct',
+    response: { text: '...capaz de mais do que imagino.' },
+    timing: { rtSampleMs: 0, rtComparisonMs: 0, trialMs: 9120 },
+  }
+
+  it('aceita resultado humano de texto sem stimulusHashes nem correct', () => {
+    expect(validateTrialResult(textHuman).ok).toBe(true)
+  })
+
+  it('aceita resultado sintético de texto com inference e sem timing', () => {
+    const tr: TrialResult = {
+      ...textHuman,
+      respondentClass: 'synthetic',
+      inference: { modelRef: 'gemini-3.1-flash-lite', provider: 'google', route: 'byok', latencyMs: 812 },
+    }
+    delete tr.timing
+    expect(validateTrialResult(tr).ok).toBe(true)
+  })
+
+  it('exige stimulusHashes quando a resposta é selectedRef', () => {
+    const tr: TrialResult = { ...textHuman, response: { selectedRef: 'sha1-b1' } }
+    expect(validateTrialResult(tr).ok).toBe(false)
+  })
+
+  it('rejeita response.text vazio', () => {
+    const tr: TrialResult = { ...textHuman, response: { text: '' } }
+    expect(validateTrialResult(tr).ok).toBe(false)
+  })
+})

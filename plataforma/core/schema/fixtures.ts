@@ -4,6 +4,8 @@
 // real (3 blocos × 24) vive em plataforma/experiments/stroop-victoria/.
 // fixtureGng: 3º instrumento (Story 3.7) — Go/No-Go com estímulos compostos
 // (variante BR de equivalência); o pacote real vive em experiments/gng-compostos/.
+// fixtureSct: 1º projetivo (F5 probe nº 2, S1) — blocos TEXT de resposta livre;
+// o pacote real (24 stems) nasce na S2 do plano do SCT.
 import type { ExperimentDocument } from './types'
 
 export const fixtureExperiment: ExperimentDocument = {
@@ -212,6 +214,43 @@ export const fixtureNback: ExperimentDocument = {
           { sample: ['letra-b.svg'], comparisons: ['nb-match.svg', 'nb-nomatch.svg'], correct: 'nb-match.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
           { sample: ['letra-f.svg'], comparisons: ['nb-match.svg', 'nb-nomatch.svg'], correct: 'nb-nomatch.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
           { sample: ['letra-b.svg'], comparisons: ['nb-match.svg', 'nb-nomatch.svg'], correct: 'nb-match.svg', consequence: { correct: { durationSeconds: 0 }, incorrect: { durationSeconds: 0 } } },
+        ],
+      },
+    ],
+  },
+}
+
+export const fixtureSct: ExperimentDocument = {
+  schemaVersion: 1,
+  docVersion: 'doc-0005',
+  title: 'Frases incompletas (fixture)',
+  description: 'SCT com stems próprios — resposta livre capturada em response.text (F5 probe nº 2).',
+  language: 'pt-BR',
+  feedback: { text: 'Obrigado! Suas respostas foram registradas para pesquisa.' },
+  experiment: {
+    screenColor: [255, 255, 255],
+    itiSeconds: 0.5,
+    startBlock: 1,
+    blocks: [
+      {
+        name: 'sct',
+        instructionText: 'Complete cada frase com o que primeiro vier à mente — não há resposta certa nem errada.',
+        display: { kind: 'TEXT' },
+        trials: [
+          { stem: 'Eu me sinto' },
+          { stem: 'Minha família é' },
+          { stem: 'No trabalho, eu' },
+          {
+            stem: 'O que vejo nesta imagem é',
+            visualText: [
+              '   .:-=-:.   ',
+              '  :-+++++-:  ',
+              ':-++*#*++-:',
+              ':-++*#*++-:',
+              '  :-+++++-:  ',
+              '   .:-=-:.   ',
+            ].join('\n'),
+          },
         ],
       },
     ],

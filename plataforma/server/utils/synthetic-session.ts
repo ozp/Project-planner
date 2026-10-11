@@ -52,6 +52,7 @@ function replayWith(doc: ExperimentDocument, seed: number, respostas: Map<number
   for (;;) {
     const ev = engine.next()
     if (ev.kind === 'sessionEnd') return { apresentadas, fim: true, motivo: ev.reason }
+    if (ev.kind === 'textTrial') throw new Error('bloco TEXT (resposta livre/projetivos) ainda sem suporte no caminho sintético — S4 do plano do SCT')
     if (ev.kind !== 'trial') continue
     const p = ev.presentation
     apresentadas.set(p.trialSeq, {

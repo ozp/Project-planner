@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { fixtureExperiment, fixtureGng, fixtureNback, fixtureStroop, validateExperimentDocument } from './index'
+import { fixtureExperiment, fixtureGng, fixtureNback, fixtureSct, fixtureStroop, validateExperimentDocument } from './index'
 
 // Story 1.2 — ACs do contrato do documento do experimento
 describe('validateExperimentDocument', () => {
@@ -156,5 +156,60 @@ describe('validateExperimentDocument — NBACK', () => {
     const v = validateExperimentDocument(doc)
     expect(v.ok).toBe(false)
     expect(v.errors.join('\n')).toMatch(/comparativos/)
+  })
+})
+
+// F5 probe nº2 S1 — blocos TEXT (projetivos) no contrato do documento
+describe('validateExperimentDocument — blocos TEXT', () => {
+  it('aceita documento SCT válido (sem criterion/maxRepetitions)', () => {
+    const result = validateExperimentDocument(fixtureSct)
+    expect(result.ok).toBe(true)
+  })
+
+  it('rejeita trial de escolha dentro de bloco TEXT', () => {
+    const doc = structuredClone(fixtureSct)
+    const block = doc.experiment.blocks[0]!
+    if (block.display.kind !== 'TEXT') throw new Error('fixture')
+    block.trials[0] = {
+      sample: ['a1.svg'], comparisons: ['b1.svg', 'b2.svg'], correct: 'b1.svg',
+      consequence: { correct: { durationSeconds: 1 }, incorrect: { durationSeconds: 1 } },
+    } as unknown as typeof block.trials[0]
+    expect(validateExperimentDocument(doc).ok).toBe(false)
+  })
+
+  it('rejeita TextTrial dentro de bloco de escolha', () => {
+    const doc = structuredClone(fixtureExperiment)
+    const block = doc.experiment.blocks[0]!
+    block.trials[0] = { stem: 'Eu me sinto' } as unknown as typeof block.trials[0]
+    expect(validateExperimentDocument(doc).ok).toBe(false)
+  })
+
+  it('bloco de escolha sem criterion continua rejeitado', () => {
+    const doc = structuredClone(fixtureExperiment)
+    const block = doc.experiment.blocks[0]!
+    delete (block as Partial<typeof block>).criterion
+    expect(validateExperimentDocument(doc).ok).toBe(false)
+  })
+
+  it('rejeita conteúdo ativo em stem e em visualText (AD-10)', () => {
+    const doc = structuredClone(fixtureSct)
+    const block = doc.experiment.blocks[0]!
+    if (block.display.kind !== 'TEXT') throw new Error('fixture')
+    block.trials[0] = { stem: 'Eu me sinto <script>alert(1)</script>' }
+    expect(validateExperimentDocument(doc).ok).toBe(false)
+
+    const doc2 = structuredClone(fixtureSct)
+    const block2 = doc2.experiment.blocks[0]!
+    if (block2.display.kind !== 'TEXT') throw new Error('fixture')
+    block2.trials[3] = { stem: 'O que vejo é', visualText: 'veja https://evil.example.com' }
+    expect(validateExperimentDocument(doc2).ok).toBe(false)
+  })
+
+  it('rejeita stem vazio', () => {
+    const doc = structuredClone(fixtureSct)
+    const block = doc.experiment.blocks[0]!
+    if (block.display.kind !== 'TEXT') throw new Error('fixture')
+    block.trials[0] = { stem: '' }
+    expect(validateExperimentDocument(doc).ok).toBe(false)
   })
 })

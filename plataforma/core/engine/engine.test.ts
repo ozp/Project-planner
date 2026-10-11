@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import type { EngineEvent } from './engine'
 import { MtsEngine } from './engine'
-import { fixtureExperiment, fixtureGng, fixtureNback, fixtureStroop } from '../schema'
-import type { ExperimentDocument } from '../schema'
+import { fixtureExperiment, fixtureGng, fixtureNback, fixtureSct, fixtureStroop } from '../schema'
+import type { ExperimentDocument, TextTrial } from '../schema'
 
 interface RunLog {
   events: EngineEvent[]
@@ -258,5 +258,94 @@ describe('MtsEngine — NBACK', () => {
     const blockEnds = events.filter(e => e.kind === 'blockEnd')
     expect(blockEnds.map(e => (e as { correct: number, total: number }).correct)).toEqual([4, 5])
     expect(events.at(-1)).toMatchObject({ kind: 'sessionEnd', reason: 'completed' })
+  })
+})
+
+// F5 probe nº2 S1 — blocos TEXT (projetivos): resposta livre, sem correct/critério
+describe('MtsEngine — blocos TEXT', () => {
+  function runText(doc: ExperimentDocument, seed: number, fill = 'uma conclusão') {
+    const engine = new MtsEngine(doc, seed)
+    const events: EngineEvent[] = []
+    const texts = new Map<number, string>()
+    for (;;) {
+      const ev = engine.next()
+      events.push(ev)
+      if (ev.kind === 'sessionEnd') break
+      if (ev.kind === 'textTrial') {
+        texts.set(ev.presentation.trialSeq, fill)
+        engine.respondText(fill)
+      }
+    }
+    return { events, texts }
+  }
+
+  const stemsOf = (events: EngineEvent[]) =>
+    events.flatMap(ev => (ev.kind === 'textTrial' ? [ev.presentation.trial.stem] : []))
+
+  it('é determinístico: mesma seed + mesmo doc = mesma sequência de eventos', () => {
+    const a = runText(fixtureSct, 42)
+    const b = runText(fixtureSct, 42)
+    expect(a.events).toEqual(b.events)
+    expect([...a.texts.entries()]).toEqual([...b.texts.entries()])
+  })
+
+  it('apresenta cada stem exatamente uma vez (ordem embaralhada pela seed)', () => {
+    const { events } = runText(fixtureSct, 42)
+    const block = fixtureSct.experiment.blocks[0]!
+    if (block.display.kind !== 'TEXT') throw new Error('fixture: primeiro bloco não é TEXT')
+    const expected = block.trials.map((t: TextTrial) => t.stem).sort()
+    expect(stemsOf(events)).toHaveLength(expected.length)
+    expect([...stemsOf(events)].sort()).toEqual(expected)
+  })
+
+  it('emite blockStart → instruction → textTrial×4 → blockEnd(passed) → sessionEnd(completed)', () => {
+    const { events } = runText(fixtureSct, 7)
+    expect(events.map(e => e.kind)).toEqual([
+      'blockStart', 'instruction', 'textTrial', 'textTrial', 'textTrial', 'textTrial', 'blockEnd', 'sessionEnd',
+    ])
+    expect(events.at(-1)).toMatchObject({ kind: 'sessionEnd', reason: 'completed' })
+    expect(events.find(e => e.kind === 'blockEnd')).toMatchObject({ passed: true, total: 4, repetition: 1 })
+  })
+
+  it('carrega o visualText (mancha ASCII) no evento da tentativa', () => {
+    const { events } = runText(fixtureSct, 42)
+    const comVisual = events.filter(
+      e => e.kind === 'textTrial' && e.presentation.trial.visualText,
+    ) as Extract<EngineEvent, { kind: 'textTrial' }>[]
+    expect(comVisual).toHaveLength(1)
+    expect(comVisual[0]!.presentation.trial.visualText).toMatch(/#/)
+  })
+
+  it('respondText sem tentativa pendente lança; respond de escolha sobre textTrial lança', () => {
+    const engine = new MtsEngine(fixtureSct, 42)
+    expect(() => engine.respondText('x')).toThrow()
+    engine.next() // blockStart
+    engine.next() // instruction
+    const ev = engine.next()
+    if (ev.kind !== 'textTrial') throw new Error('esperado textTrial')
+    expect(() => engine.respond('sha1-x')).toThrow(/respondText/)
+    engine.respondText('resposta livre')
+    expect(() => engine.next()).toBeTruthy() // avança após respondText
+  })
+
+  it('trialSeq permanece monotônico entre blocos de escolha e bloco TEXT', () => {
+    const doc = structuredClone(fixtureExperiment)
+    doc.experiment.blocks.push(structuredClone(fixtureSct.experiment.blocks[0]!))
+    const engine = new MtsEngine(doc, 42)
+    const seqs: number[] = []
+    let ev: EngineEvent
+    do {
+      ev = engine.next()
+      if (ev.kind === 'trial') {
+        seqs.push(ev.presentation.trialSeq)
+        engine.respond(ev.presentation.trial.correct)
+      }
+      if (ev.kind === 'textTrial') {
+        seqs.push(ev.presentation.trialSeq)
+        engine.respondText('r')
+      }
+    } while (ev.kind !== 'sessionEnd')
+    expect(seqs).toEqual(seqs.map((_, i) => i))
+    expect(ev).toMatchObject({ kind: 'sessionEnd', reason: 'completed' })
   })
 })

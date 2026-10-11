@@ -2,7 +2,7 @@
 // Executa blocos com critério de mastery, repetições e re-embaralhamento com
 // seed registrada. Adapters apenas renderizam estímulos (EngineEvent) e
 // devolvem a resposta do respondente (respond). Sem HTTP, DOM, clock ou LLM.
-import type { DisplayProtocol, ExperimentDocument, StimulusRef, Trial } from '../schema'
+import type { DisplayProtocol, ExperimentDocument, StimulusRef, TextTrial, Trial } from '../schema'
 import { mulberry32, shuffled } from './prng'
 
 export interface PresentedTrial {
@@ -17,10 +17,20 @@ export interface PresentedTrial {
   blockName: string
 }
 
+export interface PresentedTextTrial {
+  /** Tentativa de resposta livre (projetivos — F5 probes nº 2-5): stem e/ou mancha ASCII. */
+  trial: Readonly<TextTrial>
+  display: { kind: 'TEXT' }
+  /** Sequência global da tentativa na sessão — casa com TrialResult.trialSeq. */
+  trialSeq: number
+  blockName: string
+}
+
 export type EngineEvent =
   | { kind: 'blockStart'; blockName: string; repetition: number }
   | { kind: 'instruction'; blockName: string; instructionText?: string; instructionRef?: string }
   | { kind: 'trial'; presentation: PresentedTrial }
+  | { kind: 'textTrial'; presentation: PresentedTextTrial }
   | { kind: 'blockEnd'; blockName: string; passed: boolean; correct: number; total: number; repetition: number }
   | { kind: 'sessionEnd'; reason: 'completed' | 'maxRepetitions' }
 
@@ -28,10 +38,12 @@ export type EngineEvent =
  * Máquina de estados do experimento.
  *
  * Uso: `next()` entrega o próximo evento de apresentação; quando o evento é
- * `trial`, o adapter coleta a resposta e devolve via `respond(selectedRef)`.
- * `respond` só é válido sobre um `trial` pendente; `next` só avança quando não
- * há trial pendente. Eventos `blockEnd`/`sessionEnd` são terminais de passo —
- * `next()` após `sessionEnd` lança (a sessão acabou).
+ * `trial`, o adapter coleta a resposta e devolve via `respond(selectedRef)`;
+ * quando é `textTrial` (projetivos), devolve via `respondText(texto)`.
+ * `respond`/`respondText` só são válidos sobre a tentativa pendente do tipo
+ * correspondente; `next` só avança quando não há tentativa pendente. Eventos
+ * `blockEnd`/`sessionEnd` são terminais de passo — `next()` após `sessionEnd`
+ * lança (a sessão acabou).
  */
 export class MtsEngine {
   readonly seed: number
@@ -43,8 +55,8 @@ export class MtsEngine {
   private repetition = 1
   private blockCorrect = 0
   private blockTotal = 0
-  private queue: readonly Trial[] = [] // linhas da passagem atual (embaralhadas)
-  private pendingTrial: Readonly<Trial> | null = null
+  private queue: readonly (Trial | TextTrial)[] = [] // linhas da passagem atual (embaralhadas)
+  private pending: { kind: 'choice'; trial: Readonly<Trial> } | { kind: 'text'; trial: Readonly<TextTrial> } | null = null
   private trialSeq = -1
   private lastEvent: EngineEvent['kind'] | null = null
   private finished = false
@@ -64,7 +76,7 @@ export class MtsEngine {
 
   next(): EngineEvent {
     if (this.finished) throw new Error('engine: sessão encerrada — next() após sessionEnd')
-    if (this.pendingTrial) throw new Error('engine: trial pendente — chame respond() antes de next()')
+    if (this.pending) throw new Error('engine: trial pendente — chame respond()/respondText() antes de next()')
 
     // decisão pendente de um blockEnd anterior
     if (this.lastEvent === 'blockEnd') {
@@ -92,7 +104,8 @@ export class MtsEngine {
     if (this.lastEvent === null || this.lastEvent === 'blockEnd') {
       // início de passagem do bloco: (re)embaralha as linhas — EXCETO NBACK:
       // a ordem é semântica (alvo = estímulo igual ao de n posições antes);
-      // o documento autora a sequência e a seed não pode destruí-la
+      // o documento autora a sequência e a seed não pode destruí-la.
+      // Blocos TEXT embaralham: reduz efeito de ordem dos stems, reproduzível pela seed.
       this.queue = block.display.kind === 'NBACK' ? block.trials : shuffled(block.trials, this.rand)
       this.blockCorrect = 0
       this.blockTotal = 0
@@ -113,7 +126,20 @@ export class MtsEngine {
     const nextTrial = this.queue[this.blockTotal]
     if (nextTrial) {
       this.trialSeq += 1
-      this.pendingTrial = nextTrial
+      if ('stem' in nextTrial) {
+        this.pending = { kind: 'text', trial: nextTrial }
+        this.lastEvent = 'textTrial'
+        return {
+          kind: 'textTrial',
+          presentation: {
+            trial: nextTrial,
+            display: { kind: 'TEXT' },
+            trialSeq: this.trialSeq,
+            blockName: block.name,
+          },
+        }
+      }
+      this.pending = { kind: 'choice', trial: nextTrial }
       this.lastEvent = 'trial'
       return {
         kind: 'trial',
@@ -134,10 +160,14 @@ export class MtsEngine {
 
     // passagem esgotada: emite blockEnd e agenda a decisão (o dado do bloco é científico)
     this.lastEvent = 'blockEnd'
-    const passed = this.blockCorrect >= block.criterion
-    this.afterBlockEnd = passed
-      ? (this.blockIndex === this.doc.experiment.blocks.length - 1 ? 'finish-done' : 'advance')
-      : (this.repetition >= block.maxRepetitions ? 'finish-max' : 'repeat')
+    const lastBlock = this.blockIndex === this.doc.experiment.blocks.length - 1
+    // bloco TEXT não pontua acertos nem repete: análise de conteúdo, não mastery
+    const passed = block.display.kind === 'TEXT' || this.blockCorrect >= block.criterion
+    this.afterBlockEnd = block.display.kind === 'TEXT'
+      ? (lastBlock ? 'finish-done' : 'advance')
+      : passed
+        ? (lastBlock ? 'finish-done' : 'advance')
+        : (this.repetition >= block.maxRepetitions ? 'finish-max' : 'repeat')
     return {
       kind: 'blockEnd',
       blockName: block.name,
@@ -150,12 +180,22 @@ export class MtsEngine {
 
   /** Registra a resposta do respondente para o trial pendente e computa o acerto. */
   respond(selectedRef: StimulusRef): boolean {
-    const trial = this.pendingTrial
+    const trial = this.pending
     if (!trial) throw new Error('engine: respond() sem trial pendente')
-    const correct = selectedRef === trial.correct
+    if (trial.kind !== 'choice') throw new Error('engine: respond() sobre tentativa de texto — use respondText()')
+    const correct = selectedRef === trial.trial.correct
     if (correct) this.blockCorrect += 1
     this.blockTotal += 1
-    this.pendingTrial = null
+    this.pending = null
     return correct
+  }
+
+  /** Registra a resposta livre (projetivos) — sem acerto, sem consequência. */
+  respondText(_text: string): void {
+    const trial = this.pending
+    if (!trial) throw new Error('engine: respondText() sem trial pendente')
+    if (trial.kind !== 'text') throw new Error('engine: respondText() sobre tentativa de escolha — use respond()')
+    this.blockTotal += 1
+    this.pending = null
   }
 }

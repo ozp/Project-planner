@@ -9,6 +9,7 @@ export function collectExperimentRefs(doc: ExperimentDocument): string[] {
   for (const block of doc.experiment.blocks) {
     if (block.instructionRef) refs.add(block.instructionRef)
     for (const trial of block.trials) {
+      if ('stem' in trial) continue // resposta livre: estímulo é texto do documento, não ref
       trial.sample.forEach(r => refs.add(r))
       if (trial.sampleSoundRef) refs.add(trial.sampleSoundRef)
       trial.comparisons.forEach(r => refs.add(r))

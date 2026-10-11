@@ -83,6 +83,9 @@ export class MtsSessionPlugin implements JsPsychPlugin<MtsSessionParams> {
           await clickOn(stage.querySelector<HTMLElement>('#mts-go')!)
           continue
         }
+        if (ev.kind === 'textTrial') {
+          throw new Error('bloco TEXT (resposta livre/projetivos) ainda sem render no adapter jsPsych — S2 do plano do SCT')
+        }
         if (ev.kind !== 'trial') continue // blockStart/blockEnd: sem apresentação
 
         const p = ev.presentation

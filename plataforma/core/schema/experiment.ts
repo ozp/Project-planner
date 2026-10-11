@@ -20,6 +20,105 @@ const consequenceSchema = {
   },
 }
 
+const blockCommon = {
+  name: { type: 'string', minLength: 1, maxLength: 100 },
+  instructionText: { type: 'string', maxLength: 5000 },
+  instructionRef: stimulusRef,
+}
+
+const choiceBlockSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['name', 'display', 'criterion', 'maxRepetitions', 'trials'],
+  properties: {
+    ...blockCommon,
+    display: {
+      oneOf: [
+        { type: 'object', additionalProperties: false, required: ['kind'], properties: { kind: { const: 'SMTS' } } },
+        {
+          type: 'object',
+          additionalProperties: false,
+          required: ['kind', 'delaySeconds'],
+          properties: { kind: { const: 'DMTS' }, delaySeconds: { type: 'number', minimum: 0 } },
+        },
+        { type: 'object', additionalProperties: false, required: ['kind'], properties: { kind: { const: 'STROOP' } } },
+        {
+          type: 'object',
+          additionalProperties: false,
+          required: ['kind', 'responseWindowMs'],
+          properties: { kind: { const: 'GNG' }, responseWindowMs: { type: 'number', exclusiveMinimum: 0 } },
+        },
+        {
+          type: 'object',
+          additionalProperties: false,
+          required: ['kind', 'stimulusMs', 'responseWindowMs'],
+          properties: {
+            kind: { const: 'NBACK' },
+            stimulusMs: { type: 'number', exclusiveMinimum: 0 },
+            responseWindowMs: { type: 'number', exclusiveMinimum: 0 },
+          },
+        },
+      ],
+    },
+    criterion: { type: 'integer', minimum: 1 },
+    maxRepetitions: { type: 'integer', minimum: 1 },
+    trials: {
+      type: 'array',
+      minItems: 1,
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        required: ['sample', 'comparisons', 'correct', 'consequence'],
+        properties: {
+          sample: { type: 'array', minItems: 1, items: stimulusRef },
+          sampleSoundRef: stimulusRef,
+          comparisons: { type: 'array', minItems: 2, items: stimulusRef },
+          correct: stimulusRef,
+          consequence: {
+            type: 'object',
+            additionalProperties: false,
+            required: ['correct', 'incorrect'],
+            properties: {
+              correct: consequenceSchema,
+              incorrect: consequenceSchema,
+            },
+          },
+        },
+      },
+    },
+  },
+}
+
+// Bloco de resposta livre (projetivos — F5 probes nº 2-5): stems e/ou manchas
+// ASCII; SEM criterion/maxRepetitions (uma passagem — análise de conteúdo)
+const textBlockSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['name', 'display', 'trials'],
+  properties: {
+    ...blockCommon,
+    display: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['kind'],
+      properties: { kind: { const: 'TEXT' } },
+    },
+    trials: {
+      type: 'array',
+      minItems: 1,
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        required: ['stem'],
+        properties: {
+          stem: { type: 'string', minLength: 1, maxLength: 500 },
+          visualText: { type: 'string', minLength: 1, maxLength: 2000 },
+        },
+      },
+    },
+  },
+}
+
 const experimentJsonSchema = {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
   $id: 'experiment-document-v1',
@@ -51,70 +150,7 @@ const experimentJsonSchema = {
         blocks: {
           type: 'array',
           minItems: 1,
-          items: {
-            type: 'object',
-            additionalProperties: false,
-            required: ['name', 'display', 'criterion', 'maxRepetitions', 'trials'],
-            properties: {
-              name: { type: 'string', minLength: 1, maxLength: 100 },
-              instructionText: { type: 'string', maxLength: 5000 },
-              instructionRef: stimulusRef,
-                  display: {
-                    oneOf: [
-                      { type: 'object', additionalProperties: false, required: ['kind'], properties: { kind: { const: 'SMTS' } } },
-                      {
-                        type: 'object',
-                        additionalProperties: false,
-                        required: ['kind', 'delaySeconds'],
-                        properties: { kind: { const: 'DMTS' }, delaySeconds: { type: 'number', minimum: 0 } },
-                      },
-                      { type: 'object', additionalProperties: false, required: ['kind'], properties: { kind: { const: 'STROOP' } } },
-                      {
-                        type: 'object',
-                        additionalProperties: false,
-                        required: ['kind', 'responseWindowMs'],
-                        properties: { kind: { const: 'GNG' }, responseWindowMs: { type: 'number', exclusiveMinimum: 0 } },
-                      },
-                      {
-                        type: 'object',
-                        additionalProperties: false,
-                        required: ['kind', 'stimulusMs', 'responseWindowMs'],
-                        properties: {
-                          kind: { const: 'NBACK' },
-                          stimulusMs: { type: 'number', exclusiveMinimum: 0 },
-                          responseWindowMs: { type: 'number', exclusiveMinimum: 0 },
-                        },
-                      },
-                    ],
-                  },
-              criterion: { type: 'integer', minimum: 1 },
-              maxRepetitions: { type: 'integer', minimum: 1 },
-              trials: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  additionalProperties: false,
-                  required: ['sample', 'comparisons', 'correct', 'consequence'],
-                  properties: {
-                    sample: { type: 'array', minItems: 1, items: stimulusRef },
-                    sampleSoundRef: stimulusRef,
-                    comparisons: { type: 'array', minItems: 2, items: stimulusRef },
-                    correct: stimulusRef,
-                    consequence: {
-                      type: 'object',
-                      additionalProperties: false,
-                      required: ['correct', 'incorrect'],
-                      properties: {
-                        correct: consequenceSchema,
-                        incorrect: consequenceSchema,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
+          items: { oneOf: [choiceBlockSchema, textBlockSchema] },
         },
       },
     },
@@ -149,6 +185,7 @@ function semanticRules(doc: ExperimentDocument, errors: string[]): void {
   }
   blocks.forEach((block, bi) => {
     const at = `experiment.blocks[${bi}]`
+    if (block.display.kind === 'TEXT') return // resposta livre: sem critério/acerto — sem regras de escolha
     if (block.criterion > block.trials.length) {
       errors.push(`${at}.criterion: ${block.criterion} > tentativas do bloco (${block.trials.length})`)
     }
@@ -183,6 +220,13 @@ export function validateExperimentDocument(input: unknown): ValidationResult {
   if (doc.feedback) assertNoActiveContent('feedback.text', doc.feedback.text, errors)
   doc.experiment.blocks.forEach((block, bi) => {
     if (block.instructionText) assertNoActiveContent(`experiment.blocks[${bi}].instructionText`, block.instructionText, errors)
+    if (block.display.kind === 'TEXT') {
+      block.trials.forEach((t, ti) => {
+        assertNoActiveContent(`experiment.blocks[${bi}].trials[${ti}].stem`, t.stem, errors)
+        if (t.visualText) assertNoActiveContent(`experiment.blocks[${bi}].trials[${ti}].visualText`, t.visualText, errors)
+      })
+      return
+    }
     block.trials.forEach((t, ti) => {
       const at = `experiment.blocks[${bi}].trials[${ti}].consequence`
       if (t.consequence.correct.text) assertNoActiveContent(`${at}.correct.text`, t.consequence.correct.text, errors)
