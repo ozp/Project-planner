@@ -113,6 +113,17 @@ async function seedRest(cookie) {
     dir: new URL('../experiments/manchas-ascii', import.meta.url).pathname,
     termo: 'Você participará de uma tarefa de pesquisa de percepção: verá imagens abstratas compostas por caracteres e escreverá o que vê nelas. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento.',
   })
+  // F5 probe nº2 v1.5 (OZP-427): fase de INQUÉRITO — desenho [[protocolo-aplicacao-projetiva-inquerito]]
+  await seedExperiment(cookie, {
+    doc: JSON.parse(readFileSync(new URL('../experiments/manchas-ascii-v2/experiment.json', import.meta.url), 'utf8')),
+    dir: new URL('../experiments/manchas-ascii-v2', import.meta.url).pathname,
+    termo: 'Você participará de uma tarefa de pesquisa de percepção em duas etapas: verá imagens abstratas compostas por caracteres, descreverá o que vê e, depois, olhará as mesmas imagens de novo para dizer se vê algo mais ou diferente. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento.',
+  })
+  await seedExperiment(cookie, {
+    doc: JSON.parse(readFileSync(new URL('../experiments/sct-frases-v2/experiment.json', import.meta.url), 'utf8')),
+    dir: new URL('../experiments/sct-frases-v2', import.meta.url).pathname,
+    termo: 'Você participará de uma tarefa de pesquisa de frases incompletas: lerá o início de frases e escreverá continuações livres, podendo desenvolvê-las. Não há resposta certa nem errada. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento.',
+  })
   // Probe Peng (SUPERSEDED pelo padrão 09/10 — ficam publicados p/ registro)
   for (const cond of ['controle', 'sobrevivencia', 'reforco-social', 'material', 'espiritual']) {
     await seedExperiment(cookie, {
