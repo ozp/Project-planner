@@ -5,6 +5,8 @@
 
 **Método:** varredura dos diretórios `packages/` dos repos `jspsych/jsPsych` (oficial) e `jspsych/jspsych-contrib` via clone git + GitHub API (peer-deps e último commit por pacote), checagem de versões/dist-tags no registry npm, leitura dos fontes do core 8.3.0 (`AudioPlayer.ts`, `MediaAPI.ts`) e da documentação oficial (mkdocs do monorepo). Leitura também do código local (`mts-session-plugin.ts`, `app/pages/run/[doc].vue`) para calibrar a recomendação de integração.
 
+> **Adendo (10/10 — retificação de motivação, verificada no código; detalhes no wiki `[[onde-mora-o-controle-na-plataforma]]`):** o descarte dos plugins de paradigma do contrib (§6, "nosso domínio tem engine próprio") NÃO se deve a "a lógica rodaria no navegador" — ela **já roda**: o engine é biblioteca pura e o adapter humano o executa no cliente, com seed vinda do request e apenas *registrada* no servidor (`sessions/index.post.ts:9`); a ingestão humana valida formato e grava (`results.post.ts:29-46`) — pontuação server-side só existe no caminho sintético, via replay (`synthetic-session.ts:148,153`). Os bloqueadores reais de um plugin pronto: (1) RNG interno não aceita a seed da sessão → sequência não reproduzível/auditável; (2) procedimento hardcoded em vez de declarado no `ExperimentDocument`; (3) timeline autocontida não é comandável pelo loop request/response do caminho sintético — e a comparação humano×sintético exige o mesmo procedimento. O contrato TrialResult não é bloqueador (trabalho de adapter).
+
 ---
 
 ## 0. Panorama geral (fatos que moldam as decisões)
