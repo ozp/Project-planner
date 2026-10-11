@@ -22,8 +22,10 @@ export interface ExportRow {
   respondent_class: string
   correct: boolean | null
   selected_ref: string | null
-  sample: string
-  comparisons: string
+  /** Resposta livre (bloco TEXT/projetivos) — escolha usa selected_ref. */
+  response_text: string | null
+  sample: string | null
+  comparisons: string | null
   rt_sample_ms: number | null
   rt_comparison_ms: number | null
   trial_ms: number | null
@@ -44,9 +46,10 @@ export function buildExportRow(meta: ExportSessionMeta, tr: TrialResult, ingeste
     block_name: tr.blockName,
     respondent_class: tr.respondentClass,
     correct: tr.correct ?? null,
-    selected_ref: tr.response.selectedRef ?? tr.response.text ?? null,
-    sample: tr.stimulusHashes.sample.join('|'),
-    comparisons: tr.stimulusHashes.comparisons.join('|'),
+    selected_ref: tr.response.selectedRef ?? null,
+    response_text: tr.response.text ?? null,
+    sample: tr.stimulusHashes?.sample.join('|') ?? null,
+    comparisons: tr.stimulusHashes?.comparisons.join('|') ?? null,
     rt_sample_ms: tr.timing?.rtSampleMs ?? null,
     rt_comparison_ms: tr.timing?.rtComparisonMs ?? null,
     trial_ms: tr.timing?.trialMs ?? null,

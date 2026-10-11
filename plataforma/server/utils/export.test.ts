@@ -72,3 +72,31 @@ describe('export', () => {
     expect(serialized).not.toContain('user_id')
   })
 })
+
+// F5 probe nº2 (OZP-428): resultados de RESPOSTA LIVRE no export/ler-batch
+describe('buildExportRow — tentativa de texto (bloco TEXT)', () => {
+  const metaTexto = {
+    sessionId: 'sess-sct', pseudonym: 'pseudo-x', docVersion: 'dv-sct', seed: 42,
+    status: 'closed', createdAt: '2026-10-11T02:00:00.000Z',
+  }
+  const texto: TrialResult = {
+    schemaVersion: 1, sessionId: 'sess-sct', respondentClass: 'synthetic', trialSeq: 3,
+    blockName: 'inquerito', response: { text: 'um portal de energia' },
+    inference: { modelRef: 'gemini-3.1-flash-lite', provider: 'google', route: 'byok', latencyMs: 9000 },
+  }
+
+  it('linha de texto: response_text preenchido, selected_ref/sample/comparisons null (não 500)', () => {
+    const row = buildExportRow(metaTexto, texto, null)
+    expect(row.response_text).toBe('um portal de energia')
+    expect(row.selected_ref).toBeNull()
+    expect(row.sample).toBeNull()
+    expect(row.comparisons).toBeNull()
+    expect(row.correct).toBeNull()
+  })
+
+  it('linha de escolha inalterada: response_text null e hashes presentes', () => {
+    const row = buildExportRow(meta, human, null)
+    expect(row.response_text).toBeNull()
+    expect(row.sample).toBe('a1.svg')
+  })
+})
