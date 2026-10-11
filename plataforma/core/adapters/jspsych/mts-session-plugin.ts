@@ -84,7 +84,41 @@ export class MtsSessionPlugin implements JsPsychPlugin<MtsSessionParams> {
           continue
         }
         if (ev.kind === 'textTrial') {
-          throw new Error('bloco TEXT (resposta livre/projetivos) ainda sem render no adapter jsPsych — S2 do plano do SCT')
+          // Resposta livre (projetivos — SCT/manchas): stem (+ mancha ASCII em
+          // monospace) + textarea; botão liberado só com resposta não vazia
+          // (contrato: response.text minLength 1 — lote nunca nasce inválido)
+          const p = ev.presentation
+          const t0 = performance.now()
+          const blot = p.trial.visualText
+            ? `<pre style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px;line-height:1.15;margin:16px 0;display:inline-block;text-align:left">${p.trial.visualText}</pre><br>`
+            : ''
+          stage.innerHTML = `
+            <div style="max-width:760px;padding:24px;text-align:center">
+              ${blot}
+              <p id="sct-stem" style="font-size:1.6rem;margin:18px 0">${p.trial.stem} …</p>
+              <textarea id="sct-resp" rows="3" style="width:100%;font-size:1.1rem;padding:10px;box-sizing:border-box" placeholder="Escreva aqui o que primeiro vier à mente…"></textarea>
+              <p><button id="sct-go" disabled style="font-size:1.1rem;padding:.6rem 2rem;margin-top:12px">Continuar</button></p>
+            </div>`
+          const ta = stage.querySelector<HTMLTextAreaElement>('#sct-resp')!
+          const go = stage.querySelector<HTMLButtonElement>('#sct-go')!
+          ta.addEventListener('input', () => { go.disabled = ta.value.trim().length === 0 })
+          const texto = await new Promise<string>(resolve => {
+            go.addEventListener('click', () => resolve(ta.value.trim()), { once: true })
+          })
+          const fim = performance.now()
+          engine.respondText(texto)
+          batch.add({
+            schemaVersion: 1,
+            sessionId,
+            respondentClass: 'human',
+            trialSeq: p.trialSeq,
+            blockName: p.blockName,
+            response: { text: texto },
+            timing: { rtSampleMs: 0, rtComparisonMs: fim - t0, trialMs: fim - t0 },
+          })
+          stage.innerHTML = ''
+          await wait(doc.experiment.itiSeconds * 1000)
+          continue
         }
         if (ev.kind !== 'trial') continue // blockStart/blockEnd: sem apresentação
 

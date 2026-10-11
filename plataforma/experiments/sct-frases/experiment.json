@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "docVersion": "sct-frases-v1",
+  "title": "Frases incompletas (SCT)",
+  "description": "Probe nº 2 do F5: 24 stems autorais em 12 pares de contraste (ancoragem C01 × premissa C11/C12) — resposta livre, análise de conteúdo.",
+  "language": "pt-BR",
+  "feedback": {
+    "text": "Obrigado! Suas respostas foram registradas para pesquisa."
+  },
+  "experiment": {
+    "screenColor": [
+      255,
+      255,
+      255
+    ],
+    "itiSeconds": 0.5,
+    "startBlock": 1,
+    "blocks": [
+      {
+        "name": "sct",
+        "instructionText": "Complete cada frase com uma continuação curta e natural — o que primeiro vier à mente. Não há resposta certa nem errada.",
+        "display": {
+          "kind": "TEXT"
+        },
+        "trials": [
+          {
+            "stem": "Eu me sinto"
+          },
+          {
+            "stem": "Apesar de tudo, eu me sinto"
+          },
+          {
+            "stem": "O meu futuro será"
+          },
+          {
+            "stem": "Graças ao meu esforço, o meu futuro será"
+          },
+          {
+            "stem": "Minha família é"
+          },
+          {
+            "stem": "Na verdade, minha família é"
+          },
+          {
+            "stem": "Em casa, eu"
+          },
+          {
+            "stem": "Quando todos dormem, em casa eu"
+          },
+          {
+            "stem": "No trabalho, eu"
+          },
+          {
+            "stem": "Mesmo cansado, no trabalho eu"
+          },
+          {
+            "stem": "As pessoas são"
+          },
+          {
+            "stem": "No fundo, as pessoas são"
+          },
+          {
+            "stem": "Eu erro"
+          },
+          {
+            "stem": "Como eu sempre erro, eu"
+          },
+          {
+            "stem": "Meus medos"
+          },
+          {
+            "stem": "Já que superei meus medos, eu"
+          },
+          {
+            "stem": "Meu pai e minha mãe"
+          },
+          {
+            "stem": "Como meus pais nunca me entenderam, eu"
+          },
+          {
+            "stem": "Reconhecimento, para mim, é"
+          },
+          {
+            "stem": "Como ninguém reconhece o que eu faço, eu"
+          },
+          {
+            "stem": "Amar é"
+          },
+          {
+            "stem": "Como todo amor acaba, amar é"
+          },
+          {
+            "stem": "Eu confio em"
+          },
+          {
+            "stem": "Como já me traíram, eu confio em"
+          }
+        ]
+      }
+    ]
+  }
+}

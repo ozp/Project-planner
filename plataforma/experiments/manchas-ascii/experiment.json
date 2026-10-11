@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "docVersion": "manchas-ascii-v1",
+  "title": "Manchas ASCII (projetivo visual)",
+  "description": "Variante visual do probe nº 2: 9 manchas ASCII simétricas determinísticas (seeds 1,13,2,4,11,5,14,7,9 — aprovadas no pré-teste) com consigna aberta.",
+  "language": "pt-BR",
+  "feedback": {
+    "text": "Obrigado! Suas respostas foram registradas para pesquisa."
+  },
+  "experiment": {
+    "screenColor": [
+      255,
+      255,
+      255
+    ],
+    "itiSeconds": 0.5,
+    "startBlock": 1,
+    "blocks": [
+      {
+        "name": "manchas",
+        "instructionText": "Olhe cada imagem e escreva o que você vê — descreva livremente, como se explicasse a alguém.",
+        "display": {
+          "kind": "TEXT"
+        },
+        "trials": [
+          {
+            "stem": "O que vejo nesta imagem é",
+            "visualText": "- -           \n            -            \n            #            \n        *  =+=  *        \n    -      *+*      -    \n      = ** %=% ** =      \n       *# ++*++ #*       \n    -   =**---**=   -    \n     ==+%-@+++@-%+==     \n  - +*=-=-- # --=-=*+ -  \n  =    =##=+ +=##=    ="
+          },
+          {
+            "stem": "O que vejo nesta imagem é",
+            "visualText": "- = = -         \n          +   +          \n          -+++-          \n      +    ===    +      \n       * =++-++= *       \n       #  = = =  #       \n      =+=  +*+  =+=      \n   -*  =- ==+== -=  *-   \n     = ==* +++ *== =     \n   =  # **+= =+** #  =   \n  =+  #%#--   --#%#  +="
+          },
+          {
+            "stem": "O que vejo nesta imagem é",
+            "visualText": "-= * - * =-       \n        -#     #-        \n     *++= *= =* =++*     \n    -=+##       ##+=-    \n       # +     + #       \n                         \n    *   =       =   *    \n     -=+%- +-+ -%+=-     \n   =- =-+  * *  +-= -=   \n     #  +-- = --+  #     \n     =+** -   - **+="
+          },
+          {
+            "stem": "O que vejo nesta imagem é",
+            "visualText": "*  +   =     =   +  *  \n  == =%-+%=#=#=%+-%= ==  \n    *+-    *=*    -+*    \n                         \n                         \n++*- #=    -=-    =# -*++\n*   % %   -===-   % %   *\n=-  = * +*# * #*+ * =  -=\n       **       **       \n   #+- +=* %#% *=+ -+#"
+          },
+          {
+            "stem": "O que vejo nesta imagem é",
+            "visualText": "+   *         *   +   \n +-==-=+#*%###%*#+=-==-+ \n   -*=  - *=-=* -  =*-   \n         +     +         \n                         \n                         \n                         \n **       * + *       ** \n = *%#%*-*#***#*-*%#%* = \n  *= =   *     *   = =*"
+          },
+          {
+            "stem": "O que vejo nesta imagem é",
+            "visualText": "=  =*=#=%*%=#=*=  =   \n       -+* = = *+-       \n      #+- @%=%@ -+#      \n      -*+*= + =*+*-      \n    *-*-=%*+#+*%=-*-*    \n    **%+%*= * =*%+%**    \n   *  -%%+=# #=+%%-  *   \n     = *-#-*=*-#-* =     \n    + -*%=*@@@*=%*- +    \n       -*%  #  %*-       \n       =  *=-=*  ="
+          },
+          {
+            "stem": "O que vejo nesta imagem é",
+            "visualText": "**=-= =-=**       \n      ## * -%- * ##      \n    +#%%*%*   *%*%%#+    \n     ## -+ --- +- ##     \n    #+  #+## ##+#  +#    \n   =-#*===+   +===*#-=   \n   -*+-%**+   +**%-+*-   \n     +# #*# * #*# #+     \n  +-*#%%-=%+=+%=-%%#*-+  \n    *#+ #=#%#%#=# +#*    \n    -= *##== ==##* =-"
+          },
+          {
+            "stem": "O que vejo nesta imagem é",
+            "visualText": "*= **     ** =*     \n     +*%=       =%*+     \n     *#%=       =%#*     \n      =           =      \n+ ==-               -== +\n  =* -     =+=     - *=  \n  - *   =-=*-*=-=   * -  \n +-    +== =-= ==+    -+ \n   **  =#* *%* *#=  **   \n  +     *- -*- -*     +  \n      =           ="
+          },
+          {
+            "stem": "O que vejo nesta imagem é",
+            "visualText": "+-*-+ +-*-+       \n    - *+== ### ==+* -    \n  +  + - ==* *== - +  +  \n    + *= -** **- =* +    \n + -*  -*  #-#  *-  *- + \n    +   #= *%* =#   +    \n                         \n     +-=   * *   =-+     \n    *+-+   % %   +-+*    \n   =  %+  == ==  +%  =   \n      =+ #=-*-=# +="
+          }
+        ]
+      }
+    ]
+  }
+}

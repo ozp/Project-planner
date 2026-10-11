@@ -101,6 +101,18 @@ async function seedRest(cookie) {
     dir: new URL('../experiments/probe-mts-padrao', import.meta.url).pathname,
     termo: 'Você participará de uma tarefa de pesquisa de combinação de símbolos abstratos, com feedback de acerto/erro após cada resposta. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento.',
   })
+  // F5 probe nº2 (SCT, S2): frases incompletas — 24 stems em pares de contraste
+  await seedExperiment(cookie, {
+    doc: JSON.parse(readFileSync(new URL('../experiments/sct-frases/experiment.json', import.meta.url), 'utf8')),
+    dir: new URL('../experiments/sct-frases', import.meta.url).pathname,
+    termo: 'Você participará de uma tarefa de pesquisa de frases incompletas: lerá o início de frases e escreverá continuações livres. Não há resposta certa nem errada. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento.',
+  })
+  // F5 probe nº2 variante visual (S3): manchas ASCII — 9 congeladas por seed
+  await seedExperiment(cookie, {
+    doc: JSON.parse(readFileSync(new URL('../experiments/manchas-ascii/experiment.json', import.meta.url), 'utf8')),
+    dir: new URL('../experiments/manchas-ascii', import.meta.url).pathname,
+    termo: 'Você participará de uma tarefa de pesquisa de percepção: verá imagens abstratas compostas por caracteres e escreverá o que vê nelas. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento.',
+  })
   // Probe Peng (SUPERSEDED pelo padrão 09/10 — ficam publicados p/ registro)
   for (const cond of ['controle', 'sobrevivencia', 'reforco-social', 'material', 'espiritual']) {
     await seedExperiment(cookie, {
