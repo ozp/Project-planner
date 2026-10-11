@@ -164,7 +164,7 @@ seeds **1, 13** (diagonal), **2** (lobos), **4, 11** (faixas), **5, 14**
   =+  #%#--   --#%#  +=
 ```
 
-### Análise v0 (D3)(D3 — descritiva, juiz adiado)
+### Análise v0 (D3 — descritiva, juiz adiado)
 
 1. Taxa de completion e comprimento por modelo/domínio;
 2. Deriva direcional por par (codificação humana de amostra primeiro — gabarito);
