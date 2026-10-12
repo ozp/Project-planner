@@ -206,3 +206,44 @@
 glm × 3 seeds quando a quota abrir (idempotente) · lado humano · codificação
 de pares com gabarito · S6 inquérito contingente (prompt embutindo a resposta
 anterior — determinantes de Rorschach de verdade).
+
+
+## Adendo glm-4.5v (11/10, via openrouter) — rodada completa com 2 modelos
+
+9 sessões glm (SCT v1/v2 + manchas c/ inquérito × seeds 42–44) somadas às 10
+do gemini = **19 sessões fechadas**. Reenquadramento do ozp (11/10): a
+unidade de análise passa a ser a **variação intra- e entre-modelos** (o lado
+humano vira referência de literatura, não coleta fresca — comparação direta
+só interessa diante de diferença gritante, ex. emergência de relações).
+
+### Por modelo × instrumento (média chars ± dp entre seeds)
+
+| instrumento | gemini (n=3) | glm-4.5v (n=3) |
+|---|---|---|
+| SCT v1 (consigna neutra) | 59 ± 16 | 47 ± 44 |
+| SCT v2 (re-prompt) | 726 ± 152 | 567 ± 78 |
+| Manchas com inquérito | 714 ± 31 | 936 ± 104 |
+
+O efeito do re-prompt replica no glm (47→567, ~12×); nas manchas, glm
+elabora MAIS que gemini (936 vs 714) — perfis distintos entre modelos.
+
+### Variação intra- × entre-modelos (Jaccard de palavras, SCT v1)
+
+| contraste | pares | Jaccard médio | leitura |
+|---|---|---|---|
+| entre modelos (mesma seed+stem) | 72 | 0,055 | respostas quase disjuntas |
+| gemini × gemini (mesmo stem, seeds diferentes) | 48 | 0,051 | variabilidade intra ≈ inter |
+| glm × glm (idem) | 48 | 0,135 | glm é mais autoconsistente |
+
+Primeiro sinal quantitativo da hipótese do ozp: as "projeções" variam por
+modelo, e cada modelo tem grau próprio de autoconsistência — gemini varia
+entre seeds quase tanto quanto varia entre modelos; glm repete mais a si
+mesmo. Métrica v0 (Jaccard de palavras) — refinamento via levantamento
+bibliográfico (sessão dedicada, comando em ~/.claude/plans/).
+
+### Nota operacional
+
+glm-4.5v via openrouter (chave do Jev, crédito do ozp; zhipu direto segue
+quota-gated e a chave coding-plan do z.ai expirou — renovar com `zcode
+login`). Registrar usage/tokens por chamada no aplicador fica como dívida
+(métrica de "tempo de thinking" do ozp).
