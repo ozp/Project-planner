@@ -443,3 +443,9 @@ completa: ver seções 1.2/2.2 e a tabela do corpus 3. Refs principais:
 - Klishevich et al. (2025) arXiv:2502.20747 (temp 0 ×5)
 - Balani & Panda (2026) arXiv:2608.13258 (instabilidade por embeddings)
 - Zacharopoulos & Kyriakoglou (2025) arXiv:2511.04499 (temperatura × traços)
+
+## Adendo 12/10 (side chat) — fontes e estado
+
+- **NOVO primary source**: Peng et al. (2025) Neurocomputing 652:131040 — BCS/BCSP (punição/reforço como enunciados nas instruções: +3,53/+1,74 BLEU-2/4, +2% CMMLU; verificado no PDF `pdfs/peng-2025-neurocomputing-bcs-bcsp.pdf`). Diálogo com o card de consequências: enunciado verbal = estímulo (controle instrucional), não consequência operante → variante de probe neutro×rico×punitivo. Linhagem: Centaur/Binz 2024, Tak & Gratch 2023, Sartori & Orrù 2023, Croissant 2024, Carrot-and-Stick. **Zotero: adicionar Peng + adjacentes (TODO aberto).**
+- **Retratação (side chat)**: apontamento anterior de que Raemaekers faltava estava ERRADO — já está na tabela H1 (linha 7) e no Zotero lote 2.
+- **Margem do 2º passe (RFT/derived relations/RAI)**: Raemaekers JCBS 2026 (modelo computacional de AARR, linhagem RELNET→Tovar); arXiv 2605.06882 (Equivalence Class Problem — FALSO AMIGO: grafo/cadeia transitiva, não Sidman; adjacente); Springer LRE 2025 (PLMs × humanos — abstract pendente antes de classificar). Sweep confirma: **0 estudos de equivalência sidmaniana em LLM além dos 2 conhecidos** (Pinto & Lew; Carrillo & Betancort).
