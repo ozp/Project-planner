@@ -1,0 +1,204 @@
+TY  - JOUR
+AU  - Li, Chihao
+AU  - Qi, Yue
+TI  - Toward accurate psychological simulations: Investigating LLMs' responses to personality and cultural variables
+JO  - Computers in Human Behavior
+VL  - 170
+SP  - 108687
+PY  - 2025
+DO  - 10.1016/j.chb.2025.108687
+KW  - f5-benchmark
+ER  -
+
+TY  - JOUR
+AU  - Zhang, Junlei
+AU  - He, Hongliang
+AU  - Ma, Lizhi
+AU  - Song, Nirui
+AU  - He, Shuyuan
+AU  - Zhang, Shuai
+AU  - Qiu, Huachuan
+AU  - Zhou, Zhanchao
+AU  - Li, Anqi
+AU  - Dai, Yong
+AU  - Xu, Renjun
+AU  - Lan, Zhenzhong
+TI  - ConceptPsy: A comprehensive benchmark suite for hierarchical psychological concept understanding in LLMs
+JO  - Neurocomputing
+VL  - 637
+SP  - 130070
+PY  - 2025
+DO  - 10.1016/j.neucom.2025.130070
+KW  - f5-benchmark
+ER  -
+
+TY  - JOUR
+AU  - Vogelsmeier, Leonie V.D.E.
+AU  - Oliveira, Eduardo
+AU  - Misiejuk, Kamila
+AU  - López-Pernas, Sonsoles
+AU  - Saqr, Mohammed
+TI  - Delving into the psychology of Machines: Exploring the structure of self-regulated learning via LLM-generated survey responses
+JO  - Computers in Human Behavior
+VL  - 173
+SP  - 108769
+PY  - 2025
+DO  - 10.1016/j.chb.2025.108769
+KW  - f5-benchmark
+ER  -
+
+TY  - JOUR
+AU  - Peng, Sisi
+AU  - Zhang, Wenlin
+AU  - Li, Shunhang
+AU  - Qu, Dan
+AU  - Wei, Han
+TI  - Behavioral psychology of LLMs: Better task guidance through punishment and reinforcement
+JO  - Neurocomputing
+VL  - 652
+SP  - 131040
+PY  - 2025
+DO  - 10.1016/j.neucom.2025.131040
+KW  - f5-benchmark
+ER  -
+
+TY  - JOUR
+AU  - Raemaekers, Matthias
+AU  - Finn, Martin
+AU  - De Houwer, Jan
+TI  - A partially hardcoded computational model of arbitrarily applicable relational responding
+JO  - Journal of Contextual Behavioral Science
+VL  - 40
+SP  - 101002
+PY  - 2026
+DO  - 10.1016/j.jcbs.2026.101002
+KW  - f5-benchmark
+ER  -
+
+TY  - JOUR
+AU  - Carrillo, Andrés
+AU  - Betancort, Moisés
+TI  - Examining reject relations in stimulus equivalence simulations
+JO  - arXiv
+SP  - 2507.00265
+PY  - 2025
+DO  - 10.48550/arXiv.2507.00265
+KW  - f5-benchmark
+ER  -
+
+TY  - JOUR
+AU  - Plazas, Elberto Antonio
+AU  - Villamil Barriga, Carlos Wilcen
+TI  - Effect of the number of between-classes reject baseline relations on equivalence class formation
+JO  - Learning and Motivation
+VL  - 63
+SP  - 101435
+PY  - 2018
+DO  - 10.1016/j.lmot.2018.06.002
+KW  - f5-benchmark
+ER  -
+
+TY  - JOUR
+AU  - Cao, Zhihan
+AU  - Yamada, Hiroaki
+AU  - Teufel, Simone
+AU  - Tokunaga, Takenobu
+TI  - A comprehensive evaluation of semantic relation knowledge of pretrained language models and humans
+JO  - Language Resources and Evaluation
+VL  - 59
+SP  - 3799
+EP  - 3849
+PY  - 2025
+DO  - 10.1007/s10579-025-09858-9
+KW  - f5-benchmark
+ER  -
+
+TY  - JOUR
+AU  - Regaço, Alceu
+AU  - de Souza, Silvia R.
+AU  - de Rose, Julio C.
+TI  - Does gamification really facilitate learning? An experiment with matching-to-sample
+JO  - Learning and Motivation
+VL  - 94
+SP  - 102281
+PY  - 2026
+DO  - 10.1016/j.lmot.2026.102281
+KW  - f5-benchmark
+ER  -
+
+TY  - JOUR
+AU  - Xiong, Jiaxing
+AU  - Linyi, G.U.
+TI  - Stimulus equivalence in plain sight: Effects of baseline trials on derived relational responding and equivalence class formation
+JO  - Learning and Motivation
+VL  - 95
+SP  - 102327
+PY  - 2026
+DO  - 10.1016/j.lmot.2026.102327
+KW  - f5-benchmark
+ER  -
+
+TY  - JOUR
+AU  - Grullon-Polanco, Larry
+TI  - LLM-assisted genre analysis: The effect of sampling temperature on reliability
+JO  - Research Methods in Applied Linguistics
+VL  - 5
+SP  - 100314
+PY  - 2026
+DO  - 10.1016/j.rmal.2026.100314
+KW  - f5-benchmark
+ER  -
+
+TY  - JOUR
+AU  - Arntzen, Erik
+AU  - Ayres-Pereira, Victoria
+AU  - Dickins, David W.
+TI  - Discerning equivalence relations from displayed but not previously learned stimulus pairs
+JO  - Learning and Motivation
+VL  - 88
+SP  - 102053
+PY  - 2024
+DO  - 10.1016/j.lmot.2024.102053
+KW  - f5-benchmark
+ER  -
+
+TY  - JOUR
+AU  - Dentella, Vittoria
+AU  - Günther, Fritz
+AU  - Leivada, Evelina
+TI  - Systematic testing of three Language Models reveals low language accuracy, absence of response stability, and a yes-response bias
+JO  - Proceedings of the National Academy of Sciences
+VL  - 120
+SP  - e2309583120
+PY  - 2023
+DO  - 10.1073/pnas.2309583120
+KW  - f5-benchmark
+ER  -
+
+TY  - JOUR
+AU  - Salecha, Aadesh
+AU  - Ireland, Molly E.
+AU  - Subrahmanya, Suraj
+AU  - Eichstaedt, Johannes C.
+TI  - Large language models display human-like social desirability biases in Big Five personality surveys
+JO  - PNAS Nexus
+VL  - 3
+SP  - pgae533
+PY  - 2024
+DO  - 10.1093/pnasnexus/pgae533
+KW  - f5-benchmark
+ER  -
+
+TY  - JOUR
+AU  - Zhong, Yina
+AU  - Todd, Sophie
+AU  - Xu, Nina
+AU  - Brehm, Lawrence
+TI  - Evaluating LLMs as proxies for humans in psycholinguistic ratings: A comparison of statistical knowledge
+JO  - Research Methods in Applied Linguistics
+VL  - 4
+SP  - 100274
+PY  - 2025
+DO  - 10.1016/j.rmal.2025.100274
+KW  - f5-benchmark
+ER  -
