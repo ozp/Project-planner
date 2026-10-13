@@ -240,6 +240,7 @@ com LLMs (resposta + inquérito → codificação CS).
 | 22 | Lu, Yu & Huang (2023), arXiv:2312.14202 | LLMs | MBTI/Big Five/EI ("AInality") | Padrões tipo personalidade mensuráveis | Precoce; contaminado por treino |
 | 23 | (cruzado) Nunes et al. 2025 (#6) | 13 LLMs | **Reasoning effort** como análogo de pressão de tempo | Modula juízos — único uso comportamental do parâmetro | Só tarefas de regra |
 | 24 | (cruzado) DeTure 2026 (#13) | 124 | Draws repetidos (13 checkpoints ×3) | Correlato entre-modelos estável (stance) | — |
+| 25 | **Cao, Yamada, Teufel & Tokunaga (2025), LRE 59:3799–3849** (DOI 10.1007/s10579-025-09858-9; PDF em anexo) | 6 PLMs (4 mascarados + 2 causais) × **humanos NA MESMA TAREFA** | Framework de 6 relações semânticas (hiperonímia…sinonímia) × 5 métricas (soundness, completeness, **symmetry**, prototypicality, distinguishability); probing por prompt | **Gap significativo humanos > modelos em TODAS as relações**; causais nem sempre > mascarados; antonímia é a exceção (modelos vão bem) | Relações LEXICAIS-semânticas (treinadas), não derivadas arbitrárias — falso-amigo parcial de Sidman; relevante como precedente de comparação humano×modelo na mesma tarefa (teto quantificado) e por medir **simetria** como propriedade |
 
 ### 3.5 Respostas diretas a H1, H2, H3
 
@@ -271,7 +272,7 @@ imagem de ocultação (DeTure: 124 modelos, r=.35)**. O que ninguém mediu:
 **autoconsistência de conteúdo projetivo entre sessões/seeds do mesmo
 modelo** (nosso Jaccard intra/entre é inédito nesse uso).
 
-**H3 — Parâmetros disponíveis na literatura:** (i) repetição idêntica a temp 0
+**H3 — Parâmetros disponíveis na literatura** (novo: Cao 2025 quantifica o **teto humano na mesma tarefa** — o critério de "diferença gritante" do ozp passa a ter forma: gap significativo é mensurável; e medem **simetria** de relações semânticas — contraste direto com a falha de simetria EMERGENTE em relações arbitrárias, nosso H1): (i) repetição idêntica a temp 0
 com contexto limpo (variância residual específica por modelo — Klishevich);
 (ii) instabilidade por similaridade de embeddings (1 − cosseno do core claim —
 Balani; parente métrico do nosso Jaccard); (iii) temperatura manipulada ×
@@ -448,4 +449,4 @@ completa: ver seções 1.2/2.2 e a tabela do corpus 3. Refs principais:
 
 - **NOVO primary source**: Peng et al. (2025) Neurocomputing 652:131040 — BCS/BCSP (punição/reforço como enunciados nas instruções: +3,53/+1,74 BLEU-2/4, +2% CMMLU; verificado no PDF `pdfs/peng-2025-neurocomputing-bcs-bcsp.pdf`). Diálogo com o card de consequências: enunciado verbal = estímulo (controle instrucional), não consequência operante → variante de probe neutro×rico×punitivo. Linhagem: Centaur/Binz 2024, Tak & Gratch 2023, Sartori & Orrù 2023, Croissant 2024, Carrot-and-Stick. **Zotero: adicionar Peng + adjacentes (TODO aberto).**
 - **Retratação (side chat)**: apontamento anterior de que Raemaekers faltava estava ERRADO — já está na tabela H1 (linha 7) e no Zotero lote 2.
-- **Margem do 2º passe (RFT/derived relations/RAI)**: Raemaekers JCBS 2026 (modelo computacional de AARR, linhagem RELNET→Tovar); arXiv 2605.06882 (Equivalence Class Problem — FALSO AMIGO: grafo/cadeia transitiva, não Sidman; adjacente); Springer LRE 2025 (PLMs × humanos — abstract pendente antes de classificar). Sweep confirma: **0 estudos de equivalência sidmaniana em LLM além dos 2 conhecidos** (Pinto & Lew; Carrillo & Betancort).
+- **Margem do 2º passe (RFT/derived relations/RAI)**: Raemaekers JCBS 2026 (modelo computacional de AARR, linhagem RELNET→Tovar); arXiv 2605.06882 (Equivalence Class Problem — FALSO AMIGO: grafo/cadeia transitiva, não Sidman; adjacente); Springer LRE 2025 (PLMs × humanos — **CLASSIFICADO 12/10**: tabela H3 #25 — gap humano>modelo em todas as relações semânticas; simetria medida como propriedade). Sweep confirma: **0 estudos de equivalência sidmaniana em LLM além dos 2 conhecidos** (Pinto & Lew; Carrillo & Betancort).
