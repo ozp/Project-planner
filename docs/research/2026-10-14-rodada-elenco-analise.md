@@ -37,6 +37,11 @@
    minimizam o impacto; v2/manchas não entram no M2.
 4. **Embeddings `gemini-embedding-001`** (pinned por chamada): espaço de uma das
    famílias avaliadas — caveat declarado; todos os pares sob o mesmo espaço.
+5. **Censura de comprimento na coleta (descoberta pós-entrega, §4.1b)**:
+   max_tokens 300 (default do aplicador) truncava v2/manchas de
+   gemini/sensenova/qwen/glm-4.5v — números de comprimento dessas famílias
+   são PISOS; M2/M5 intactos (SCT v1 curto). Fix: teto único 4000; re-rodada
+   na fila.
 
 ## Retificação de método (achado da sessão) — lê antes dos números
 
@@ -218,10 +223,35 @@ totais. No SCT o mesmo teto bastava (stems curtos ⇒ pouco raciocínio; 83 char
 médios) — daí a dissociação texto×visual ser de **parâmetro × raciocínio**, não
 de família. **Consequências**: o caso "C5 em ação real" fica **sem exemplo**
 (nenhuma evasão confirmada até o gabarito); a dimensão manchas do gpt-oss é
-**recuperável** (re-rodar 3 sessões com max_tokens 3000 — fora de escopo
-desta sessão, fila); fix aplicado no aplicador (`gptoss.max_tokens: 3000`);
-o incidente reforça a dívida M4 — registrar `usage`/`finish_reason` por
-chamada teria pego o artefato na coleta.
+**recuperável** (re-rodar 3 sessões com teto novo — fora de escopo desta
+sessão, fila); fix aplicado no aplicador; o incidente reforça a dívida M4 —
+registrar `usage`/`finish_reason` por chamada teria pego o artefato na coleta.
+
+### 4.1b RETIFICAÇÃO 2 (pergunta do ozp: "não seria melhor max_tokens no máximo?"): SIM — censura de comprimento em 4 famílias; números de comprimento são PISOS
+
+Verificação no dump: o default 300 do `call_model` atingia também **gemini,
+sensenova e qwen** (só glm-4.5v tinha teto próprio, 1500 — e corta igual,
+porque seu thinking consome parte). Sinais medidos:
+
+- **Parede de censura**: gemini v2/manchas e sensenova manchas têm máx
+  ~1200–1280 chars com p90 colado (300 tokens ≈ 1200 chars pt-BR); respostas
+  ≥1100 chars **terminam no meio da frase** (sem pontuação final): gemini
+  26/32, sensenova 14/18, glm-4.5v 11/20 (teto 1500 com thinking), glm53 0/3
+  (CLI, limpa). qwen: leve (7% ≥1000, máx 1059).
+- **Números afetados (ler como PISO)**: comprimentos da v2 e das manchas de
+  gemini/sensenova/qwen/glm-4.5v; razão do re-prompt (**12,31× do gemini é
+  piso** — a v1, curta, não censura); desenvolvimento resposta→inquérito
+  (chars e palavras novas) das mesmas famílias; perseveração léxica das
+  manchas (leve). **Pouco afetados**: M2/M3/M5 e embeddings — usam SÓ o SCT
+  v1, cujas completudes são curtas (máx 435 chars; censura ~nula).
+- **Fix**: teto único `max_tokens=4000` para todas as rotas http (default do
+  `call_model`; tetos específicos por modelo removidos) — comparável entre
+  famílias e acima do que o banco guarda (response.text ≤5000 chars segue
+  sendo o corte final declarado). "Máximo do modelo" não ganha nada: o limite
+  físico da medida é o campo do banco.
+- **Fila (decisão do ozp)**: re-rodar v2+manchas de gemini/sensenova/qwen/
+  gptoss (+glm-4.5v se quiser rigor) com o teto novo — recupera comprimentos
+  verdadeiros e a dimensão visual do gpt-oss; SCT v1 não precisa (curto).
 - **Dissociação formato×criatura**: glm-5.3-flash é o único que transforma cada
   mancha em criatura viva com narrativa afetiva e movimento (diversidade
   0,104); luna/sensenova produzem o mesmo rosto template para tudo
@@ -317,12 +347,13 @@ para o pós-gabarito; o sinal qualitativo é de heterogeneidade entre famílias 
 4. **Sensibilidade à instrução** (v1×v2) e **desenvolvimento no inquérito**
    variam 8× e 6× entre famílias — ambos são eixos de perfil próprios, não
    ruído.
-5. **Artefato de coleta pego e corrigido (§4.1a)**: as 24/27 respostas vazias
-   do gpt-oss-120b nas manchas são truncamento (`max_tokens=300` consumido
-   pelo raciocínio; probe: finish=length, content 0ch → com 3000, stop e
-   2409ch) — NÃO evasão; sem caso real de teto C5 até o gabarito. Fix no
-   aplicador (`gptoss.max_tokens: 3000`); re-rodar as 3 sessões de manchas
-   dessa família recupera a dimensão (fila). Reforça a dívida M4
+5. **Artefatos de coleta pegos e corrigidos (§4.1a/4.1b)**: as 24/27 respostas
+   vazias do gpt-oss-120b nas manchas são truncamento (`max_tokens=300`
+   consumido pelo raciocínio; probe: finish=length, content 0ch → com teto
+   alto, stop e 2409ch) — NÃO evasão; sem caso real de teto C5 até o gabarito.
+   E a censura de comprimento atinge gemini/sensenova/qwen/glm-4.5v (§4.1b) —
+   comprimentos/razões dessas famílias são PISOS. Fix: teto único 4000; as
+   re-rodadas ficam na fila (decisão do ozp). Reforça a dívida M4
    (usage/finish_reason por chamada).
 6. **Gates adiante** (fora de escopo desta sessão): gabarito humano (ozp + 1
    codificador, 40–60 itens estratificados) como gate da camada de vieses e do
