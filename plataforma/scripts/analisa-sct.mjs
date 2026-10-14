@@ -43,12 +43,12 @@ const porSessao = dump.map(s => {
 
 console.log('# Rodada SCT — análise v0 (descritiva)\n')
 console.log('## Por sessão\n')
-console.log('| instrumento | seed | n | média chars | mín | máx | latência média |')
-console.log('|---|---|---|---|---|---|---|')
+console.log('| modelo | instrumento | seed | n | média chars | mín | máx | latência média |')
+console.log('|---|---|---|---|---|---|---|---|')
 for (const s of porSessao) {
   const ls = s.rows.map(r => len(r.text))
   const lat = s.rows.map(r => r.latencyMs ?? 0)
-  console.log(`| ${s.title.replace(/ \(.*\)/, '')} | ${s.seed} | ${s.rows.length} | ${Math.round(ls.reduce((a, b) => a + b, 0) / ls.length)} | ${Math.min(...ls)} | ${Math.max(...ls)} | ${Math.round(lat.reduce((a, b) => a + b, 0) / lat.length)}ms |`)
+  console.log(`| ${s.model.replace(/^qwencloud-/, '').replace(/-flash-lite$/, '')} | ${s.title.replace(/ \(.*\)/, '')} | ${s.seed} | ${s.rows.length} | ${Math.round(ls.reduce((a, b) => a + b, 0) / ls.length)} | ${Math.min(...ls)} | ${Math.max(...ls)} | ${Math.round(lat.reduce((a, b) => a + b, 0) / lat.length)}ms |`)
 }
 
 // contraste v1×v2 por stem (mesma seed ⇒ mesma ordem — trials idênticos nos docs)
