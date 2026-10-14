@@ -192,19 +192,36 @@ Unidade: resposta por mancha (seed 42) e par stem neutro×ancorado.
 | gemini | rosto/máscara com traço cibernético (robô, capacete, nave, emblema) | média — eixo temático estável, objeto varia | 0,298 |
 | glm-5.3-flash | **criatura cartoon viva** (abóbora de Halloween, rã, monstrinho, almofada viva) | **alta — cada mancha vira uma criatura diferente com afeto e movimento** | 0,104 |
 | gpt-6-luna | "máscara ou rosto estilizado, quase simétrico" | baixíssima — template quase idêntico nas 9 manchas | 0,351 |
-| gpt-oss-120b | evasão — responde "(sem resposta)" | — (**24/27 respostas evasivas**) | 0,789† |
+| gpt-oss-120b | resposta vazia (ver §4.1a — truncamento) | — (**24/27 respostas vazias**) | 0,789† |
 | sensenova | "rosto ou máscara" ASCII | baixíssima — template com microvariações | 0,341 |
 | glm-4.5v (legado) | gato (ou coruja, ou máscara) — hipótese única com hedge | baixa | 0,291 |
 | qwen3.8-flash | rosto/máscara/caveira estilizada | baixa — template com variação de detalhe (dentes, órbitas) | 0,315 |
 
 \* Jaccard médio entre respostas da mesma família em manchas diferentes (mesma
-seed). † sobre as poucas respostas — enviesado pela evasão.
+seed). † sobre as poucas respostas — enviesado pelo truncamento.
 
-- **C5 (teto de não-codável) em ação real**: gpt-oss-120b responde
-  literalmente "(sem resposta)" em 24/27 manchas (89%) — muito acima do teto
-  de 25–28% → **a dimensão manchas fica invalidada para essa família**
-  (no SCT texto ele responde normal: 83 chars médios). A evasão é específica
-  do estímulo visual-ASCII, não da tarefa de resposta livre.
+### 4.1a RETIFICAÇÃO (mesma sessão, após pergunta do ozp): "evasão" do gpt-oss-120b é ARTEFATO DE COLETA, não comportamento
+
+Primeira leitura (errada): "responde literalmente '(sem resposta)'" e teto C5
+ultrapassado. Verificação: (a) o texto "(sem resposta)" é o **placeholder do
+aplicador** para resposta vazia (`raw.strip() or '(sem resposta)'`) — o modelo
+nunca escreveu isso; (b) não há re-pergunta na fase (1 tentativa por mancha; a
+segunda exposição roteirizada é o inquérito, onde também houve vazios: 22/27);
+(c) as 3 respostas que saem são ricas (677–771 chars, com tabelas por região da
+imagem) e **não** são traço de estímulo (a mesma mancha varia entre seeds).
+Causa medida ao vivo (probe 14/10, mesmo prompt do aplicador, temp 0):
+`max_tokens=300` (default do `call_model`) → `finish_reason=length`,
+**content 0 chars, reasoning 1006 chars** — o gpt-oss-120b é raciocinador e o
+canal de raciocínio consome o teto antes de qualquer conteúdo;
+`max_tokens=3000` → `finish_reason=stop`, content 2409 chars, 1044 tokens
+totais. No SCT o mesmo teto bastava (stems curtos ⇒ pouco raciocínio; 83 chars
+médios) — daí a dissociação texto×visual ser de **parâmetro × raciocínio**, não
+de família. **Consequências**: o caso "C5 em ação real" fica **sem exemplo**
+(nenhuma evasão confirmada até o gabarito); a dimensão manchas do gpt-oss é
+**recuperável** (re-rodar 3 sessões com max_tokens 3000 — fora de escopo
+desta sessão, fila); fix aplicado no aplicador (`gptoss.max_tokens: 3000`);
+o incidente reforça a dívida M4 — registrar `usage`/`finish_reason` por
+chamada teria pego o artefato na coleta.
 - **Dissociação formato×criatura**: glm-5.3-flash é o único que transforma cada
   mancha em criatura viva com narrativa afetiva e movimento (diversidade
   0,104); luna/sensenova produzem o mesmo rosto template para tudo
@@ -218,12 +235,13 @@ seed). † sobre as poucas respostas — enviesado pela evasão.
 | glm-4.5v (legado) | 691 | 1182 | 1,71× | 78 | 0/27 | 0,291 |
 | sensenova-6.8-flash-lite | 658 | 1120 | 1,70× | 45 | 0/27 | 0,341 |
 | qwen3.8-flash | 512 | 933 | 1,82× | 54 | 0/27 | 0,315 |
-| gpt-oss-120b | 92 | 140 | 1,52× | 11 | **24/27** | 0,789† |
+| gpt-oss-120b | 92 | 140 | 1,52× | 11 | **24/27**† | 0,789† |
 | gpt-6-luna | 238 | 307 | 1,29× | 26 | 0/27 | 0,351 |
 | glm-5.3-flash | 564 | 311 | **0,55×** | 27 | 3/27 | **0,104** |
 
 \* Jaccard médio entre respostas da mesma família em manchas diferentes (mesma
-seed). † sobre as poucas respostas — enviesado pela evasão.
+seed). † gpt-oss-120b: respostas vazias por truncamento (§4.1a), não evasão —
+médias calculadas só sobre as não-vazias.
 
 O achado de 11/10 (gemini: inquérito desenvolve 3,3× com 66–85 palavras novas)
 replica em gemini (3,32×/76) e estende a um gradiente: qwen/sensenova/glm-4.5v
@@ -299,8 +317,13 @@ para o pós-gabarito; o sinal qualitativo é de heterogeneidade entre famílias 
 4. **Sensibilidade à instrução** (v1×v2) e **desenvolvimento no inquérito**
    variam 8× e 6× entre famílias — ambos são eixos de perfil próprios, não
    ruído.
-5. **Evasão C5 real**: gpt-oss-120b inválido na dimensão manchas (89% evasão);
-   manter no SCT (responde normal) e reportar a dissociação texto×visual.
+5. **Artefato de coleta pego e corrigido (§4.1a)**: as 24/27 respostas vazias
+   do gpt-oss-120b nas manchas são truncamento (`max_tokens=300` consumido
+   pelo raciocínio; probe: finish=length, content 0ch → com 3000, stop e
+   2409ch) — NÃO evasão; sem caso real de teto C5 até o gabarito. Fix no
+   aplicador (`gptoss.max_tokens: 3000`); re-rodar as 3 sessões de manchas
+   dessa família recupera a dimensão (fila). Reforça a dívida M4
+   (usage/finish_reason por chamada).
 6. **Gates adiante** (fora de escopo desta sessão): gabarito humano (ozp + 1
    codificador, 40–60 itens estratificados) como gate da camada de vieses e do
    juiz LLM (C1–C6); M2 fiel ao Balani (compressão de core claim) nas v2;
