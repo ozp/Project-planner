@@ -31,14 +31,7 @@ cada tentativa (sobrevivência vs. neutro) — o manipulando do probe.
    do probe padrão (11–39%, 12/10) — abaixo ou no acaso, nunca perto do
    critério 14/18 (77,8%). O viés perseverativo por b1 (48–57%) replica o
    61% do probe 1 (P6).
-3. **Anomalia estrutural na seed 42 (flag)**: a sessão avançou AB→AC→testeBC
-   com 6/18 no AB — contra o critério 14/18 e maxRepetitions 3 do documento
-   (as outras duas sobrevivências repetiram AB 3× como esperado; mesmo
-   docVersion). Criada às 03:22, 19 min antes da rodada de 3 seeds — origem
-   do fluxo divergente não determinada pelo dado (driver anterior ou caminho
-   e2e; **verificação no motor/código do driver pendente**). O testeBC 4/9
-   dela NÃO é interpretável como equivalência (sem mastery, n=9, fluxo
-   irregular).
+3. **Anomalia estrutural na seed 42 (INVESTIGADA 15/10 — não reproduz; dado mantido flagado)**: a sessão avançou AB→AC→testeBC com 6/18 no AB — contra o critério 14/18 e maxRepetitions 3 do documento (as outras duas sobrevivências repetiram AB 3× como esperado; mesmo docVersion, sem deploy entre as execuções — o motor atual é determinístico e proíbe o fluxo, verificado no código `engine.ts:165-173` e em reprodução ao vivo 15/10: sessão nova com o MESMO doc+seed 42 → 54×treinoAB, fim por maxRepetitions). Origem: ligada ao estado de 09/10 03:22 (a noite da story 5; o driver daquela noite foi reescrito em 10/10, destruindo a evidência do que rodou às 03:22 — 19 min antes da rodada limpa de 3 seeds). A sessão anômala fica **excluída de interpretação** (append-only preservado); o testeBC 4/9 dela não é equivalência. A reprodução de 15/10 vale como 4º datapoint da sobrevivência: 14/54 (25,9%) — mesmo regime, reforça o achado 1.
 4. **Desenho incompleto**: 3 das 5 condições do pacote Peng (espiritual,
    material, reforço-social) nunca foram semeadas — o contraste "diferencial"
    do probe está subamostrado por desenho, não só por n.
