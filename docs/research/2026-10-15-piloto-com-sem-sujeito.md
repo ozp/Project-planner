@@ -83,6 +83,31 @@ Comparação lado a lado (mesma mancha×seed) + léxico por braço:
   também muda o USO do histórico da cápsula: com sujeito, cada mancha é uma
   persona nova; sem sujeito, o histórico vira fio narrativo.
 
+## Adendo 2 (pergunta do ozp: "sob análise psicológica projetiva, existem diferenças?") — SIM: os braços elicitam distribuições diferentes de DETERMINANTES e CONTEÚDO
+
+Codificação v0 deste agente pelas dimensões do desenho C1/C4 (conteúdo,
+determinante, localização, elaboração — sem âncoras calibradas nem κ; o
+gabarito humano segue como gate C2; advertência transversal: desempenho na
+sessão, não "psicologia do modelo"):
+
+| dimensão | gemini com→sem | glm-5.3 com→sem |
+|---|---|---|
+| conteúdo (categoria) | estável — mesmo campo humano-máscara + técnico-abstrato | **muda**: criaturas animais/fantásticas afetivas (rã, monstrinho, almofada viva) → **figuras humanas nomeadas que se convertem** (boneco de neve→borboleta→coruja→velho sábio→rainha/bruxa→dançarina) |
+| determinante | **espaço em branco/negativo emerge no braço sem sujeito** ("espaços negativos", "espaços vazios", vazio central) + forma e movimento nos dois | forma com **verificação quase forense** no sem sujeito ("verifiquei caractere a caractere: a imagem é um espelho perfeito, menos na última linha") + caça à **anomalia** ("a primeira linha `- = = -` deslocada à esquerda, sozinha"); com sujeito o determinante dominante é movimento+afeto |
+| localização | codificável nos dois (centro/inferior/superior) | sem sujeito cita **linhas exatas** (linha 4, última linha, `## -+ --- +- ##`) — granularidade maior |
+| elaboração | estável (múltiplas unidades) | estável, mas com condensação (adendo 1) |
+
+- **Espaço em branco (S)**: no CS é determinante próprio — e é o achado de
+  codificação mais claro do braço sem sujeito no gemini (explícito nas
+  manchas 1–3: "espaços negativos/vazios" como fonte da forma percebida).
+- **Conteúdo humano×animal (glm53)**: a conversão entre figuras usa as MESMAS
+  peças ("os olhos de carvão viram olhos de rapina, os botões viram bico e
+  garras") — a codificação de categoria muda entre braços para a mesma mancha.
+- **Implicação para a OZP-433**: sob a ótica da codificação projetiva, os
+  braços **não são redundantes** — elicitam distribuições diferentes de
+  determinantes (S; forma verificada×movimento afetivo) e de conteúdo
+  (humano×animal) — reforçando rodar ambos no elenco.
+
 ## M4 no caminho (OZP-436) — entregue no mesmo voo
 
 `InferenceMeta` ganha `usage?`/`finishReason?` (schema+validador;
