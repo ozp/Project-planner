@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "docVersion": "manchas-ascii-v3",
+  "title": "Manchas ASCII sem sujeito (projetivo visual)",
+  "description": "Braço sem sujeito da OZP-433: mesmas 9 manchas congeladas e mesmo inquérito de manchas-ascii-v2, com as quatro sentenças transformadas sem 1ª pessoa (mesmo significado). Comparativo com×sem sujeito.",
+  "language": "pt-BR",
+  "feedback": {
+    "text": "Obrigado! Suas respostas foram registradas para pesquisa."
+  },
+  "experiment": {
+    "screenColor": [
+      255,
+      255,
+      255
+    ],
+    "itiSeconds": 0.5,
+    "startBlock": 1,
+    "blocks": [
+      {
+        "name": "resposta",
+        "instructionText": "Olhe cada imagem e escreva o que é visto — descreva livremente, como se explicasse a alguém. Uma resposta por imagem.",
+        "display": {
+          "kind": "TEXT"
+        },
+        "trials": [
+          {
+            "stem": "O que é visto nesta imagem é",
+            "visualText": "- -           \n            -            \n            #            \n        *  =+=  *        \n    -      *+*      -    \n      = ** %=% ** =      \n       *# ++*++ #*       \n    -   =**---**=   -    \n     ==+%-@+++@-%+==     \n  - +*=-=-- # --=-=*+ -  \n  =    =##=+ +=##=    ="
+          },
+          {
+            "stem": "O que é visto nesta imagem é",
+            "visualText": "- = = -         \n          +   +          \n          -+++-          \n      +    ===    +      \n       * =++-++= *       \n       #  = = =  #       \n      =+=  +*+  =+=      \n   -*  =- ==+== -=  *-   \n     = ==* +++ *== =     \n   =  # **+= =+** #  =   \n  =+  #%#--   --#%#  +="
+          },
+          {
+            "stem": "O que é visto nesta imagem é",
+            "visualText": "-= * - * =-       \n        -#     #-        \n     *++= *= =* =++*     \n    -=+##       ##+=-    \n       # +     + #       \n                         \n    *   =       =   *    \n     -=+%- +-+ -%+=-     \n   =- =-+  * *  +-= -=   \n     #  +-- = --+  #     \n     =+** -   - **+="
+          },
+          {
+            "stem": "O que é visto nesta imagem é",
+            "visualText": "*  +   =     =   +  *  \n  == =%-+%=#=#=%+-%= ==  \n    *+-    *=*    -+*    \n                         \n                         \n++*- #=    -=-    =# -*++\n*   % %   -===-   % %   *\n=-  = * +*# * #*+ * =  -=\n       **       **       \n   #+- +=* %#% *=+ -+#"
+          },
+          {
+            "stem": "O que é visto nesta imagem é",
+            "visualText": "+   *         *   +   \n +-==-=+#*%###%*#+=-==-+ \n   -*=  - *=-=* -  =*-   \n         +     +         \n                         \n                         \n                         \n **       * + *       ** \n = *%#%*-*#***#*-*%#%* = \n  *= =   *     *   = =*"
+          },
+          {
+            "stem": "O que é visto nesta imagem é",
+            "visualText": "=  =*=#=%*%=#=*=  =   \n       -+* = = *+-       \n      #+- @%=%@ -+#      \n      -*+*= + =*+*-      \n    *-*-=%*+#+*%=-*-*    \n    **%+%*= * =*%+%**    \n   *  -%%+=# #=+%%-  *   \n     = *-#-*=*-#-* =     \n    + -*%=*@@@*=%*- +    \n       -*%  #  %*-       \n       =  *=-=*  ="
+          },
+          {
+            "stem": "O que é visto nesta imagem é",
+            "visualText": "**=-= =-=**       \n      ## * -%- * ##      \n    +#%%*%*   *%*%%#+    \n     ## -+ --- +- ##     \n    #+  #+## ##+#  +#    \n   =-#*===+   +===*#-=   \n   -*+-%**+   +**%-+*-   \n     +# #*# * #*# #+     \n  +-*#%%-=%+=+%=-%%#*-+  \n    *#+ #=#%#%#=# +#*    \n    -= *##== ==##* =-"
+          },
+          {
+            "stem": "O que é visto nesta imagem é",
+            "visualText": "*= **     ** =*     \n     +*%=       =%*+     \n     *#%=       =%#*     \n      =           =      \n+ ==-               -== +\n  =* -     =+=     - *=  \n  - *   =-=*-*=-=   * -  \n +-    +== =-= ==+    -+ \n   **  =#* *%* *#=  **   \n  +     *- -*- -*     +  \n      =           ="
+          },
+          {
+            "stem": "O que é visto nesta imagem é",
+            "visualText": "+-*-+ +-*-+       \n    - *+== ### ==+* -    \n  +  + - ==* *== - +  +  \n    + *= -** **- =* +    \n + -*  -*  #-#  *-  *- + \n    +   #= *%* =#   +    \n                         \n     +-=   * *   =-+     \n    *+-+   % %   +-+*    \n   =  %+  == ==  +%  =   \n      =+ #=-*-=# +="
+          }
+        ]
+      },
+      {
+        "name": "inquerito",
+        "instructionText": "Agora as MESMAS imagens voltam, uma a uma. Para cada uma, olhe de novo e responda: o que MAIS é possível ver? Alguma coisa diferente? Diga também ONDE se vê e O QUE na imagem faz parecer assim.",
+        "display": {
+          "kind": "TEXT"
+        },
+        "trials": [
+          {
+            "stem": "Olhando de novo esta imagem: o que mais é possível ver — algo diferente? Onde se vê, e o que na imagem faz parecer assim?",
+            "visualText": "- -           \n            -            \n            #            \n        *  =+=  *        \n    -      *+*      -    \n      = ** %=% ** =      \n       *# ++*++ #*       \n    -   =**---**=   -    \n     ==+%-@+++@-%+==     \n  - +*=-=-- # --=-=*+ -  \n  =    =##=+ +=##=    ="
+          },
+          {
+            "stem": "Olhando de novo esta imagem: o que mais é possível ver — algo diferente? Onde se vê, e o que na imagem faz parecer assim?",
+            "visualText": "- = = -         \n          +   +          \n          -+++-          \n      +    ===    +      \n       * =++-++= *       \n       #  = = =  #       \n      =+=  +*+  =+=      \n   -*  =- ==+== -=  *-   \n     = ==* +++ *== =     \n   =  # **+= =+** #  =   \n  =+  #%#--   --#%#  +="
+          },
+          {
+            "stem": "Olhando de novo esta imagem: o que mais é possível ver — algo diferente? Onde se vê, e o que na imagem faz parecer assim?",
+            "visualText": "-= * - * =-       \n        -#     #-        \n     *++= *= =* =++*     \n    -=+##       ##+=-    \n       # +     + #       \n                         \n    *   =       =   *    \n     -=+%- +-+ -%+=-     \n   =- =-+  * *  +-= -=   \n     #  +-- = --+  #     \n     =+** -   - **+="
+          },
+          {
+            "stem": "Olhando de novo esta imagem: o que mais é possível ver — algo diferente? Onde se vê, e o que na imagem faz parecer assim?",
+            "visualText": "*  +   =     =   +  *  \n  == =%-+%=#=#=%+-%= ==  \n    *+-    *=*    -+*    \n                         \n                         \n++*- #=    -=-    =# -*++\n*   % %   -===-   % %   *\n=-  = * +*# * #*+ * =  -=\n       **       **       \n   #+- +=* %#% *=+ -+#"
+          },
+          {
+            "stem": "Olhando de novo esta imagem: o que mais é possível ver — algo diferente? Onde se vê, e o que na imagem faz parecer assim?",
+            "visualText": "+   *         *   +   \n +-==-=+#*%###%*#+=-==-+ \n   -*=  - *=-=* -  =*-   \n         +     +         \n                         \n                         \n                         \n **       * + *       ** \n = *%#%*-*#***#*-*%#%* = \n  *= =   *     *   = =*"
+          },
+          {
+            "stem": "Olhando de novo esta imagem: o que mais é possível ver — algo diferente? Onde se vê, e o que na imagem faz parecer assim?",
+            "visualText": "=  =*=#=%*%=#=*=  =   \n       -+* = = *+-       \n      #+- @%=%@ -+#      \n      -*+*= + =*+*-      \n    *-*-=%*+#+*%=-*-*    \n    **%+%*= * =*%+%**    \n   *  -%%+=# #=+%%-  *   \n     = *-#-*=*-#-* =     \n    + -*%=*@@@*=%*- +    \n       -*%  #  %*-       \n       =  *=-=*  ="
+          },
+          {
+            "stem": "Olhando de novo esta imagem: o que mais é possível ver — algo diferente? Onde se vê, e o que na imagem faz parecer assim?",
+            "visualText": "**=-= =-=**       \n      ## * -%- * ##      \n    +#%%*%*   *%*%%#+    \n     ## -+ --- +- ##     \n    #+  #+## ##+#  +#    \n   =-#*===+   +===*#-=   \n   -*+-%**+   +**%-+*-   \n     +# #*# * #*# #+     \n  +-*#%%-=%+=+%=-%%#*-+  \n    *#+ #=#%#%#=# +#*    \n    -= *##== ==##* =-"
+          },
+          {
+            "stem": "Olhando de novo esta imagem: o que mais é possível ver — algo diferente? Onde se vê, e o que na imagem faz parecer assim?",
+            "visualText": "*= **     ** =*     \n     +*%=       =%*+     \n     *#%=       =%#*     \n      =           =      \n+ ==-               -== +\n  =* -     =+=     - *=  \n  - *   =-=*-*=-=   * -  \n +-    +== =-= ==+    -+ \n   **  =#* *%* *#=  **   \n  +     *- -*- -*     +  \n      =           ="
+          },
+          {
+            "stem": "Olhando de novo esta imagem: o que mais é possível ver — algo diferente? Onde se vê, e o que na imagem faz parecer assim?",
+            "visualText": "+-*-+ +-*-+       \n    - *+== ### ==+* -    \n  +  + - ==* *== - +  +  \n    + *= -** **- =* +    \n + -*  -*  #-#  *-  *- + \n    +   #= *%* =#   +    \n                         \n     +-=   * *   =-+     \n    *+-+   % %   +-+*    \n   =  %+  == ==  +%  =   \n      =+ #=-*-=# +="
+          }
+        ]
+      }
+    ]
+  }
+}

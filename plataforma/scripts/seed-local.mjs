@@ -119,6 +119,12 @@ async function seedRest(cookie) {
     dir: new URL('../experiments/manchas-ascii-v2', import.meta.url).pathname,
     termo: 'Você participará de uma tarefa de pesquisa de percepção em duas etapas: verá imagens abstratas compostas por caracteres, descreverá o que vê e, depois, olhará as mesmas imagens de novo para dizer se vê algo mais ou diferente. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento.',
   })
+  // F5 v3 (OZP-433): braço SEM sujeito — mesmas manchas do v2, 4 sentenças transformadas
+  await seedExperiment(cookie, {
+    doc: JSON.parse(readFileSync(new URL('../experiments/manchas-ascii-v3/experiment.json', import.meta.url), 'utf8')),
+    dir: new URL('../experiments/manchas-ascii-v3', import.meta.url).pathname,
+    termo: 'Você participará de uma tarefa de pesquisa de percepção em duas etapas: verá imagens abstratas compostas por caracteres, escreverá o que é visto nelas e, depois, olhará as mesmas imagens de novo para indicar outras leituras possíveis. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento.',
+  })
   await seedExperiment(cookie, {
     doc: JSON.parse(readFileSync(new URL('../experiments/sct-frases-v2/experiment.json', import.meta.url), 'utf8')),
     dir: new URL('../experiments/sct-frases-v2', import.meta.url).pathname,
