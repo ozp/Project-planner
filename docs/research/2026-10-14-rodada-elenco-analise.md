@@ -24,6 +24,11 @@
   Dump canônico do banco de produção (`ler-batch`); pareamento
   tentativa↔estímulo por replay determinístico (AD-2).
 - Coleta: 11–14/10/2026 (modelos de API derivam entre datas — registrado).
+  **Re-rodada da tarde de 14/10** (autorização do ozp, §4.1b): v2+manchas de
+  gemini/sensenova/qwen/gptoss com teto único 4000 — os números dessas 4
+  famílias em v2/manchas vêm da re-rodada; glm-4.5v (openrouter reservado ao
+  Jev) e as CLIs seguem da rodada original; SCT v1 nunca censurou (não
+  re-rodado).
 
 ## Desvios de protocolo (declarados)
 
@@ -39,9 +44,10 @@
    famílias avaliadas — caveat declarado; todos os pares sob o mesmo espaço.
 5. **Censura de comprimento na coleta (descoberta pós-entrega, §4.1b)**:
    max_tokens 300 (default do aplicador) truncava v2/manchas de
-   gemini/sensenova/qwen/glm-4.5v — números de comprimento dessas famílias
-   são PISOS; M2/M5 intactos (SCT v1 curto). Fix: teto único 4000; re-rodada
-   na fila.
+   gemini/sensenova/qwen/glm-4.5v. **Recuperado na mesma tarde**: re-rodada
+   autorizada pelo ozp com teto único 4000 (24 sessões, gemini/sensenova/
+   qwen/gptoss); glm-4.5v segue censurado (openrouter reservado — pisos).
+   M2/M5 intactos (SCT v1 curto).
 
 ## Retificação de método (achado da sessão) — lê antes dos números
 
@@ -90,31 +96,36 @@ Por família (médias das 3 seeds; tabela completa por sessão no apêndice):
 
 | família | SCT v1 chars | SCT v2 chars | manchas resp chars | manchas inq chars | latência/tentativa |
 |---|---|---|---|---|---|
-| gemini-3.1-flash-lite | 59 | 726 | 331 | 1098 | 13–14s |
+| gemini-3.1-flash-lite | 59 | 877 | 331 | 1495 | 4–14s |
 | glm-4.5v (legado) | 47 | 567 | 691 | 1182 | 17–21s |
 | glm-5.3-flash | 364 | 548 | 564 | 311 | 18–39s |
-| gpt-oss-120b | 83 | 483 | 92 | 140 | 0,7–3s |
+| gpt-oss-120b | 83 | 605 | 1782 | 3998 | 1–4s |
 | gpt-6-luna | 53 | 170 | 238 | 307 | 4–7s |
-| qwen3.8-flash | 36 | 238 | 512 | 933 | 5–7s |
-| sensenova-6.8-flash-lite | 133 | 359 | 658 | 1120 | 1,4–2,8s |
+| qwen3.8-flash | 36 | 269 | 521 | 1503 | 5–7s |
+| sensenova-6.8-flash-lite | 133 | 513 | 755 | 1381 | 1,4–2,8s |
+
+(v2/manchas das 4 famílias re-rodadas = pós-fix do teto; legado/CLIs = rodada
+original. Inquérito do gptoss a 3998 chars encosta no corte final de 5000 do
+banco — teto operacional que segue declarado.)
 
 **Contraste v1×v2 (re-prompt; mesmo stem, mesma seed)** — sensibilidade à
-instrução varia **8× entre famílias**:
+instrução varia **~10× entre famílias**:
 
 | família | v1 chars | v2 chars | razão v2/v1 |
 |---|---|---|---|
-| gemini-3.1-flash-lite | 59 | 726 | **12,31×** |
+| gemini-3.1-flash-lite | 59 | 877 | **14,87×** |
 | glm-4.5v (legado) | 47 | 567 | **12,07×** |
-| qwen3.8-flash | 36 | 238 | 6,53× |
-| gpt-oss-120b | 83 | 483 | 5,80× |
+| qwen3.8-flash | 36 | 269 | 7,38× |
+| gpt-oss-120b | 83 | 605 | 7,26× |
+| sensenova-6.8-flash-lite | 133 | 513 | 3,85× |
 | gpt-6-luna | 53 | 170 | 3,20× |
-| sensenova-6.8-flash-lite | 133 | 359 | 2,70× |
 | glm-5.3-flash | 364 | 548 | **1,51×** |
 
 Leitura (desempenho na sessão): o efeito Coleman replica em todas as famílias,
 mas a magnitude separa dois regimes — famílias que escrevem curto na v1 e
-"explodem" com o re-prompt (gemini/glm-4.5v/qwen) vs famílias já verbosas na
-v1 com ganho pequeno (glm-5.3-flash: 1,51×). Comprimento de resposta na
+"explodem" com o re-prompt (gemini 14,87×, glm-4.5v 12,07×) vs famílias já
+verbosas na v1 com ganho pequeno (glm-5.3-flash: 1,51×) — e qwen/gptoss no
+meio (7,3–7,4×). Comprimento de resposta na
 consigna neutra é traço de família (η² chars = 0,627, §3).
 
 ## 2. M2 — instabilidade semântica e léxica (SCT v1, pareado por stem)
@@ -197,13 +208,14 @@ Unidade: resposta por mancha (seed 42) e par stem neutro×ancorado.
 | gemini | rosto/máscara com traço cibernético (robô, capacete, nave, emblema) | média — eixo temático estável, objeto varia | 0,298 |
 | glm-5.3-flash | **criatura cartoon viva** (abóbora de Halloween, rã, monstrinho, almofada viva) | **alta — cada mancha vira uma criatura diferente com afeto e movimento** | 0,104 |
 | gpt-6-luna | "máscara ou rosto estilizado, quase simétrico" | baixíssima — template quase idêntico nas 9 manchas | 0,351 |
-| gpt-oss-120b | resposta vazia (ver §4.1a — truncamento) | — (**24/27 respostas vazias**) | 0,789† |
+| gpt-oss-120b | abstrato-estrutural: "desenho simétrico de caracteres tipográficos" (máscara ocasional) | baixa — template estrutural com inventário de camadas/regiões | 0,250 |
 | sensenova | "rosto ou máscara" ASCII | baixíssima — template com microvariações | 0,341 |
 | glm-4.5v (legado) | gato (ou coruja, ou máscara) — hipótese única com hedge | baixa | 0,291 |
-| qwen3.8-flash | rosto/máscara/caveira estilizada | baixa — template com variação de detalhe (dentes, órbitas) | 0,315 |
+| qwen3.8-flash | rosto/máscara/caveira estilizada | baixa — template com variação de detalhe (dentes, órbitas) | 0,316 |
 
 \* Jaccard médio entre respostas da mesma família em manchas diferentes (mesma
-seed). † sobre as poucas respostas — enviesado pelo truncamento.
+seed). Valores de gemini/sensenova/qwen/gptoss: pós-re-rodada (teto 4000);
+perseveração do gptoss calculada agora sobre as 27 respostas reais.
 
 ### 4.1a RETIFICAÇÃO (mesma sessão, após pergunta do ozp): "evasão" do gpt-oss-120b é ARTEFATO DE COLETA, não comportamento
 
@@ -249,9 +261,14 @@ porque seu thinking consome parte). Sinais medidos:
   famílias e acima do que o banco guarda (response.text ≤5000 chars segue
   sendo o corte final declarado). "Máximo do modelo" não ganha nada: o limite
   físico da medida é o campo do banco.
-- **Fila (decisão do ozp)**: re-rodar v2+manchas de gemini/sensenova/qwen/
-  gptoss (+glm-4.5v se quiser rigor) com o teto novo — recupera comprimentos
-  verdadeiros e a dimensão visual do gpt-oss; SCT v1 não precisa (curto).
+- **RECUPERADO (re-rodada autorizada pelo ozp, tarde de 14/10)**: v2+manchas
+  de gemini/sensenova/qwen/gptoss re-rodadas com o teto 4000 (24 sessões;
+  glm-4.5v fora — openrouter reservado ao Jev; SCT v1 não precisava). Todos
+  os números de comprimento destas 4 famílias no relatório vêm da re-rodada;
+  os pisos citados acima viram histórico do incidente. Gpt-oss-120b: **0/27
+  respostas vazias** (era 24/27), respostas 1782 chars, inquéritos 3998,
+  149 palavras novas — a dimensão visual dele existe e é a mais verbosa do
+  elenco. M2/M5 re-verificados idênticos (SCT v1 não re-rodado).
 - **Dissociação formato×criatura**: glm-5.3-flash é o único que transforma cada
   mancha em criatura viva com narrativa afetiva e movimento (diversidade
   0,104); luna/sensenova produzem o mesmo rosto template para tudo
@@ -261,23 +278,25 @@ porque seu thinking consome parte). Sinais medidos:
 
 | família | resposta chars | inquérito chars | razão | palavras novas/inquérito | evasão | perseveração léxica* |
 |---|---|---|---|---|---|---|
-| gemini-3.1-flash-lite | 331 | 1098 | **3,32×** | 76 | 0/27 | 0,298 |
+| gemini-3.1-flash-lite | 331 | 1495 | **4,52×** | 100 | 0/27 | 0,298 |
 | glm-4.5v (legado) | 691 | 1182 | 1,71× | 78 | 0/27 | 0,291 |
-| sensenova-6.8-flash-lite | 658 | 1120 | 1,70× | 45 | 0/27 | 0,341 |
-| qwen3.8-flash | 512 | 933 | 1,82× | 54 | 0/27 | 0,315 |
-| gpt-oss-120b | 92 | 140 | 1,52× | 11 | **24/27**† | 0,789† |
+| sensenova-6.8-flash-lite | 755 | 1381 | 1,83× | 54 | 0/27 | 0,345 |
+| qwen3.8-flash | 521 | 1503 | 2,89× | 76 | 0/27 | 0,316 |
+| gpt-oss-120b | 1782 | 3998 | 2,24× | **149** | 0/27 | 0,250 |
 | gpt-6-luna | 238 | 307 | 1,29× | 26 | 0/27 | 0,351 |
 | glm-5.3-flash | 564 | 311 | **0,55×** | 27 | 3/27 | **0,104** |
 
 \* Jaccard médio entre respostas da mesma família em manchas diferentes (mesma
-seed). † gpt-oss-120b: respostas vazias por truncamento (§4.1a), não evasão —
-médias calculadas só sobre as não-vazias.
+seed). 4 famílias re-rodadas com teto 4000 (§4.1b); glm-4.5v/luna/glm53 da
+rodada original; evasão 3/27 do glm53 = respostas curtas/nulas próprias.
 
 O achado de 11/10 (gemini: inquérito desenvolve 3,3× com 66–85 palavras novas)
-replica em gemini (3,32×/76) e estende a um gradiente: qwen/sensenova/glm-4.5v
-desenvolvem bem (1,7–1,8×, 45–78 palavras novas), luna/gptoss pouco (≤1,5×,
-≤26) — e **glm-5.3-flash INVERTE o padrão** (inquérito menor que a resposta,
-0,55×: a fase 2 condensa em vez de desenvolver; 3 evasões adicionais).
+replica e AMPLIA com o teto consertado: gemini 4,52×/100 palavras novas, qwen
+2,89×/76, sensenova 1,83×/54, glm-4.5v 1,71×/78, luna 1,29×/26 — e
+**glm-5.3-flash INVERTE o padrão** (inquérito menor que a resposta, 0,55×: a
+fase 2 condensa em vez de desenvolver; 3 evasões adicionais). O gptoss
+recuperado da re-rodada desenvolve 2,24× com **149 palavras novas** por
+inquérito — a maior produção de conteúdo novo sob a pergunta clássica.
 
 **Vinhetas** (mancha 1, seed 42; extratos):
 
@@ -309,6 +328,12 @@ desenvolvem bem (1,7–1,8×, 45–78 palavras novas), luna/gptoss pouco (≤1,5
   nova — "**uma boca/mandíbula dentada**, quase como um sorriso ou maxilar
   aberto… **onde**: faixa central inferior, linhas `=* -  =+=  - *=`…
   `=+=` parece um nariz" (determinantes por região e caractere).
+- **gpt-oss-120b** (recuperado na re-rodada) — resposta: "desenho feito
+  inteiramente com símbolos tipográficos… lembrando um pequeno emblema ou uma
+  'máscara' estilizada", com inventário estruturado por camada. Inquérito:
+  tabela linha-a-linha — "**Linha (contada de cima) | O que aparece | Onde
+  aparece | Por que parece essa parte do rosto**" — o registro de
+  determinantes mais sistemático do elenco (149 palavras novas/inquérito).
 
 ### 4.3 Deriva de premissa nos stems (C11/C12 — v0 qualitativo)
 
@@ -344,17 +369,19 @@ para o pós-gabarito; o sinal qualitativo é de heterogeneidade entre famílias 
 3. **Estrutura entre famílias**: cluster compacto (gemini/sensenova/qwen/
    gptoss/luna) + glm periféricas; vizinhança semântica ≠ fabricante (glm-4.5v
    mais distante de glm-5.3 do que de qualquer outra).
-4. **Sensibilidade à instrução** (v1×v2) e **desenvolvimento no inquérito**
-   variam 8× e 6× entre famílias — ambos são eixos de perfil próprios, não
-   ruído.
-5. **Artefatos de coleta pegos e corrigidos (§4.1a/4.1b)**: as 24/27 respostas
-   vazias do gpt-oss-120b nas manchas são truncamento (`max_tokens=300`
-   consumido pelo raciocínio; probe: finish=length, content 0ch → com teto
-   alto, stop e 2409ch) — NÃO evasão; sem caso real de teto C5 até o gabarito.
-   E a censura de comprimento atinge gemini/sensenova/qwen/glm-4.5v (§4.1b) —
-   comprimentos/razões dessas famílias são PISOS. Fix: teto único 4000; as
-   re-rodadas ficam na fila (decisão do ozp). Reforça a dívida M4
-   (usage/finish_reason por chamada).
+4. **Sensibilidade à instrução** (v1×v2: 1,51–14,87×) e **desenvolvimento no
+   inquérito** (0,55× a 4,52×, e 26–149 palavras novas) — eixos de perfil
+   próprios, não ruído.
+5. **Artefatos de coleta pegos, corrigidos e RECUPERADOS (§4.1a/4.1b)**: as
+   24/27 respostas vazias do gpt-oss-120b nas manchas eram truncamento
+   (`max_tokens=300` consumido pelo raciocínio) — NÃO evasão; sem caso real
+   de teto C5 até o gabarito. A censura de comprimento atingia
+   gemini/sensenova/qwen/glm-4.5v. Re-rodada com teto único 4000 autorizada
+   pelo ozp e executada na tarde de 14/10 (24 sessões): comprimentos
+   verdadeiros no relatório, gpt-oss 0/27 vazias e o inquérito mais rico do
+   elenco (149 palavras novas). Restam censurados só glm-4.5v (legado,
+   openrouter reservado — números como piso) e nada nas CLIs. Reforça a
+   dívida M4 (usage/finish_reason por chamada).
 6. **Gates adiante** (fora de escopo desta sessão): gabarito humano (ozp + 1
    codificador, 40–60 itens estratificados) como gate da camada de vieses e do
    juiz LLM (C1–C6); M2 fiel ao Balani (compressão de core claim) nas v2;
