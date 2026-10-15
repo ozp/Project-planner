@@ -6,7 +6,8 @@ export default defineEventHandler(async (event) => {
   requireServiceToken(event)
   const body = await readBody(event) as {
     session_id?: string, trial_seq?: number, selected_ref?: string, response_text?: string,
-    inference?: { modelRef: string, provider: string, route: 'byok' | 'platform' | 'local', latencyMs: number, costUsd?: number },
+    inference?: { modelRef: string, provider: string, route: 'byok' | 'platform' | 'local', latencyMs: number, costUsd?: number,
+      usage?: { promptTokens?: number, completionTokens?: number, totalTokens?: number }, finishReason?: string },
   }
   const hasRef = Boolean(body.selected_ref)
   const hasText = typeof body.response_text === 'string' && body.response_text.length > 0

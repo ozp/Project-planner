@@ -32,7 +32,6 @@ function presented(doc, seed) {
 
 const len = t => (t ?? '').length
 const words = t => new Set((t ?? '').toLowerCase().match(/[a-zà-ú]{3,}/g) ?? [])
-const jaccard = (a, b) => { const u = new Set([...a, ...b]); return u.size ? a.size + b.size - u.size === 0 ? 0 : (a.size + b.size - u.size) / u.size : 0 }
 const intersecao = (a, b) => { let n = 0; for (const w of a) if (b.has(w)) n++; return n }
 
 const dump = JSON.parse(readFileSync(process.argv[2] ?? '/home/ozp/code/f5-aplicador/dados-rodada-sct.json', 'utf8'))

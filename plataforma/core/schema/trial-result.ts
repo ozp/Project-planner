@@ -60,6 +60,16 @@ const trialResultJsonSchema = {
         route: { enum: ['byok', 'platform', 'local'] },
         latencyMs: { type: 'number', minimum: 0 },
         costUsd: { type: 'number', minimum: 0 },
+        usage: {
+          type: 'object',
+          additionalProperties: false,
+          properties: {
+            promptTokens: { type: 'number', minimum: 0 },
+            completionTokens: { type: 'number', minimum: 0 },
+            totalTokens: { type: 'number', minimum: 0 },
+          },
+        },
+        finishReason: { type: 'string', minLength: 1 },
       },
     },
   },

@@ -178,7 +178,8 @@ export async function respondTrial(
     selectedRef?: string
     /** Tentativa de resposta livre (bloco TEXT): o texto do respondente. */
     responseText?: string
-    inference: { modelRef: string, provider: string, route: 'byok' | 'platform' | 'local', latencyMs: number, costUsd?: number }
+    inference: { modelRef: string, provider: string, route: 'byok' | 'platform' | 'local', latencyMs: number, costUsd?: number,
+      usage?: { promptTokens?: number, completionTokens?: number, totalTokens?: number }, finishReason?: string }
   },
 ): Promise<{ trialSeq: number, correct: boolean | null, proxima: SyntheticPlanTrial | null, motivoFim?: 'completed' | 'maxRepetitions' }> {
   const session = await loadSession(sql, input.sessionId)
@@ -213,6 +214,8 @@ export async function respondTrial(
     route: input.inference.route,
     latencyMs: input.inference.latencyMs,
     ...(input.inference.costUsd !== undefined ? { costUsd: input.inference.costUsd } : {}),
+    ...(input.inference.usage !== undefined ? { usage: input.inference.usage } : {}),
+    ...(input.inference.finishReason !== undefined ? { finishReason: input.inference.finishReason } : {}),
   }
   const result: TrialResult = isTextTrial
     ? {

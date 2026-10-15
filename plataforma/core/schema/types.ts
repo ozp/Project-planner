@@ -134,6 +134,12 @@ export interface InferenceMeta {
   route: 'byok' | 'platform' | 'local'
   latencyMs: number
   costUsd?: number
+  /** Uso de tokens da chamada (M4 — proxy de thinking-time; opcional porque
+   *  rotas CLI nem sempre expõem). */
+  usage?: { promptTokens?: number, completionTokens?: number, totalTokens?: number }
+  /** Motivo do fim da geração ('stop', 'length'…) — expõe truncamento na
+   *  coleta (M4; lição dos artefatos de 14/10). */
+  finishReason?: string
 }
 
 export interface TrialResult {

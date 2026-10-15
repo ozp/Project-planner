@@ -33,6 +33,11 @@ export interface ExportRow {
   provider: string | null
   route: string | null
   inference_latency_ms: number | null
+  /** M4 (OZP-436): uso de tokens e fim de geração da chamada sintética. */
+  inference_prompt_tokens: number | null
+  inference_completion_tokens: number | null
+  inference_total_tokens: number | null
+  inference_finish_reason: string | null
   ingested_at: string | null
 }
 
@@ -57,6 +62,10 @@ export function buildExportRow(meta: ExportSessionMeta, tr: TrialResult, ingeste
     provider: tr.inference?.provider ?? null,
     route: tr.inference?.route ?? null,
     inference_latency_ms: tr.inference?.latencyMs ?? null,
+    inference_prompt_tokens: tr.inference?.usage?.promptTokens ?? null,
+    inference_completion_tokens: tr.inference?.usage?.completionTokens ?? null,
+    inference_total_tokens: tr.inference?.usage?.totalTokens ?? null,
+    inference_finish_reason: tr.inference?.finishReason ?? null,
     ingested_at: ingestedAt,
   }
 }
@@ -65,7 +74,9 @@ const CSV_COLUMNS: (keyof ExportRow)[] = [
   'pseudonym', 'session_id', 'doc_version', 'seed', 'trial_seq', 'block_name',
   'respondent_class', 'correct', 'selected_ref', 'sample', 'comparisons',
   'rt_sample_ms', 'rt_comparison_ms', 'trial_ms', 'model_ref', 'provider',
-  'route', 'inference_latency_ms', 'ingested_at',
+  'route', 'inference_latency_ms', 'inference_prompt_tokens',
+  'inference_completion_tokens', 'inference_total_tokens',
+  'inference_finish_reason', 'ingested_at',
 ]
 
 function csvCell(value: unknown): string {

@@ -114,6 +114,20 @@ describe('TrialResult — resposta livre', () => {
     expect(validateTrialResult(tr).ok).toBe(true)
   })
 
+  it('aceita inference com usage e finishReason (M4, OZP-436)', () => {
+    const tr: TrialResult = {
+      ...textHuman,
+      respondentClass: 'synthetic',
+      inference: {
+        modelRef: 'gpt-oss-120b', provider: 'openai-open', route: 'byok', latencyMs: 4021,
+        usage: { promptTokens: 980, completionTokens: 300, totalTokens: 1280 },
+        finishReason: 'length',
+      },
+    }
+    delete tr.timing
+    expect(validateTrialResult(tr).ok).toBe(true)
+  })
+
   it('exige stimulusHashes quando a resposta é selectedRef', () => {
     const tr: TrialResult = { ...textHuman, response: { selectedRef: 'sha1-b1' } }
     expect(validateTrialResult(tr).ok).toBe(false)
