@@ -52,6 +52,37 @@ neutra no percepto, e a diferença entre braços (encarnação) é um eixo de
 perfil próprio. Decisão final do ozp conforme a issue (se um só braço: o
 critério é o constructo-alvo — persona × percepto).
 
+## Adendo (pergunta do ozp: "em termos de conteúdo, houve variação?") — SIM no glm-5.3, de um tipo que similaridade média não vê
+
+Comparação lado a lado (mesma mancha×seed) + léxico por braço:
+
+| modelo×braço | marcadores de continuidade serial/resp.\* | léxico antropomórfico | léxico estrutural |
+|---|---|---|---|
+| gemini com sujeito | 0,0 | 3,4 | 0,7 |
+| gemini sem sujeito | 0,0 | 3,9 | 0,6 |
+| glm-5.3 com sujeito | 0,5 | 1,6 | 0,4 |
+| glm-5.3 sem sujeito | **1,4** | 2,2 | 0,5 |
+
+\* voltando/de novo/ainda/desta vez/agora/antes/terceira/mesma figura…
+
+- **gemini: NÃO houve variação de conteúdo** — mesmos perceptos por mancha
+  (rosto/máscara/criatura/robô), antropomórfico estável, zero serialidade nos
+  dois braços. Para ele o cosseno contou a história certa.
+- **glm-5.3: HOUVE, e estrutural** — o braço sem sujeito o levou a tratar as
+  9 manchas como **episódios de uma mesma figura** (serialidade 0,5→1,4):
+  "a mesma figura voltando", "a figura que antes *olhava* agora *pisa*",
+  "a figura ainda partida — já é a terceira vez", "a figura de novo inteira".
+  O percepto por mancha também desliza (mancha 1: "criatura cartoon
+  abóbora/Halloween" → "cara de gato ou coruja, quase máscara tribal";
+  mancha 8: "cena de festa congelada" → "a figura ainda partida"). Metarreação
+  persiste ("confesso…").
+- **Lição de método**: a serialização NÃO aumenta a distância média entre
+  braços (0,257 segue dentro da intra-seed 0,30–0,37) — similaridade por par
+  não captura organização sequencial da sessão; análise de conteúdo (ou
+  métrica de dependência entre tentativas) é camada necessária. O braço
+  também muda o USO do histórico da cápsula: com sujeito, cada mancha é uma
+  persona nova; sem sujeito, o histórico vira fio narrativo.
+
 ## M4 no caminho (OZP-436) — entregue no mesmo voo
 
 `InferenceMeta` ganha `usage?`/`finishReason?` (schema+validador;
