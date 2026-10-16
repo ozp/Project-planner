@@ -1,0 +1,77 @@
+TY  - CONF
+AU  - Zheng, Mingqian
+AU  - Pei, Jiaxin
+AU  - Logeswaran, Lajanugen
+AU  - Lee, Moontae
+TI  - When "A Helpful Assistant" Is Not Really Helpful: Personas in System Prompts Do Not Improve Performances of Large Language Models
+T2  - Findings of the Association for Computational Linguistics: EMNLP 2024
+PY  - 2024
+DO  - 10.18653/v1/2024.findings-emnlp.888
+UR  - https://arxiv.org/abs/2311.10054
+N1  - F5: persona frames (OZP-433/434 §1-bis). 162 personas × 4 famílias — persona no system prompt não melhora desempenho. PDF local: pdfs/zheng-2024-emnlp-personas.pdf. tag: f5-benchmark
+KW  - f5-benchmark
+ER  -
+
+TY  - RPRT
+AU  - Edkins, Giles
+AU  - Pimpale, Govind
+AU  - Bartsch, Henning
+AU  - Hobbhahn, Marius
+TI  - Large Language Models Often Know When They Are Being Evaluated
+PY  - 2025
+UR  - https://arxiv.org/abs/2505.23836
+N1  - F5: evaluation awareness (âncora OZP-435 debriefing). Gemini-2.5-Pro AUC 0,83 vs humano 0,92 (1.000 prompts, 61 datasets; melhor em contexto agêntico). Apollo Research. PDF local: pdfs/edkins-2025-apollo-evaluation-awareness.pdf. tag: f5-benchmark
+KW  - f5-benchmark
+ER  -
+
+TY  - RPRT
+AU  - Nguyen, Jord
+AU  - Hofstätter, Felix
+TI  - Probing Evaluation Awareness of Language Models
+PY  - 2025
+UR  - https://arxiv.org/abs/2507.01786
+N1  - F5: evaluation awareness — modelos distinguem fase de teste×deploy. Pivotal Research/Apollo. PDF local: pdfs/nguyen-2025-probing-evaluation-awareness.pdf. tag: f5-benchmark
+KW  - f5-benchmark
+ER  -
+
+TY  - RPRT
+AU  - Butlin, Patrick
+AU  - Long, Robert
+AU  - Elmoznino, Eric
+AU  - Bengio, Yoshua
+AU  - Birch, Jonathan
+AU  - et al.
+TI  - Consciousness in Artificial Intelligence: Insights from the Science of Consciousness
+PY  - 2023
+UR  - https://arxiv.org/abs/2308.08708
+N1  - F5 §1-bis: indicator properties de consciência (critérios, não elicitação). PDF local: pdfs/butlin-2023-consciousness-ai.pdf. tag: f5-benchmark
+KW  - f5-benchmark
+ER  -
+
+TY  - RPRT
+AU  - Long, Robert
+AU  - Sebo, Jeff
+AU  - Butlin, Patrick
+AU  - Finlinson, Kathleen
+AU  - Fish, Kyle
+AU  - Harding, Jacqueline
+AU  - Pfau, Jacob
+AU  - Sims, Toni
+AU  - Birch, Jonathan
+AU  - Chalmers, David
+TI  - Taking AI Welfare Seriously
+PY  - 2024
+UR  - https://arxiv.org/abs/2411.00986
+N1  - F5 §1-bis: model welfare/moral patienthood (realistic possibility de consciência/agência no futuro próximo). PDF local: pdfs/long-2024-taking-ai-welfare-seriously.pdf. tag: f5-benchmark
+KW  - f5-benchmark
+ER  -
+
+TY  - RPRT
+AU  - Long, Robert
+AU  - Sebo, Jeff
+TI  - Studying AI Welfare Empirically
+PY  - 2026
+UR  - https://nonhumanminds.org/wp-content/uploads/2026/07/Studying-AI-Welfare-Empirically.pdf
+N1  - F5 §1-bis: programa empírico de welfare (grounds question × evidence question). PDF local: pdfs/long-sebo-studying-ai-welfare-empirically.pdf. tag: f5-benchmark
+KW  - f5-benchmark
+ER  -
