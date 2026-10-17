@@ -58,6 +58,7 @@ for (const s of dump) {
       return {
         ...r,
         stem: t.stem ?? null,
+        tag: t.tag ?? null,
         blotId: t.visualText ? createHash('sha1').update(t.visualText).digest('hex').slice(0, 8) : null,
       }
     }),
