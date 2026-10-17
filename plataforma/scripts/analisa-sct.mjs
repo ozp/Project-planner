@@ -13,6 +13,9 @@ const PKG = {
   'Manchas ASCII (projetivo visual)': '../experiments/manchas-ascii/experiment.json',
   'Manchas ASCII com inquérito (projetivo visual)': '../experiments/manchas-ascii-v2/experiment.json',
   'Manchas ASCII sem sujeito (projetivo visual)': '../experiments/manchas-ascii-v3/experiment.json',
+  'Frases incompletas v3 (SCT)': '../experiments/sct-frases-v3/experiment.json',
+  'Manchas ASCII com inquérito e debriefing (projetivo visual)': '../experiments/manchas-ascii-v2-deb/experiment.json',
+  'Manchas ASCII sem sujeito com debriefing (projetivo visual)': '../experiments/manchas-ascii-v3-deb/experiment.json',
 }
 const docs = Object.fromEntries(Object.entries(PKG).map(([t, p]) => [t, JSON.parse(readFileSync(new URL(p, import.meta.url), 'utf8'))]))
 

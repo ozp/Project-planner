@@ -42,6 +42,9 @@ export interface TextTrial {
   stem: string
   /** Estímulo visual text-native (mancha ASCII) — o adapter renderiza monospace. */
   visualText?: string
+  /** Metadado de análise (grupo/domínio/registro/condição do stem) — nunca
+   *  renderizado ao respondente; o replay o devolve no trial (F5 v3). */
+  tag?: string
 }
 
 export type DisplayProtocol =

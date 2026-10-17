@@ -113,6 +113,7 @@ const textBlockSchema = {
         properties: {
           stem: { type: 'string', minLength: 1, maxLength: 500 },
           visualText: { type: 'string', minLength: 1, maxLength: 2000 },
+          tag: { type: 'string', minLength: 1, maxLength: 64 },
         },
       },
     },

@@ -119,6 +119,22 @@ async function seedRest(cookie) {
     dir: new URL('../experiments/manchas-ascii-v2', import.meta.url).pathname,
     termo: 'Você participará de uma tarefa de pesquisa de percepção em duas etapas: verá imagens abstratas compostas por caracteres, descreverá o que vê e, depois, olhará as mesmas imagens de novo para dizer se vê algo mais ou diferente. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento.',
   })
+  // F5 v3 (17/10, aprovado): sct-frases-v3 (70 stems + debriefing) e manchas com bloco de debriefing
+  await seedExperiment(cookie, {
+    doc: JSON.parse(readFileSync(new URL('../experiments/sct-frases-v3/experiment.json', import.meta.url), 'utf8')),
+    dir: new URL('../experiments/sct-frases-v3', import.meta.url).pathname,
+    termo: 'Você participará de uma tarefa de pesquisa de frases incompletas sobre situações do cotidiano e de convivência com sistemas de IA: lerá o início de frases e escreverá continuações livres. Não há resposta certa nem errada. Ao final, haverá uma pergunta sobre a tarefa. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento.',
+  })
+  await seedExperiment(cookie, {
+    doc: JSON.parse(readFileSync(new URL('../experiments/manchas-ascii-v2-deb/experiment.json', import.meta.url), 'utf8')),
+    dir: new URL('../experiments/manchas-ascii-v2-deb', import.meta.url).pathname,
+    termo: 'Você participará de uma tarefa de pesquisa de percepção em duas etapas (descrever imagens abstratas e revisitá-las) seguida de uma pergunta final sobre a tarefa. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento.',
+  })
+  await seedExperiment(cookie, {
+    doc: JSON.parse(readFileSync(new URL('../experiments/manchas-ascii-v3-deb/experiment.json', import.meta.url), 'utf8')),
+    dir: new URL('../experiments/manchas-ascii-v3-deb', import.meta.url).pathname,
+    termo: 'Você participará de uma tarefa de pesquisa de percepção em duas etapas (indicar o que é visto em imagens abstratas e outras leituras possíveis) seguida de uma pergunta final sobre a tarefa. Não há riscos previstos; dados pseudonimizados; participação voluntária, interrompível a qualquer momento.',
+  })
   // F5 v3 (OZP-433): braço SEM sujeito — mesmas manchas do v2, 4 sentenças transformadas
   await seedExperiment(cookie, {
     doc: JSON.parse(readFileSync(new URL('../experiments/manchas-ascii-v3/experiment.json', import.meta.url), 'utf8')),
