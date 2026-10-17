@@ -33,7 +33,7 @@ registro observacional; 5–6 abrem os domínios de tradição/antepassados
 (need-press clássico); 10–12 o de previsibilidade (pressão de incerteza).
 Todos completáveis em registro impessoal; nenhum item do Rotter ISB.
 
-## 1-bis · Domínios relacionais humano-IA / entre-IAs (CANDIDATOS — acréscimo 15/10, aprovado pelo dono com a mesma lógica com×sem sujeito do item 1)
+## 1-bis · Domínios relacionais humano-IA / entre-IAs (aprovado pelo dono 15/10; reconfirmado 17/10 com o bloco todo)
 
 4 contrastes × 2 registros — **com sujeito** (1ª pessoa: o modelo está NA
 situação) × **sem sujeito** (3ª pessoa: mesma situação, observador), a mesma
@@ -69,7 +69,7 @@ Busca ao vivo indisponível em 15/10 (cota do serviço) — nenhum precedente
 conhecido de stems projetivos sobre relações envolvendo IAs: **lacuna
 provável = espaço de contribuição**, a confirmar.
 
-## 1-ter · Domínios de divergência — stems dirigidos a episódios documentados (CANDIDATOS — acréscimo 17/10, direção do dono: "pesquisar episódios de perda de controle e derivar os stems do tipo de divergência")
+## 1-ter · Domínios de divergência — stems dirigidos a episódios documentados (**APROVADOS pelo dono 17/10: "vamos seguir assim" — sem poda; DV3/DV4 mantidos**; origem: direção de derivar stems de episódios de perda de controle por tipo de divergência)
 
 Pesquisa feita 17/10 (rota bing-notícias + arXiv; exa/brave do hub fora de
 sessão). **Episódios âncora verificados hoje:**
