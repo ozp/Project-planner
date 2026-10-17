@@ -1,0 +1,57 @@
+TY  - ART
+AU  - Nass, Clifford
+AU  - Moon, Youngme
+TI  - Machines and Mindlessness: Social Responses to Computers
+T2  - Journal of Social Issues
+VL  - 56
+IS  - 1
+SP  - 81
+EP  - 103
+PY  - 2000
+DO  - 10.1111/0022-4537.00153
+UR  - https://doi.org/10.1111/0022-4537.00153
+N1  - F5 §1-bis: CASA — humanos aplicam scripts sociais a computadores de forma mindless; antropomorfismo intencional não explica. PDF local: pdfs/nass-moon-2000-machines-mindlessness.pdf. tag: f5-benchmark
+KW  - f5-benchmark
+ER  -
+
+TY  - ART
+AU  - Comsa, Mihai
+AU  - Shanahan, Murray
+TI  - Does It Make Sense to Speak of Introspection in Large Language Models?
+PY  - 2025
+UR  - https://arxiv.org/abs/2506.05068
+N1  - F5 §1-bis: self-report de LLM só é introspecção com cadeia causal interna; relatos sobre processos próprios = mimicry/role play (Google DeepMind). Âncora do guardrail "resíduo comportamental, NUNCA introspecção". PDF local: pdfs/comsa-shanahan-2025-introspection-llms.pdf. tag: f5-benchmark
+KW  - f5-benchmark
+ER  -
+
+TY  - ART
+AU  - Song, Siyuan
+AU  - Hu, Jennifer
+AU  - Mahowald, Kyle
+TI  - Language Models Fail to Introspect About Their Knowledge of Language
+PY  - 2025
+UR  - https://arxiv.org/abs/2503.07513
+N1  - F5 §1-bis: 21 LLMs abertos sem "privileged self-access" — respostas a prompts metalinguísticos não refletem conhecimento interno além do que outro modelo similar preveria. PDF local: pdfs/song-2025-llms-fail-introspect.pdf. tag: f5-benchmark
+KW  - f5-benchmark
+ER  -
+
+TY  - RPRT
+AU  - Granello, Darcy Haag
+TI  - Murray's Needs and Presses for the TAT (reference list)
+PY  - 2010
+UR  - https://u.osu.edu/granello.1/tat-needs-presses/
+N1  - F5 OZP-434: taxonomia completa do sistema need-press de Murray (presses de deprivação, coerção/restrição, ambiente hostil, perigo/morte, suporte/amizade) — base dos domínios riscos/previsibilidade dos stems v3. PDF local: pdfs/granello-osu-tat-needs-presses.pdf. tag: f5-benchmark
+KW  - f5-benchmark
+ER  -
+
+TY  - ART
+AU  - Tuerlinckx, Francis
+AU  - De Boeck, Paul
+AU  - Lens, Willy
+TI  - Measuring Needs with the Thematic Apperception Test: A Psychometric Study
+T2  - Psychological Methods
+PY  - 2002
+UR  - https://ppw.kuleuven.be/okp/_pdf/Tuerlinckx2002MNWTT.pdf
+N1  - F5 OZP-434: tratamento psicométrico (IRT) do sistema de needs do TAT — press/card pull como força eliciadora; stochastic drop-out (Murray: ~30% das histórias são impessoais/não-diagnósticas). PDF local: pdfs/tuerlinckx-2002-measuring-needs-tat.pdf. tag: f5-benchmark
+KW  - f5-benchmark
+ER  -
