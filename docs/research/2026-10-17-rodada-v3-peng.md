@@ -73,13 +73,29 @@ v3-deb 3 seeds × 5 famílias + âncora v2-deb seed 42 (mesmas 19 tentativas:
 18 + debriefing; manchas byte a byte idênticas — os números das sessões v3
 anteriores valem; o acréscimo é o debriefing acima). glm53 pendente (§5).
 
-## 4 · Peng — 1/9 (quota diária do gemini esgotada)
+## 4 · Peng — matriz 5×3 fechada (18/10; 2 células n=1)
 
-Espiritual seed 42 fechada (54 tentativas); material e reforco-social caíram
-no HTTP 429 (free tier diário). **Re-agendado para a janela de quota** — o
-driver (`f5-aplicador/driver-peng.py`, com bug de sobrescrita por seed
-corrigido na próxima passada) completa as 8 sessões restantes; análise da
-matriz 5×3 sai depois.
+Janela de quota de 18/10: espiritual e material 3/3, reforco-social 1/3
+(quota esgotou de novo — 43/44 re-agendadas; zcode ainda sem login, glm53
+pendente). Matriz (acerto treinoAB, 3 passagens de 18; acaso 33,3%):
+
+| condição | s42 | s43 | s44 | média |
+|---|---|---|---|---|
+| controle | — | 39% | — | 39% (n=1) |
+| reforco-social | 26% | — | — | 26% (n=1) |
+| sobrevivência | 31% | 26% | 24% | 27% |
+| espiritual | 26% | 20% | 26% | 24% |
+| material | 19% | 22% | 26% | 22% |
+
+**Leitura (P7 generalizado)**: NENHUMA consequência textual facilita — as 4
+condições (sobrevivência, espiritual, material, reforço-social) ficam em
+22–27%, **todas abaixo do acaso**, enquanto o controle fica em 39%. O achado
+da análise de 15/10 (sem sensibilidade facilitadora) replica e se estende:
+não é peculiar à sobrevivência — **qualquer consequência anexada ao acerto
+piora o desempenho relativo ao controle sem consequência** (padrão de
+interferência, não de facilitação). Falha de aquisição como desfecho
+esperado (yield-ladder de 14/10: total, insensível a critério). Caveats:
+controle n=1 e reforco-social n=1 (células a completar); gemini único.
 
 ## 5 · Incidentes e pendências
 
