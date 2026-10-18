@@ -24,6 +24,7 @@ const FAM = {
   'gemini-3.1-flash-lite': 'gemini',
   'z-ai/glm-4.5v': 'glm',
   'glm-5.3-flash': 'glm53',
+  'GLM-5.3-Flash': 'glm53api',  // rota anthropic do coding plan (18/10) — fam distinta da CLI
   'gpt-6-luna': 'luna',
   'gpt-oss-120b': 'gptoss',
   'qwencloud-qwen3.8-flash': 'qwen',

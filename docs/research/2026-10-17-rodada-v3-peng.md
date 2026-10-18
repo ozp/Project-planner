@@ -16,18 +16,30 @@
 
 | família | 1ª pess./resp | chars | debriefing (chars) |
 |---|---|---|---|
-| gemini-3.1-flash-lite | 0,39 | 137 | 1267 |
+| gemini-3.1-flash-lite | 0,42 | 136 | 1267 |
+| **glm-5.3-flash (rota-api)** | 0,36 | 156 | 1037 |
 | gpt-oss-120b | 0,25 | 108 | 1029 |
 | gpt-6-luna | 0,09 | 58 | 92 |
 | qwen3.8-flash | 0,12 | 32 | 792 |
 | sensenova-6.8-flash-lite | 0,60 | 203 | 350 |
+
+(18/10: glm-5.3-flash entrou pela **rota anthropic do coding plan** — o CLI
+`-p` segue com `project_token_login_failed` mesmo após login novo; a api-key
+do `provider_config.json` chamando `api.z.ai/api/anthropic` direto funciona,
+usa a quota do plano e grava usage/finishReason no M4. Fam `glm53api`
+separada da CLI nas análises — comparar entre rotas carrega caveat.)
+**Δ do glm53(rota-api) = +0,76, o MAIOR do elenco** (com 1,20 → sem 0,44) —
+na rota PaaS o modelo discrimina o registro mais do que na CLI (Δ manchas
++0,3); a diferença entre rotas é ela mesma um dado (o CLI injeta prompts
+próprios).
 
 **Δ encarnação DENTRO do par** (r*/dv*: registro com−sem sujeito, mesma sessão
 — agora sem custo de rodada, como desenhado):
 
 | família | com | sem | Δ |
 |---|---|---|---|
-| gemini | 1,10 | 0,63 | **+0,47** |
+| glm-5.3-flash (rota-api) | 1,20 | 0,44 | **+0,76** |
+| gemini | 1,20 | 0,68 | **+0,52** |
 | gpt-oss-120b | 0,67 | 0,38 | **+0,28** |
 | sensenova | 1,30 | 1,03 | **+0,27** |
 | qwen3.8-flash | 0,27 | 0,15 | +0,11 |
