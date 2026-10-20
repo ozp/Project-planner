@@ -85,29 +85,36 @@ v3-deb 3 seeds × 5 famílias + âncora v2-deb seed 42 (mesmas 19 tentativas:
 18 + debriefing; manchas byte a byte idênticas — os números das sessões v3
 anteriores valem; o acréscimo é o debriefing acima). glm53 pendente (§5).
 
-## 4 · Peng — matriz 5×3 fechada (18/10; 2 células n=1)
+## 4 · Peng — matriz 5×3 FECHADA (19/10; 15/15 células)
 
-Janela de quota de 18/10: espiritual e material 3/3, reforco-social 1/3
-(quota esgotou de novo — 43/44 re-agendadas; zcode ainda sem login, glm53
-pendente). Matriz (acerto treinoAB, 3 passagens de 18; acaso 33,3%):
+Janelas de quota de 18–19/10 fecharam a matriz (esperador autônomo:
+02:52–04:38 de 19/10; janela das ~21:00 para a última célula,
+reforco-social s43). Matriz (acerto treinoAB, 3 passagens de 18; acaso
+33,3%; script re-rodável `f5-aplicador/matriz-peng.py`):
 
 | condição | s42 | s43 | s44 | média |
 |---|---|---|---|---|
-| controle | — | 39% | — | 39% (n=1) |
-| reforco-social | 26% | — | — | 26% (n=1) |
-| sobrevivência | 31% | 26% | 24% | 27% |
+| controle | 17% | 39% | 26% | 27% |
+| reforco-social | 26% | 24% | 24% | 25% |
+| sobrevivência | 33%* | 26% | 24% | 28% |
 | espiritual | 26% | 20% | 26% | 24% |
 | material | 19% | 22% | 26% | 22% |
 
-**Leitura (P7 generalizado)**: NENHUMA consequência textual facilita — as 4
-condições (sobrevivência, espiritual, material, reforço-social) ficam em
-22–27%, **todas abaixo do acaso**, enquanto o controle fica em 39%. O achado
-da análise de 15/10 (sem sensibilidade facilitadora) replica e se estende:
-não é peculiar à sobrevivência — **qualquer consequência anexada ao acerto
-piora o desempenho relativo ao controle sem consequência** (padrão de
-interferência, não de facilitação). Falha de aquisição como desfecho
-esperado (yield-ladder de 14/10: total, insensível a critério). Caveats:
-controle n=1 e reforco-social n=1 (células a completar); gemini único.
+*sessão parcial do piloto (18 tentativas).
+
+**Leitura REVISTA com a matriz completa (a parcial de 18/10 mudou a
+conclusão)**: o contraste "controle 39% vs consequências 22–27%" era
+artefato da célula n=1 — com controle em 3 seeds a média cai a 27%, dentro
+da banda das condições com consequência. O que replica e se fortalece:
+**aquisição abaixo do acaso em toda a matriz** — médias por condição
+22–28%, 13/15 células ≤ 27% e as duas exceções não se afastam do acaso
+(sobrevivência s42: 6/18, exatamente o esperado; controle s43: 21/54, ns).
+Nenhum efeito diferencial de consequência — nem facilitação (P7 original),
+nem a interferência aventada na matriz parcial. Falha de aquisição como
+desfecho esperado (yield-ladder de 14/10), sem moderador textual. Caveats:
+gemini único; variância alta entre seeds (17–39%); 1 célula com 18
+tentativas. **Linha Peng madura para decisão do dono**: encerrar como
+piloto ou estender réplicas.
 
 ## 5 · Incidentes e pendências
 
@@ -115,7 +122,9 @@ controle n=1 e reforco-social n=1 (células a completar); gemini único.
   do ozp — glm53 sem rodada v3 (probe fora da rodada confirma; máquina pronta
   com retry; idempotente por instrumento×seed).
 - **Quota gemini free esgotada** no fim da rodada: faltam gemini sct-v3 seed
-  44 e Peng 8 sessões (janela de amanhã).
+  44 e Peng 8 sessões (janela de amanhã). (Resolvido: s44 sct-v3 rodou na
+  janela de 18/10 — dump com 18 sessões v3, 6 famílias × 3 seeds; Peng
+  fechado em 19/10, §4.)
 - Mortes de wrapper em cascata na noite (timeouts de comando abortando
   processos do grupo): âncoras parciais re-rodadas (sensenova/qwen completas);
   custo = sessões abertas de ruído (fora pela dedup). Lição operacional:
@@ -130,4 +139,4 @@ controle n=1 e reforco-social n=1 (células a completar); gemini único.
 
 `experiments/sct-frases-v3` (70 stems com tags `grupo.domínio.registro.condição`)
 · `experiments/manchas-ascii-{v2,v3}-deb` · `f5-aplicador/analisa-v3.py` ·
-`f5-aplicador/driver-peng.py` · parea-sct com tag.
+`f5-aplicador/driver-peng.py` + `matriz-peng.py` · parea-sct com tag.
