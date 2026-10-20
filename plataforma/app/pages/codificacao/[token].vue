@@ -4,6 +4,7 @@
 // cegas e o consenso usam o mesmo modo. Autosave parcial com merge no
 // servidor; retomada pelo mesmo link no primeiro item sem resposta.
 definePageMeta({ ssr: false })
+useHead({ bodyAttrs: { style: 'background:#111315;margin:0' } })
 
 type FolhaItemApi = {
   itemIndex: number; stem: string; responseText: string
@@ -260,7 +261,7 @@ const dimNome = (d: { d1: number; d2: number; d3: number; naoCodificavel: boolea
 </template>
 
 <style scoped>
-.folha { max-width: 720px; margin: 0 auto; padding: 1rem 1rem 5rem; font-family: system-ui, sans-serif; font-size: 18px; line-height: 1.55; color: #e8eaed; }
+.folha { max-width: 720px; margin: 0 auto; padding: 1rem 1rem 5rem; min-height: 100vh; background: #111315; font-family: system-ui, sans-serif; font-size: 18px; line-height: 1.55; color: #e8eaed; }
 .mut { color: #9aa0a6; font-size: .85rem; }
 .card { background: #1b1e22; border: 1px solid #2a2d31; border-radius: 10px; padding: 1.1rem 1.2rem; margin-top: 1rem; }
 .stem { font-style: italic; color: #c7cdd4; }
