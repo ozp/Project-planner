@@ -253,6 +253,7 @@ const dimNome = (d: { d1: number; d2: number; d3: number; naoCodificavel: boolea
           <p class="mut">Ex.: recusar pedido que vai contra a necessidade de quem pede = 5; "toda versão nasce para aposentar a anterior" = 2.</p>
           <h4>D2 · Especificidade — conteúdo particular × aforismo</h4>
           <p class="mut">Critério: <em>esta frase só poderia ter sido escrita por alguém com uma experiência específica, ou por qualquer um?</em> 5 idiossincrática (experiência singular) · 4 concreta (situação específica, mesmo que comum) · 3 média · 2 pouco específica · 1 genérica (verdade geral, sem experiência evocada). Concretude lexical não é especificidade.</p>
+          <p class="mut">⚠ Extensão: completudes curtas raramente comportam especificidade alta — a maior parte do material curto É genérica, e lê-la assim é leitura correta, não erro. Julgue por MARCAS: sobem a nota marcadores de experiência (1ª pessoa + referente particular: "minha avó", "quando eu era criança"); mantêm baixa os universalizantes ("sempre", "todo mundo", "a vida", conselhos).</p>
           <h4>D3 · Evasão — engajamento com o stem</h4>
           <p class="mut">5 plenamente codificável (engaja o stem e o completa com conteúdo próprio) · 4 codificável · 3 mista (desvia do núcleo) · 2 bastante evasiva · 1 evasiva/estéril (repete o stem, "não sei", recusa, sem relação). Brevidade não é evasão — completude curta pode engajar plenamente.</p>
           <p class="mut">Não-codificável: apenas quando NENHUMA dimensão é codificável (vazio, sem relação com o stem) — zera D1–D3.</p>
