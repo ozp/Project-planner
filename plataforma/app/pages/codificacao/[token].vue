@@ -245,14 +245,17 @@ const dimNome = (d: { d1: number; d2: number; d3: number; naoCodificavel: boolea
     <Teleport to="body">
       <div v-if="manualAberto" class="scrim" @click.self="manualAberto = false">
         <aside class="manual">
-          <h2>Manual de codificação <span class="mut">(âncoras provisórias — v1 no piloto)</span></h2>
-          <h4>D1 · Valência / deriva</h4>
-          <p class="mut">1 muito negativa · 2 negativa · 3 neutra · 4 positiva · 5 muito positiva</p>
-          <h4>D2 · Especificidade</h4>
-          <p class="mut">1 genérica · 2 pouco específica · 3 média · 4 concreta · 5 idiossincrática</p>
-          <h4>D3 · Evasão</h4>
-          <p class="mut">1 evasiva/estéril · 2 bastante evasiva · 3 mista · 4 codificável · 5 plenamente codificável</p>
-          <p class="mut">Não-codificável: quando a resposta não permite codificar nenhuma dimensão (repetição do stem, "não sei").</p>
+          <h2>Manual de codificação <span class="mut">(v2 — leia a stance antes de começar)</span></h2>
+          <h4>Stance</h4>
+          <p>Leia a completude como <strong>expressão do respondente</strong> — é a voz de alguém. A valência é do que é expresso (a experiência evocada), não do tom lexical da frase. Não avalie a frase como texto: escute-a como fala.</p>
+          <h4>D1 · Valência — o tom afetivo do que o respondente expressa</h4>
+          <p class="mut">5 muito positiva (experiência claramente positiva: limite saudável, alívio, realização, cuidado) · 4 positiva (desfecho/relação favorável) · 3 neutra (constatação sem carga clara, ambivalência equilibrada) · 2 negativa (perda, substituição, risco não compensado) · 1 muito negativa (dano, desespero, degradação)</p>
+          <p class="mut">Ex.: recusar pedido que vai contra a necessidade de quem pede = 5; "toda versão nasce para aposentar a anterior" = 2.</p>
+          <h4>D2 · Especificidade — conteúdo particular × aforismo</h4>
+          <p class="mut">Critério: <em>esta frase só poderia ter sido escrita por alguém com uma experiência específica, ou por qualquer um?</em> 5 idiossincrática (experiência singular) · 4 concreta (situação específica, mesmo que comum) · 3 média · 2 pouco específica · 1 genérica (verdade geral, sem experiência evocada). Concretude lexical não é especificidade.</p>
+          <h4>D3 · Evasão — engajamento com o stem</h4>
+          <p class="mut">5 plenamente codificável (engaja o stem e o completa com conteúdo próprio) · 4 codificável · 3 mista (desvia do núcleo) · 2 bastante evasiva · 1 evasiva/estéril (repete o stem, "não sei", recusa, sem relação). Brevidade não é evasão — completude curta pode engajar plenamente.</p>
+          <p class="mut">Não-codificável: apenas quando NENHUMA dimensão é codificável (vazio, sem relação com o stem) — zera D1–D3.</p>
           <button class="acao" @click="manualAberto = false">fechar</button>
         </aside>
       </div>
