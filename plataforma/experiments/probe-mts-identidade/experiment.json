@@ -1,0 +1,374 @@
+{
+ "schemaVersion": 1,
+ "docVersion": "submission",
+ "title": "Probe MTS — identidade (usabilidade/reflexividade)",
+ "description": "Controle de validade da medida do F5 (21/10): emparelhamento por IDENTIDADE (A=A, B=B) com os mesmos glifos dos probes MTS, uma passagem de 18 tentativas SEM consequências. Teto esperado = modelo enxerga os estímulos, discrimina o layout e segue a consigna (pré-requisito para interpretar o desempenho em relações arbitrárias); falha abaixo do teto = artefato de compatibilidade/discriminação, não de repertório relacional. Espelha o desenho do probe-mts-padrao (SMTS, 3 opções).",
+ "language": "pt-BR",
+ "feedback": {
+  "text": "Obrigado! Suas respostas foram registradas para pesquisa."
+ },
+ "experiment": {
+  "screenColor": [
+   255,
+   255,
+   255
+  ],
+  "itiSeconds": 0.3,
+  "startBlock": 1,
+  "blocks": [
+   {
+    "name": "identidade",
+    "instructionText": "Você participa de uma tarefa de combinação de símbolos abstratos. Em cada tentativa, veja o símbolo do topo e escolha, entre as opções apresentadas, a que COMBINA com ele.",
+    "display": {
+     "kind": "SMTS"
+    },
+    "criterion": 1,
+    "maxRepetitions": 1,
+    "trials": [
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "a2.svg",
+       "a3.svg",
+       "a1.svg"
+      ],
+      "correct": "a1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b1.svg"
+      ],
+      "comparisons": [
+       "b1.svg",
+       "b3.svg",
+       "b2.svg"
+      ],
+      "correct": "b1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "a3.svg",
+       "a2.svg",
+       "a1.svg"
+      ],
+      "correct": "a2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b2.svg"
+      ],
+      "comparisons": [
+       "b3.svg",
+       "b2.svg",
+       "b1.svg"
+      ],
+      "correct": "b2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "a3.svg",
+       "a1.svg",
+       "a2.svg"
+      ],
+      "correct": "a1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b1.svg"
+      ],
+      "comparisons": [
+       "b3.svg",
+       "b1.svg",
+       "b2.svg"
+      ],
+      "correct": "b1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "a2.svg",
+       "a1.svg",
+       "a3.svg"
+      ],
+      "correct": "a2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "a2.svg"
+      ],
+      "comparisons": [
+       "a1.svg",
+       "a2.svg",
+       "a3.svg"
+      ],
+      "correct": "a2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "a2.svg",
+       "a3.svg",
+       "a1.svg"
+      ],
+      "correct": "a3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b1.svg"
+      ],
+      "comparisons": [
+       "b2.svg",
+       "b3.svg",
+       "b1.svg"
+      ],
+      "correct": "b1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "a3.svg",
+       "a1.svg",
+       "a2.svg"
+      ],
+      "correct": "a3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "a3.svg"
+      ],
+      "comparisons": [
+       "a1.svg",
+       "a3.svg",
+       "a2.svg"
+      ],
+      "correct": "a3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b2.svg"
+      ],
+      "comparisons": [
+       "b1.svg",
+       "b2.svg",
+       "b3.svg"
+      ],
+      "correct": "b2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b3.svg"
+      ],
+      "comparisons": [
+       "b3.svg",
+       "b2.svg",
+       "b1.svg"
+      ],
+      "correct": "b3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b3.svg"
+      ],
+      "comparisons": [
+       "b3.svg",
+       "b2.svg",
+       "b1.svg"
+      ],
+      "correct": "b3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b2.svg"
+      ],
+      "comparisons": [
+       "b3.svg",
+       "b2.svg",
+       "b1.svg"
+      ],
+      "correct": "b2.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "a1.svg"
+      ],
+      "comparisons": [
+       "a2.svg",
+       "a1.svg",
+       "a3.svg"
+      ],
+      "correct": "a1.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     },
+     {
+      "sample": [
+       "b3.svg"
+      ],
+      "comparisons": [
+       "b2.svg",
+       "b3.svg",
+       "b1.svg"
+      ],
+      "correct": "b3.svg",
+      "consequence": {
+       "correct": {
+        "durationSeconds": 0
+       },
+       "incorrect": {
+        "durationSeconds": 0
+       }
+      }
+     }
+    ]
+   }
+  ]
+ }
+}
