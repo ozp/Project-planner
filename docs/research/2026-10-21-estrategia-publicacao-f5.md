@@ -65,7 +65,14 @@ internacional).
    D3) → gabarito → lote 40–60 (+ braço sintético nos mesmos itens).
 2. **C6**: juiz LLM calibrado por segmento contra o gabarito → codificação
    das 123 sessões → análises por segmento (valência por grupo/família etc.).
-3. **Fases F1–F6 do wiki** (matriz de evidências, figuras, related work,
+3. **Manchas no B — dois andares (explícito 21/10)**: (i) quantitativo
+   PRONTO (558 pares; desenvolvimento sob inquérito 331→1.098 chars, 3,3×;
+   66–85 palavras novas vs 5–15 comuns; comparativos entre famílias);
+   (ii) codificação por categorias (conteúdo/elaboração/determinante/
+   localização) = C2-v2 de manchas (gated no mesmo par de codificadores,
+   ~20 itens, custo marginal baixo SE a transmissibilidade do constructo
+   se mostrar boa no SCT) OU entra como exploratório declarado.
+4. **Fases F1–F6 do wiki** (matriz de evidências, figuras, related work,
    redação, verificação, pacote) — F0 já fechada.
 4. Nota: com o A desacoplado, o gate "Peng" SAI da página do artigo B.
 
